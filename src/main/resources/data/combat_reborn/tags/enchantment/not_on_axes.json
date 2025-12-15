@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:sharpness",
+    {
+      "id": "enchants_and_expeditions:entropy",
+      "required": false
+    }
+  ]
+}

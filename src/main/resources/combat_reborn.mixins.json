@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "package": "net.legacy.combat_reborn.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "client.InGameHudMixin"
+  ],
+  "mixins": [
+    "block.BlockMixin",
+    "enchantment.EnchantmentHelperMixin",
+    "entity.EggMixin",
+    "entity.LivingEntityMixin",
+    "entity.PlayerMixin",
+    "entity.SnowballMixin",
+    "food.FoodDataMixin",
+    "item.BlocksAttacksMixin",
+    "item.ItemMixin",
+    "item.ItemStackMixin",
+    "menu.AnvilMenuMixin",
+    "server.ServerPlayerMixin"
+  ]
+}
