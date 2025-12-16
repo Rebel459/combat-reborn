@@ -9,6 +9,71 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
+    
+    // Reduced exhaustion
+    
+    @WrapOperation(
+            method = "checkMovementStatistics",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
+                    ordinal = 0
+            )
+    )
+    private void CR$reducedExhaustionSwimming(ServerPlayer instance, float v, Operation<Void> original) {
+        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
+        else original.call(instance, v * 0.75F);
+    }
+    @WrapOperation(
+            method = "checkMovementStatistics",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
+                    ordinal = 1
+            )
+    )
+    private void CR$reducedExhaustionUnderwater(ServerPlayer instance, float v, Operation<Void> original) {
+        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
+        else original.call(instance, v * 0.75F);
+    }
+    @WrapOperation(
+            method = "checkMovementStatistics",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
+                    ordinal = 2
+            )
+    )
+    private void CR$reducedExhaustionWater(ServerPlayer instance, float v, Operation<Void> original) {
+        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
+        else original.call(instance, v * 0.75F);
+    }
+    @WrapOperation(
+            method = "checkMovementStatistics",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
+                    ordinal = 3
+            )
+    )
+    private void CR$reducedExhaustionSprinting(ServerPlayer instance, float v, Operation<Void> original) {
+        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
+        else original.call(instance, v * 0.75F);
+    }
+    @WrapOperation(
+            method = "jumpFromGround",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
+                    ordinal = 0
+            )
+    )
+    private void CR$reducedExhaustionSprintJumping(ServerPlayer instance, float v, Operation<Void> original) {
+        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
+        else original.call(instance, v * 0.75F);
+    }
+    
+    // No exhaustion
 
     @WrapOperation(
             method = "checkMovementStatistics",
@@ -33,7 +98,6 @@ public abstract class ServerPlayerMixin {
     private void CR$noExhaustionWalking(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
     }
-
     @WrapOperation(
             method = "jumpFromGround",
             at = @At(

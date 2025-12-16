@@ -50,16 +50,31 @@ public abstract class FoodDataMixin {
         boolean bl = serverLevel.getGameRules().get(GameRules.NATURAL_HEALTH_REGENERATION);
         if (bl && this.saturationLevel > 0.0F) {
             ++this.tickTimer;
-            if (this.tickTimer >= 20) {
-                this.saturationLevel = Math.max(this.saturationLevel - 0.5F, 0.0F);
+            int requiredTicks = 20;
+            if (difficulty == Difficulty.HARD) {
+                requiredTicks = 40;
+            }
+            if (difficulty == Difficulty.EASY) {
+                requiredTicks = 10;
+            }
+            if (this.tickTimer >= requiredTicks) {
+                this.saturationLevel = Math.max(this.saturationLevel - requiredTicks / 40F, 0.0F);
                 if (serverPlayer.isHurt()) serverPlayer.heal(1F);
                 this.tickTimer = 0;
             }
         } else if (bl && this.foodLevel > CRConfig.get.food.hunger_barrier && serverPlayer.isHurt()) {
             ++this.tickTimer;
-            if (this.tickTimer >= 80) {
+            int requiredTicks = 80;
+            float exhaustionGained = 6F;
+            if (difficulty == Difficulty.HARD) {
+                requiredTicks = 160;
+            }
+            if (difficulty == Difficulty.EASY) {
+                exhaustionGained = 3F;
+            }
+            if (this.tickTimer >= requiredTicks) {
                 serverPlayer.heal(1.0F);
-                this.addExhaustion(6.0F);
+                this.addExhaustion(exhaustionGained);
                 this.tickTimer = 0;
             }
         } else if (this.foodLevel <= 0) {

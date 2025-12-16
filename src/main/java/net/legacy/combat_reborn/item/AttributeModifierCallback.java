@@ -34,7 +34,7 @@ public class AttributeModifierCallback {
         DefaultItemComponentEvents.MODIFY.register((context -> context.modify(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
-                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.modifiers.stream()
+                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.modifiers.modifiers.stream()
                                     .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
                             .isPresent();
                 },
@@ -42,7 +42,7 @@ public class AttributeModifierCallback {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     if (optionalItem.isEmpty()) return;
 
-                    Optional<CRConfig.Modifiers> optionalToolsModifier = CRConfig.get.modifiers.stream()
+                    Optional<CRConfig.ModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get.modifiers.modifiers.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
                     if (optionalToolsModifier.isEmpty()) return;

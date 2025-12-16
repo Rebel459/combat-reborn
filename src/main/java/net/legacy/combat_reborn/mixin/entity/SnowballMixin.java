@@ -18,7 +18,7 @@ public abstract class SnowballMixin {
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
         if (!CRConfig.get.consumables.knockback_throwables) return;
         Snowball snowball = Snowball.class.cast(this);
-        knockback(entityHitResult.getEntity().asLivingEntity(), snowball.damageSources().generic(), 0.4F);
+        knockback(entityHitResult.getEntity().asLivingEntity(), snowball.damageSources().generic(), 0.2F);
     }
 
     @Unique

@@ -3,6 +3,7 @@
     "#combat_reborn:cleaving",
     "#combat_reborn:parry",
     "#combat_reborn:endurance",
-    "#combat_reborn:stagger"
+    "#combat_reborn:stagger",
+    "#combat_reborn:dueling"
   ]
 }

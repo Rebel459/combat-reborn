@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 public class CRItemTags {
     public static final TagKey<Item> SHIELD = bind("shield");
 
+    public static final TagKey<Item> RUBBLE_SHIELD = bindEnderscape("rubble_shields");
+
     public static final TagKey<Item> SOUP = bindCommon("foods/soup");
     public static final TagKey<Item> POTIONS = bindCommon("potions");
 
@@ -20,5 +22,9 @@ public class CRItemTags {
     @NotNull
     private static TagKey<Item> bindCommon(@NotNull String path) {
         return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", path));
+    }
+    @NotNull
+    private static TagKey<Item> bindEnderscape(@NotNull String path) {
+        return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("enderscape", path));
     }
 }

@@ -7,6 +7,8 @@
   "enchantment.combat_reborn.endurance.desc": "Increases total shield strength",
   "enchantment.combat_reborn.stagger": "Stagger",
   "enchantment.combat_reborn.stagger.desc": "Applies damage, weakness and slowness to the attacker after a successful parry",
+  "enchantment.combat_reborn.dueling": "Dueling",
+  "enchantment.combat_reborn.dueling.desc": "Increases shield strength recovery provided when attacking",
 
   "pack.combat_reborn.no_cleaving": "No Cleaving",
   "pack.combat_reborn.no_shield_overhaul": "No Shield Overhaul",
@@ -17,7 +19,9 @@
   "text.autoconfig.combat_reborn.option.combat.modified_values": "Modified Values",
   "text.autoconfig.combat_reborn.option.combat.modified_values.@Tooltip": "Whether custom modified attack damage, speed & reach values should be used for many vanilla and modded weapons. These can be individually configured at the bottom of this file",
   "text.autoconfig.combat_reborn.option.combat.shield_overhaul": "Shield Overhaul",
-  "text.autoconfig.combat_reborn.option.combat.shield_overhaul.@Tooltip": "Whether the Shield overhaul should be enabled, which includes new mechanics such as parrying and a strength meter. Also includes 3 new enchantments - Parry, Endurance & Stagger",
+  "text.autoconfig.combat_reborn.option.combat.shield_overhaul.@Tooltip": "Whether the Shield overhaul should be enabled, which includes new mechanics such as parrying and a strength meter. Also includes 4 new enchantments - Parry, Endurance, Stagger & Dueling",
+  "text.autoconfig.combat_reborn.option.combat.shield_delay": "Shield Delay",
+  "text.autoconfig.combat_reborn.option.combat.shield_delay.@Tooltip": "The time, in game ticks, before a shield is considered to be blocking attacks. Defaults to 0 for an instant response, with a maximum of 5 (identical to vanilla)",
   "text.autoconfig.combat_reborn.option.combat.cleaving": "Cleaving",
   "text.autoconfig.combat_reborn.option.combat.cleaving.@Tooltip": "Whether Axes should use the new Cleaving enchantment, as opposed to Sharpness. Cleaving increases both attack damage and the shield disable duration",
 
@@ -40,6 +44,15 @@
   "text.autoconfig.combat_reborn.option.integrations": "Mod Integration",
   "text.autoconfig.combat_reborn.option.integrations.end_reborn": "End Reborn",
   "text.autoconfig.combat_reborn.option.integrations.end_reborn.@Tooltip": "End Reborn integration adds a +1 bonus to Netherite tool damage for consistency with End Reborn's changes",
+  "text.autoconfig.combat_reborn.option.integrations.enderscape": "Enderscape",
+  "text.autoconfig.combat_reborn.option.integrations.enderscape.@Tooltip": "Enderscape integration balances Rubble Shields separately",
 
-  "text.autoconfig.combat_reborn.option.modifiers": "Modifiers"
+  "text.autoconfig.combat_reborn.option.modifiers": "Modifiers",
+  "text.autoconfig.combat_reborn.option.modifiers.modifiers": "Modifier Sets",
+  "text.autoconfig.combat_reborn.option.modifiers.modifiers.@Tooltip": "A full, expandable list of item overrides for attack damage, speed & reach",
+  "text.autoconfig.combat_reborn.option.Modifiers": "Set",
+  "text.autoconfig.combat_reborn.option.Modifiers.ids": "Item Ids",
+  "text.autoconfig.combat_reborn.option.Modifiers.damage": "Attack Damage",
+  "text.autoconfig.combat_reborn.option.Modifiers.speed": "Attack Speed",
+  "text.autoconfig.combat_reborn.option.Modifiers.reach": "Attack Reach"
 }

@@ -17,7 +17,8 @@ public class CREnchantments {
 	public static final ResourceKey<Enchantment> CLEAVING = key("cleaving");
     public static final ResourceKey<Enchantment> PARRY = key("parry");
     public static final ResourceKey<Enchantment> STAGGER = key("stagger");
-    public static final ResourceKey<Enchantment> ENDURANCE = key("parry");
+    public static final ResourceKey<Enchantment> ENDURANCE = key("endurance");
+    public static final ResourceKey<Enchantment> DUELING = key("dueling");
 
 	public static void init() {
 	}

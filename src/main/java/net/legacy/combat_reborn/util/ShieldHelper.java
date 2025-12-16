@@ -1,7 +1,10 @@
 package net.legacy.combat_reborn.util;
 
+import com.mojang.logging.LogUtils;
+import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.tag.CRItemTags;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -43,20 +46,26 @@ public class ShieldHelper {
         attacker.knockback(strength, d, e);
     }
 
-    public static int processDamage(LivingEntity entity, ItemStack stack, float f) {
+    public static int processDamage(ItemStack stack, float f) {
         float maxDamage = ShieldInfo.defaultMaxBlockDamage;
+        if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage = maxDamage / 2;
         int endurance = CREnchantments.getLevel(stack, CREnchantments.ENDURANCE);
-        maxDamage += endurance * 8;
+        maxDamage = maxDamage * (1 + endurance / 3F);
         f = f / maxDamage;
         return (int) (f * 100F);
     }
 
     public static float getParryBonus(ItemStack stack) {
+        float base = 1.25F;
+        if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) base += 0.5F;
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
-        return 1.4F + parry * 0.2F;
+        return base + parry * 0.25F;
     }
 
     public static int getParryWindow(ItemStack stack) {
-        return ShieldInfo.parryWindow;
+        int parryWindow = ShieldInfo.parryWindow;
+        if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) parryWindow -= 4;
+        int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
+        return parryWindow - parry * 4;
     }
 }

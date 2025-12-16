@@ -11,10 +11,14 @@ import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.wolf.Wolf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +26,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -29,6 +34,9 @@ import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin implements ShieldInfo {
+
+    @Unique int localTick = 0;
+    @Unique int recoveryDelay = 0;
 
     @Override
     public ShieldInfo getInfo() {
@@ -60,6 +68,19 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         }
     }
 
+    @Unique
+    DamageSource damageSource;
+
+    @Inject(method = "hurtServer", at = @At(value = "HEAD"))
+    private void getDamageSource(ServerLevel level, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
+        this.damageSource = damageSource;
+    }
+
+    @Unique
+    private boolean canBeParried(DamageSource source) {
+        return source.isDirect() && !source.is(DamageTypeTags.IS_PROJECTILE);
+    }
+
     @WrapOperation(
             method = "hurtServer",
             at = @At(
@@ -72,12 +93,15 @@ public abstract class LivingEntityMixin implements ShieldInfo {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
-                int percentageToIncrease = ShieldHelper.processDamage(entity, stack, f);
+                int percentageToIncrease = ShieldHelper.processDamage(stack, f);
                 if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
-                if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
+                if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
                 shieldInfo.setPercentageDamageAndSync(Math.max(getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
+                this.recoveryDelay = 100;
                 if (getPercentageDamage() >= 100) {
-                    stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, 15F, stack);
+                    float disableTime = 15F;
+                    if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
                     entity.addTag("should_disable_shield");
                 }
@@ -86,18 +110,19 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         return blockedDamage;
     }
 
-    @Unique int localTick = 0;
-
     @Inject(method = "tick", at = @At(value = "HEAD"))
-    private void shieldRecovery(CallbackInfo ci) {
+    private void passiveShieldRecovery(CallbackInfo ci) {
         LivingEntity entity = LivingEntity.class.cast(this);
         if (!(entity instanceof ServerPlayer player)) return;
         this.localTick++;
         if (localTick >= 5) {
-            if (entity.getUseItem().is(CRItemTags.SHIELD)) return;
-            if (entity instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0) {
-                int recoveryRate = 1;
-                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage(), 0) - recoveryRate, player);
+            if (this.recoveryDelay == 0) {
+                if (entity instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0) {
+                    shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage(), 0) - 1, player);
+                }
+            }
+            else {
+                this.recoveryDelay = Math.max(this.recoveryDelay - this.localTick, 0);
             }
             localTick = 0;
         }
@@ -126,9 +151,37 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         LivingEntity entity = LivingEntity.class.cast(this);
         ItemStack stack = entity.getUseItem();
         int useTicks = entity.getTicksUsingItem();
-        if (useTicks <= ShieldHelper.getParryWindow(stack) && stack.is(CRItemTags.SHIELD) && damageSource.getEntity() instanceof LivingEntity attacker) {
+        if (useTicks <= ShieldHelper.getParryWindow(stack) && stack.is(CRItemTags.SHIELD) && damageSource.getEntity() instanceof LivingEntity attacker && canBeParried(damageSource)) {
             ShieldHelper.onParry(serverLevel, attacker, attacked, stack);
         }
         return original.call(attacked, serverLevel, damageSource, f);
+    }
+
+    @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)
+    private void configureShieldDelay(CallbackInfoReturnable<ItemStack> cir) {
+        LivingEntity entity = LivingEntity.class.cast(this);
+
+        if (!entity.isUsingItem()) return;
+        ItemStack stack = entity.getUseItem();
+        if (!stack.is(CRItemTags.SHIELD)) return;
+        BlocksAttacks blocksAttacks = stack.get(DataComponents.BLOCKS_ATTACKS);
+        if (blocksAttacks != null) {
+            int i = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
+            if (i >= CRConfig.get.combat.shield_delay) {
+                cir.setReturnValue(stack);
+            }
+        }
+    }
+
+    @ModifyVariable(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "HEAD"), index = 3, argsOnly = true)
+    private float activeShieldRecovery(float value) {
+        if (this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0) {
+            float restoration = value / 2;
+            ItemStack stack = player.getWeaponItem();
+            int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);
+            restoration = restoration * (1 + dueling / 3F);
+            shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), (ServerPlayer) player);
+        }
+        return value;
     }
 }

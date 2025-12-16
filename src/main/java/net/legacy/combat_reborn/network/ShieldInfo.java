@@ -9,8 +9,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 public interface ShieldInfo {
-    int parryWindow = 20;
-    int defaultMaxBlockDamage = 40;
+    int parryWindow = 24;
+    int defaultMaxBlockDamage = 32;
     int getPercentageDamage();
     void setPercentageDamage(int value);
     default void setPercentageDamageAndSync(int value, ServerPlayer player) {

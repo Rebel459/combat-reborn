@@ -18,7 +18,7 @@ public abstract class EggMixin {
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
         if (!CRConfig.get.consumables.knockback_throwables) return;
         ThrownEgg egg = ThrownEgg.class.cast(this);
-        knockback(entityHitResult.getEntity().asLivingEntity(), egg.damageSources().generic(), 0.4F);
+        knockback(entityHitResult.getEntity().asLivingEntity(), egg.damageSources().generic(), 0.2F);
     }
 
     @Unique
