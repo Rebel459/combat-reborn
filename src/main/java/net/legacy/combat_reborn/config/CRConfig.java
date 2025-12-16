@@ -120,15 +120,13 @@ public class CRConfig implements ConfigData {
 
                 // Swords
                 new Modifiers(List.of(
-                        "minecraft:wooden_sword"
-                ), 3, 2, 3),
-                new Modifiers(List.of(
+                        "minecraft:wooden_sword",
                         "minecraft:stone_sword",
-                        "minecraft:golden_sword",
                         "legacies_and_legends:verdant_sword"
                 ), 4, 2, 3),
                 new Modifiers(List.of(
-                        "minecraft:copper_sword"
+                        "minecraft:copper_sword",
+                        "minecraft:golden_sword"
                 ), 5, 2, 3),
                 new Modifiers(List.of(
                         "minecraft:iron_sword",
@@ -145,14 +143,12 @@ public class CRConfig implements ConfigData {
 
                 // Axes
                 new Modifiers(List.of(
-                        "minecraft:wooden_axe"
-                ), 6, 0.8, 3),
-                new Modifiers(List.of(
-                        "minecraft:stone_axe",
-                        "minecraft:golden_axe"
+                        "minecraft:wooden_axe",
+                        "minecraft:stone_axe"
                 ), 7, 0.8, 3),
                 new Modifiers(List.of(
-                        "minecraft:copper_axe"
+                        "minecraft:copper_axe",
+                        "minecraft:golden_axe"
                 ), 7, 1, 3),
                 new Modifiers(List.of(
                         "minecraft:iron_axe",
@@ -170,15 +166,13 @@ public class CRConfig implements ConfigData {
 
                 // Spears
                 new Modifiers(List.of(
-                        "minecraft:wooden_spear"
-                ), 1, 1.8, 3),
-                new Modifiers(List.of(
+                        "minecraft:wooden_spear",
                         "minecraft:stone_spear",
-                        "minecraft:golden_spear",
                         "legacies_and_legends:frosted_spear"
                 ), 2, 1.6, 3),
                 new Modifiers(List.of(
-                        "minecraft:copper_spear"
+                        "minecraft:copper_spear",
+                        "minecraft:golden_spear"
                 ), 3, 1.4, 3),
                 new Modifiers(List.of(
                         "minecraft:iron_spear",
@@ -195,14 +189,12 @@ public class CRConfig implements ConfigData {
 
                 // Pickaxes
                 new Modifiers(List.of(
-                        "minecraft:wooden_pickaxe"
-                ), 2, 0.8, 3),
-                new Modifiers(List.of(
-                        "minecraft:stone_pickaxe",
-                        "minecraft:golden_pickaxe"
+                        "minecraft:wooden_pickaxe",
+                        "minecraft:stone_pickaxe"
                 ), 3, 0.8, 3),
                 new Modifiers(List.of(
-                        "minecraft:copper_pickaxe"
+                        "minecraft:copper_pickaxe",
+                        "minecraft:golden_pickaxe"
                 ), 4, 0.8, 3),
                 new Modifiers(List.of(
                         "minecraft:iron_pickaxe",
@@ -220,14 +212,12 @@ public class CRConfig implements ConfigData {
 
                 // Shovels
                 new Modifiers(List.of(
-                        "minecraft:wooden_shovel"
-                ), 1, 1, 3),
-                new Modifiers(List.of(
-                        "minecraft:stone_shovel",
-                        "minecraft:golden_shovel"
+                        "minecraft:wooden_shovel",
+                        "minecraft:stone_shovel"
                 ), 2, 1, 3),
                 new Modifiers(List.of(
-                        "minecraft:copper_shovel"
+                        "minecraft:copper_shovel",
+                        "minecraft:golden_shovel"
                 ), 3, 1, 3),
                 new Modifiers(List.of(
                         "minecraft:iron_shovel",
@@ -245,15 +235,13 @@ public class CRConfig implements ConfigData {
 
                 // Hoes
                 new Modifiers(List.of(
-                        "minecraft:wooden_hoe"
-                ), 1, 1.5, 3.5),
-                new Modifiers(List.of(
+                        "minecraft:wooden_hoe",
                         "minecraft:stone_hoe",
-                        "minecraft:golden_hoe",
                         "legacies_and_legends:withered_hoe"
                 ), 1, 2, 3.5),
                 new Modifiers(List.of(
-                        "minecraft:copper_hoe"
+                        "minecraft:copper_hoe",
+                        "minecraft:golden_hoe"
                 ), 1, 2.5, 3.5),
                 new Modifiers(List.of(
                         "minecraft:iron_hoe",
@@ -298,7 +286,8 @@ public class CRConfig implements ConfigData {
                         "farmersdelight:flint_knife"
                 ), 2, 2.8, 2.5),
                 new Modifiers(List.of(
-                        "farmersdelight:copper_knife"
+                        "farmersdelight:copper_knife",
+                        "farmersdelight:golden_knife"
                 ), 3, 2.8, 2.5),
                 new Modifiers(List.of(
                         "farmersdelight:iron_knife",
