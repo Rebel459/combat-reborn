@@ -12,6 +12,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.item.AttributeModifierCallback;
 import net.legacy.combat_reborn.network.ShieldInfo;
+import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -30,6 +31,7 @@ public class CombatReborn implements ModInitializer {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
 
 		CRConfig.init();
+        CRDataComponents.init();
         CREnchantments.init();
         AttributeModifierCallback.init();
 

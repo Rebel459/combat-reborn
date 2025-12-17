@@ -65,12 +65,12 @@ public abstract class FoodDataMixin {
         } else if (bl && this.foodLevel > CRConfig.get.food.hunger_barrier && serverPlayer.isHurt()) {
             ++this.tickTimer;
             int requiredTicks = 80;
-            float exhaustionGained = 6F;
+            float exhaustionGained = 4F;
             if (difficulty == Difficulty.HARD) {
                 requiredTicks = 160;
             }
             if (difficulty == Difficulty.EASY) {
-                exhaustionGained = 3F;
+                exhaustionGained = 2F;
             }
             if (this.tickTimer >= requiredTicks) {
                 serverPlayer.heal(1.0F);
