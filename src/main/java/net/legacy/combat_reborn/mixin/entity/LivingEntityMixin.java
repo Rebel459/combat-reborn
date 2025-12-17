@@ -15,7 +15,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
@@ -94,7 +93,8 @@ public abstract class LivingEntityMixin implements ShieldInfo {
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, f);
-                if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
+                if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
+                else if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
                 if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
                 shieldInfo.setPercentageDamageAndSync(Math.max(getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
                 this.recoveryDelay = 100;

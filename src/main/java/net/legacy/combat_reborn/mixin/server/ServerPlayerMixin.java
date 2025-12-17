@@ -3,15 +3,40 @@ package net.legacy.combat_reborn.mixin.server;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.level.storage.ValueInput;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
-    
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void firstSpawnSaturation(ValueInput valueInput, CallbackInfo ci) {
+        if (!CRConfig.get.food.hunger_rework) return;
+        ServerPlayer serverPlayer = ServerPlayer.class.cast(this);
+        if (!serverPlayer.getTags().contains("joined")) {
+            serverPlayer.getFoodData().setSaturation(100F);
+            serverPlayer.addTag("joined");
+        }
+    }
+
     // Reduced exhaustion
-    
+
+    @Unique
+    public void reduceExhaustionPerDifficulty(ServerPlayer instance, float v, Operation<Void> original) {
+        Difficulty difficulty = instance.level().getDifficulty();
+        float multiplier = 0.5F;
+        if (difficulty == Difficulty.EASY) multiplier = 0.25F;
+        if (difficulty == Difficulty.HARD) multiplier = 0.75F;
+        original.call(instance, v * multiplier);
+    }
+
     @WrapOperation(
             method = "checkMovementStatistics",
             at = @At(
@@ -22,7 +47,7 @@ public abstract class ServerPlayerMixin {
     )
     private void CR$reducedExhaustionSwimming(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else original.call(instance, v * 0.75F);
+        else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
             method = "checkMovementStatistics",
@@ -34,7 +59,7 @@ public abstract class ServerPlayerMixin {
     )
     private void CR$reducedExhaustionUnderwater(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else original.call(instance, v * 0.75F);
+        else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
             method = "checkMovementStatistics",
@@ -46,7 +71,7 @@ public abstract class ServerPlayerMixin {
     )
     private void CR$reducedExhaustionWater(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else original.call(instance, v * 0.75F);
+        else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
             method = "checkMovementStatistics",
@@ -58,7 +83,7 @@ public abstract class ServerPlayerMixin {
     )
     private void CR$reducedExhaustionSprinting(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else original.call(instance, v * 0.75F);
+        else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
             method = "jumpFromGround",
@@ -70,7 +95,7 @@ public abstract class ServerPlayerMixin {
     )
     private void CR$reducedExhaustionSprintJumping(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else original.call(instance, v * 0.75F);
+        else reduceExhaustionPerDifficulty(instance, v, original);
     }
     
     // No exhaustion

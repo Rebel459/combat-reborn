@@ -1,11 +1,14 @@
 package net.legacy.combat_reborn.mixin.food;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.ValueInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -51,14 +54,15 @@ public abstract class FoodDataMixin {
         if (bl && this.saturationLevel > 0.0F) {
             ++this.tickTimer;
             int requiredTicks = 20;
+            float saturationConsumed = 0.5F;
             if (difficulty == Difficulty.HARD) {
                 requiredTicks = 40;
             }
             if (difficulty == Difficulty.EASY) {
-                requiredTicks = 10;
+                saturationConsumed = 0.25F;
             }
             if (this.tickTimer >= requiredTicks) {
-                this.saturationLevel = Math.max(this.saturationLevel - requiredTicks / 40F, 0.0F);
+                this.saturationLevel = Math.max(this.saturationLevel - saturationConsumed, 0.0F);
                 if (serverPlayer.isHurt()) serverPlayer.heal(1F);
                 this.tickTimer = 0;
             }
