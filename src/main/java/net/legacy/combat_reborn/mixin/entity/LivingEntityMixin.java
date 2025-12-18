@@ -160,6 +160,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         if (level > 0) {
             disableTime = disableTime + level;
         }
+        this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
         cir.setReturnValue(disableTime);
     }
 
