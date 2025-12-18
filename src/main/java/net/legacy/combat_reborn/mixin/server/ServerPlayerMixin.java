@@ -20,9 +20,9 @@ public abstract class ServerPlayerMixin {
     private void firstSpawnSaturation(ValueInput valueInput, CallbackInfo ci) {
         if (!CRConfig.get.food.hunger_rework) return;
         ServerPlayer serverPlayer = ServerPlayer.class.cast(this);
-        if (!serverPlayer.getTags().contains("joined")) {
+        if (!serverPlayer.getTags().contains("received_starting_saturation")) {
             serverPlayer.getFoodData().setSaturation(100F);
-            serverPlayer.addTag("joined");
+            serverPlayer.addTag("received_starting_saturation");
         }
     }
 

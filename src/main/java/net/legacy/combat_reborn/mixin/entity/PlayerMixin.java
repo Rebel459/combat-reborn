@@ -10,8 +10,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -56,6 +54,21 @@ public abstract class PlayerMixin {
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.CONSUMABLE)) player.stopUsingItem();
+    }
+
+    @WrapOperation(
+            method = "actuallyHurt",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V")
+    )
+    private void handleKnockbackOnly(Player instance, float v, Operation<Void> original) {
+        Player player = Player.class.cast(this);
+        if (player.getTags().contains("knockback_only")) {
+            player.removeTag("knockback_only");
+            original.call(instance, Math.min(player.getMaxHealth(), v + 1F));
+        }
+        else {
+            original.call(instance, v);
+        }
     }
 
     @WrapOperation(

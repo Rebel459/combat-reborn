@@ -2,7 +2,9 @@ package net.legacy.combat_reborn.mixin.entity;
 
 import net.legacy.combat_reborn.config.CRConfig;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEgg;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,18 +20,12 @@ public abstract class EggMixin {
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
         if (!CRConfig.get.consumables.knockback_throwables) return;
         ThrownEgg egg = ThrownEgg.class.cast(this);
-        knockback(entityHitResult.getEntity().asLivingEntity(), egg.damageSources().generic(), 0.2F);
-    }
-
-    @Unique
-    private static void knockback(LivingEntity entity, DamageSource source, float strength) {
-        double d = 0.0;
-        double e = 0.0;
-        if (source.getSourcePosition() != null) {
-            d = source.getSourcePosition().x() - entity.getX();
-            e = source.getSourcePosition().z() - entity.getZ();
+        Entity entity = entityHitResult.getEntity();
+        float f = 0F;
+        if (entity instanceof Player player) {
+            player.addTag("knockback_only");
+            f = 1F;
         }
-
-        entity.knockback(strength, d, e);
+        entity.hurt(egg.damageSources().generic(), f);
     }
 }

@@ -1,12 +1,12 @@
 package net.legacy.combat_reborn.mixin.entity;
 
 import net.legacy.combat_reborn.config.CRConfig;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.Blaze;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.Snowball;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,18 +18,13 @@ public abstract class SnowballMixin {
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
         if (!CRConfig.get.consumables.knockback_throwables) return;
         Snowball snowball = Snowball.class.cast(this);
-        knockback(entityHitResult.getEntity().asLivingEntity(), snowball.damageSources().generic(), 0.2F);
-    }
-
-    @Unique
-    private static void knockback(LivingEntity entity, DamageSource source, float strength) {
-        double d = 0.0;
-        double e = 0.0;
-        if (source.getSourcePosition() != null) {
-            d = source.getSourcePosition().x() - entity.getX();
-            e = source.getSourcePosition().z() - entity.getZ();
+        Entity entity = entityHitResult.getEntity();
+        if (entity instanceof Blaze) return;
+        float f = 0F;
+        if (entity instanceof Player player) {
+            player.addTag("knockback_only");
+            f = 1F;
         }
-
-        entity.knockback(strength, d, e);
+        entity.hurt(snowball.damageSources().generic(), f);
     }
 }
