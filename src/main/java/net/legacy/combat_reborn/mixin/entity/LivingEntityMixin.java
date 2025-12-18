@@ -7,6 +7,7 @@ import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
+import net.legacy.combat_reborn.util.BlockedSourceInterface;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,7 +34,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin implements ShieldInfo {
+public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInterface {
+
+    @Unique
+    private DamageSource lastBlockedSource;
+
+    @Override
+    @Nullable
+    public DamageSource getLastBlockedSource() {
+        return this.lastBlockedSource;
+    }
+
+    @Override
+    public void setLastBlockedSource(DamageSource source) {
+        this.lastBlockedSource = source;
+    }
+
+    @WrapOperation(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;applyItemBlocking(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float lastBlockedSource(LivingEntity attacked, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
+        this.setLastBlockedSource(damageSource);
+        return original.call(attacked, serverLevel, damageSource, f);
+    }
 
     @Unique int localTick = 0;
     @Unique int recoveryDelay = 0;
@@ -75,11 +97,6 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         this.damageSource = damageSource;
     }
 
-    @Unique
-    private boolean canBeParried(DamageSource source) {
-        return source.isDirect() && !source.is(DamageTypeTags.IS_PROJECTILE);
-    }
-
     @WrapOperation(
             method = "hurtServer",
             at = @At(
@@ -95,7 +112,7 @@ public abstract class LivingEntityMixin implements ShieldInfo {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, f);
                 if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
                 else if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
-                if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
+                if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
                 shieldInfo.setPercentageDamageAndSync(Math.max(getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
                 this.recoveryDelay = 100;
                 if (getPercentageDamage() >= 100) {
@@ -144,17 +161,6 @@ public abstract class LivingEntityMixin implements ShieldInfo {
             disableTime = disableTime + level;
         }
         cir.setReturnValue(disableTime);
-    }
-
-    @WrapOperation(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;applyItemBlocking(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float trackShieldBlocking(LivingEntity attacked, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
-        LivingEntity entity = LivingEntity.class.cast(this);
-        ItemStack stack = entity.getUseItem();
-        int useTicks = entity.getTicksUsingItem();
-        if (useTicks <= ShieldHelper.getParryWindow(stack) && stack.is(CRItemTags.SHIELD) && damageSource.getEntity() instanceof LivingEntity attacker && canBeParried(damageSource)) {
-            ShieldHelper.onParry(serverLevel, attacker, attacked, stack);
-        }
-        return original.call(attacked, serverLevel, damageSource, f);
     }
 
     @Inject(method = "getItemBlockingWith", at = @At("HEAD"), cancellable = true)

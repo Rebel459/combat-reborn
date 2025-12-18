@@ -6,6 +6,8 @@ import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 public class ShieldHelper {
 
     public static void onParry(ServerLevel serverLevel, LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
+        handleKnockback(attacker, attacked.damageSources().generic(), 0.6F);
         boolean stagger = CREnchantments.getLevel(stack, CREnchantments.STAGGER) > 0;
         float f = 0F;
         if (attacker instanceof Player player) {
@@ -37,6 +40,21 @@ public class ShieldHelper {
                 0.8F,
                 0.8F + serverLevel.random.nextFloat() * 0.4F
         );
+    }
+
+    public static void handleKnockback(LivingEntity attacker, DamageSource source, float strength) {
+        double d = 0.0;
+        double e = 0.0;
+        if (source.getSourcePosition() != null) {
+            d = source.getSourcePosition().x() - attacker.getX();
+            e = source.getSourcePosition().z() - attacker.getZ();
+        }
+
+        attacker.knockback(strength, d, e);
+    }
+
+    public static boolean canBeParried(DamageSource source) {
+        return source.isDirect() && !source.is(DamageTypeTags.IS_PROJECTILE);
     }
 
     public static int processDamage(ItemStack stack, float f) {
