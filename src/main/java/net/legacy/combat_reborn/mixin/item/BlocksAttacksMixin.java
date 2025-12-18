@@ -1,5 +1,6 @@
 package net.legacy.combat_reborn.mixin.item;
 
+import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.BlockedSourceInterface;
@@ -21,7 +22,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
 
     @Inject(method = "onBlocked", at = @At(value = "HEAD"), cancellable = true)
     private void handleParrying(ServerLevel serverLevel, LivingEntity attacked, CallbackInfo ci) {
-        if (!(attacked instanceof BlockedSourceInterface blocked)) return;
+        if (!CRConfig.get.combat.shield_overhaul || !(attacked instanceof BlockedSourceInterface blocked)) return;
         DamageSource damageSource = blocked.getLastBlockedSource();
         ItemStack stack = attacked.getUseItem();
         int useTicks = attacked.getTicksUsingItem();
