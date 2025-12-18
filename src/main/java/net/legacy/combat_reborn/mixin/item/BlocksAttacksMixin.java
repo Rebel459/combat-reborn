@@ -19,7 +19,7 @@ import java.util.Random;
 @Mixin(BlocksAttacks.class)
 public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
 
-    @Inject(method = "onBlocked", at = @At(value = "HEAD"))
+    @Inject(method = "onBlocked", at = @At(value = "HEAD"), cancellable = true)
     private void handleParrying(ServerLevel serverLevel, LivingEntity attacked, CallbackInfo ci) {
         if (!(attacked instanceof BlockedSourceInterface blocked)) return;
         DamageSource damageSource = blocked.getLastBlockedSource();
@@ -27,6 +27,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
         int useTicks = attacked.getTicksUsingItem();
         if (useTicks <= ShieldHelper.getParryWindow(stack) && stack.is(CRItemTags.SHIELD) && damageSource.getEntity() != null && damageSource.getEntity() instanceof LivingEntity attacker && ShieldHelper.canBeParried(damageSource)) {
             ShieldHelper.onParry(serverLevel, attacker, attacked, stack);
+            ci.cancel();
         }
     }
 

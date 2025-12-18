@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 public class ShieldHelper {
 
     public static void onParry(ServerLevel serverLevel, LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
-        handleKnockback(attacker, attacked.damageSources().generic(), 0.6F);
+        handleKnockback(attacker, attacked, 0.6F);
         boolean stagger = CREnchantments.getLevel(stack, CREnchantments.STAGGER) > 0;
         float f = 0F;
         if (attacker instanceof Player player) {
@@ -42,13 +42,11 @@ public class ShieldHelper {
         );
     }
 
-    public static void handleKnockback(LivingEntity attacker, DamageSource source, float strength) {
+    public static void handleKnockback(LivingEntity attacker, LivingEntity attacked, float strength) {
         double d = 0.0;
         double e = 0.0;
-        if (source.getSourcePosition() != null) {
-            d = source.getSourcePosition().x() - attacker.getX();
-            e = source.getSourcePosition().z() - attacker.getZ();
-        }
+        d = attacked.getX() - attacker.getX();
+        e = attacked.getZ() - attacker.getZ();
 
         attacker.knockback(strength, d, e);
     }
