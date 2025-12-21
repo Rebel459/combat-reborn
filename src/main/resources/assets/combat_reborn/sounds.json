@@ -1,0 +1,27 @@
+{
+  "item.shield.parry": {
+    "sounds": [
+      {
+        "name": "combat_reborn:item/shield/parry1",
+        "volume": 1.0
+      },
+      {
+        "name": "combat_reborn:item/shield/parry2",
+        "volume": 1.0
+      },
+      {
+        "name": "combat_reborn:item/shield/parry3",
+        "volume": 1.0
+      },
+      {
+        "name": "combat_reborn:item/shield/parry4",
+        "volume": 1.0
+      },
+      {
+        "name": "combat_reborn:item/shield/parry5",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitles.item.shield.parry"
+  }
+}

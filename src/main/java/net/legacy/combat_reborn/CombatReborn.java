@@ -10,10 +10,12 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.entity.PlayerSpawnCallback;
 import net.legacy.combat_reborn.item.AttributeModifierCallback;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.sound.CRSounds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,7 +35,10 @@ public class CombatReborn implements ModInitializer {
 		CRConfig.init();
         CRDataComponents.init();
         CREnchantments.init();
+        CRSounds.init();
+
         AttributeModifierCallback.init();
+        PlayerSpawnCallback.init();
 
         registerPayloads();
 

@@ -2,6 +2,7 @@ package net.legacy.combat_reborn.mixin.item;
 
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.sound.CRSounds;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.BlockedSourceInterface;
 import net.legacy.combat_reborn.util.ShieldHelper;
@@ -28,6 +29,16 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
         int useTicks = attacked.getTicksUsingItem();
         if (useTicks <= ShieldHelper.getParryWindow(stack) && stack.is(CRItemTags.SHIELD) && damageSource.getEntity() != null && damageSource.getEntity() instanceof LivingEntity attacker && ShieldHelper.canBeParried(damageSource)) {
             ShieldHelper.onParry(serverLevel, attacker, attacked, stack);
+            serverLevel.playSound(
+                    null,
+                    attacked.getX(),
+                    attacked.getY(),
+                    attacked.getZ(),
+                    CRSounds.SHIELD_PARRY,
+                    attacked.getSoundSource(),
+                    1F,
+                    1F
+            );
             ci.cancel();
         }
     }

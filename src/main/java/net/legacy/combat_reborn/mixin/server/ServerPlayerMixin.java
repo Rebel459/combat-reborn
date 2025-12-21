@@ -5,17 +5,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.level.storage.ValueInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
 
-    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+/*    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void firstSpawnSaturation(ValueInput valueInput, CallbackInfo ci) {
         if (!CRConfig.get.food.hunger_rework) return;
         ServerPlayer serverPlayer = ServerPlayer.class.cast(this);
@@ -23,7 +20,7 @@ public abstract class ServerPlayerMixin {
             serverPlayer.getFoodData().setSaturation(100F);
             serverPlayer.addTag("received_starting_saturation");
         }
-    }
+    }*/
 
     // Reduced exhaustion
 
