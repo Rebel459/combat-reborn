@@ -30,8 +30,6 @@
   "text.autoconfig.combat_reborn.option.food": "Food",
   "text.autoconfig.combat_reborn.option.food.hunger_rework": "Hunger Rework",
   "text.autoconfig.combat_reborn.option.food.hunger_rework.@Tooltip": "Whether a reworked saturation, hunger and exhaustion system should be used",
-  "text.autoconfig.combat_reborn.option.food.hunger_barrier": "Hunger Barrier",
-  "text.autoconfig.combat_reborn.option.food.hunger_barrier.@Tooltip": "The amount of points required to be considered low on hunger. Defaults to 6, like vanilla",
   "text.autoconfig.combat_reborn.option.food.damage_interruptions": "Damage Interruptions",
   "text.autoconfig.combat_reborn.option.food.damage_interruptions.@Tooltip": "Whether taking damage from another entity should cancel the consumption of an item",
 
@@ -44,8 +42,6 @@
   "text.autoconfig.combat_reborn.option.consumables.knockback_throwables.@Tooltip": "Whether snowballs and eggs should inflict knockback",
 
   "text.autoconfig.combat_reborn.option.integrations": "Mod Integration",
-  "text.autoconfig.combat_reborn.option.integrations.end_reborn": "End Reborn",
-  "text.autoconfig.combat_reborn.option.integrations.end_reborn.@Tooltip": "End Reborn integration adds a +1 bonus to Netherite tool damage for consistency with End Reborn's changes",
   "text.autoconfig.combat_reborn.option.integrations.enderscape": "Enderscape",
   "text.autoconfig.combat_reborn.option.integrations.enderscape.@Tooltip": "Enderscape integration balances Rubble Shields separately",
 

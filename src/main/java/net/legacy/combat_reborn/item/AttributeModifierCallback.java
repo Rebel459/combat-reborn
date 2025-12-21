@@ -1,15 +1,11 @@
 package net.legacy.combat_reborn.item;
 
-import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,7 +15,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import java.util.Optional;
 
 public class AttributeModifierCallback {
-    public static final Identifier BASE_ATTACK_RANGE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_range");
+    public static final ResourceLocation BASE_ATTACK_RANGE_MODIFIER_ID = ResourceLocation.withDefaultNamespace("base_attack_range");
 
     private static final double DEFAULT_ATTACK_DAMAGE = 1.0; // GENERIC_ATTACK_DAMAGE base value is changed for players!
     private static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
@@ -35,7 +31,7 @@ public class AttributeModifierCallback {
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     return optionalItem.filter(itemRegistryKey -> CRConfig.get.modifiers.modifiers.stream()
-                                    .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
+                                    .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.location().toString())))
                             .isPresent();
                 },
                 (builder, item) -> {
@@ -43,19 +39,14 @@ public class AttributeModifierCallback {
                     if (optionalItem.isEmpty()) return;
 
                     Optional<CRConfig.ModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get.modifiers.modifiers.stream()
-                            .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
+                            .filter(modifier -> modifier.ids.contains(optionalItem.get().location().toString()))
                             .findFirst();
                     if (optionalToolsModifier.isEmpty()) return;
-
-                    int bonus = 0;
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.integrations.end_reborn && optionalItem.get().identifier().getPath().contains("netherite")) {
-                        bonus = 1;
-                    }
 
                     builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
                             createAttributeModifiers(
-                                    optionalToolsModifier.get().damage - DEFAULT_ATTACK_DAMAGE + bonus,
+                                    optionalToolsModifier.get().damage - DEFAULT_ATTACK_DAMAGE,
                                     optionalToolsModifier.get().speed - DEFAULT_ATTACK_SPEED,
                                     optionalToolsModifier.get().reach - DEFAULT_ATTACK_RANGE
                             ));

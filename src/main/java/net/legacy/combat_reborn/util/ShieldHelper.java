@@ -26,7 +26,7 @@ public class ShieldHelper {
         }
         if (stagger) {
             attacker.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60));
-            attacker.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60));
+            attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60));
             f += 1F;
         }
         attacker.hurt(attacked.damageSources().generic(), f);

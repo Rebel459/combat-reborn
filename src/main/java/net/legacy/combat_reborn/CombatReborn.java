@@ -13,11 +13,10 @@ import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.entity.PlayerSpawnCallback;
 import net.legacy.combat_reborn.item.AttributeModifierCallback;
 import net.legacy.combat_reborn.network.ShieldInfo;
-import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.sound.CRSounds;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
@@ -33,7 +32,6 @@ public class CombatReborn implements ModInitializer {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
 
 		CRConfig.init();
-        CRDataComponents.init();
         CREnchantments.init();
         CRSounds.init();
 
@@ -71,7 +69,7 @@ public class CombatReborn implements ModInitializer {
 
         // Client-side: receive Sync packet (server → client)
         ClientPlayNetworking.registerGlobalReceiver(ShieldInfo.Sync.TYPE, (payload, context) -> {
-            Player player = context.player();  // This is ClientPlayerEntity on client
+            Player player = context.player();
             if (player instanceof ShieldInfo shieldInfo) {
                 shieldInfo.setPercentageDamage(payload.percentageDamage());
             }
@@ -96,8 +94,8 @@ public class CombatReborn implements ModInitializer {
         });
     }
 
-	public static Identifier id(String path) {
-		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+	public static ResourceLocation id(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 	public static final String MOD_ID = "combat_reborn";
 

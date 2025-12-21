@@ -12,16 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
 
-/*    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void firstSpawnSaturation(ValueInput valueInput, CallbackInfo ci) {
-        if (!CRConfig.get.food.hunger_rework) return;
-        ServerPlayer serverPlayer = ServerPlayer.class.cast(this);
-        if (!serverPlayer.getTags().contains("received_starting_saturation")) {
-            serverPlayer.getFoodData().setSaturation(100F);
-            serverPlayer.addTag("received_starting_saturation");
-        }
-    }*/
-
     // Reduced exhaustion
 
     @Unique
@@ -81,18 +71,6 @@ public abstract class ServerPlayerMixin {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
         else reduceExhaustionPerDifficulty(instance, v, original);
     }
-    @WrapOperation(
-            method = "jumpFromGround",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
-                    ordinal = 0
-            )
-    )
-    private void CR$reducedExhaustionSprintJumping(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-        else reduceExhaustionPerDifficulty(instance, v, original);
-    }
     
     // No exhaustion
 
@@ -117,17 +95,6 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$noExhaustionWalking(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
-    }
-    @WrapOperation(
-            method = "jumpFromGround",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/server/level/ServerPlayer;causeFoodExhaustion(F)V",
-                    ordinal = 1
-            )
-    )
-    private void CR$noExhaustionJumping(ServerPlayer instance, float v, Operation<Void> original) {
         if (!CRConfig.get.food.hunger_rework) original.call(instance, v);
     }
 }

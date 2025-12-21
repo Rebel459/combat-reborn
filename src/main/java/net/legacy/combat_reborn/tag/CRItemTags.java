@@ -2,7 +2,7 @@ package net.legacy.combat_reborn.tag;
 
 import net.legacy.combat_reborn.CombatReborn;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
@@ -21,10 +21,10 @@ public class CRItemTags {
     }
     @NotNull
     private static TagKey<Item> bindCommon(@NotNull String path) {
-        return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", path));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", path));
     }
     @NotNull
     private static TagKey<Item> bindEnderscape(@NotNull String path) {
-        return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("enderscape", path));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("enderscape", path));
     }
 }

@@ -27,7 +27,7 @@
 	],
   "accessWidener": "combat_reborn.accesswidener",
   "depends": {
-		"minecraft": "1.21.11",
+		"minecraft": ">=1.21 <=1.21.1",
 		"fabric-api": "*",
 		"cloth-config": "*"
 	}
