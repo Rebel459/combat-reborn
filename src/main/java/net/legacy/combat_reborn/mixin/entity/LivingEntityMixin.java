@@ -13,7 +13,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -61,7 +60,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
 
     @Override
     public ShieldInfo getInfo() {
-        return this;  // The mixin instance itself implements ShieldInfo
+        return this;
     }
 
     @Unique
@@ -112,11 +111,10 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, f);
                 if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
-                else if (damageSource.getEntity() instanceof LivingEntity attacker && attacker.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
                 if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
-                shieldInfo.setPercentageDamageAndSync(Math.max(getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
+                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
                 this.recoveryDelay = 100;
-                if (getPercentageDamage() >= 100) {
+                if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15F;
                     if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
