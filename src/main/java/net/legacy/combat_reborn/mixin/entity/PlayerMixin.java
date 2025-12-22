@@ -10,10 +10,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
-import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -52,7 +50,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void cancelConsumption(ServerLevel level, DamageSource damageSource, float amount, CallbackInfo info) {
-        if (!CRConfig.get.food.damage_interruptions || damageSource.getEntity() == null) return;
+        if (!CRConfig.get.consumables.damage_interruptions || damageSource.getEntity() == null) return;
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.CONSUMABLE)) player.stopUsingItem();

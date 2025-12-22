@@ -71,7 +71,7 @@ public class CombatReborn implements ModInitializer {
 
         // Client-side: receive Sync packet (server → client)
         ClientPlayNetworking.registerGlobalReceiver(ShieldInfo.Sync.TYPE, (payload, context) -> {
-            Player player = context.player();  // This is ClientPlayerEntity on client
+            Player player = context.player();
             if (player instanceof ShieldInfo shieldInfo) {
                 shieldInfo.setPercentageDamage(payload.percentageDamage());
             }
