@@ -59,7 +59,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void cancelConsumption(DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get.food.damage_interruptions || damageSource.getEntity() == null) return;
+        if (!CRConfig.get.consumables.damage_interruptions || damageSource.getEntity() == null) return;
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.POTION_CONTENTS)) player.stopUsingItem();

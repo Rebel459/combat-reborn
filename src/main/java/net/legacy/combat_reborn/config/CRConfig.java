@@ -66,13 +66,13 @@ public class CRConfig implements ConfigData {
         public boolean hunger_rework = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean damage_interruptions = true;
+        public boolean stackable_stews = true;
     }
 
     public static class ConsumableConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean stackable_stews = true;
+        public boolean damage_interruptions = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean stackable_potions = true;
