@@ -24,6 +24,8 @@
   "text.autoconfig.combat_reborn.option.combat.shield_overhaul.@Tooltip": "Whether the Shield overhaul should be enabled, which includes new mechanics such as parrying and a strength meter. Also includes 4 new enchantments - Parry, Endurance, Stagger & Dueling",
   "text.autoconfig.combat_reborn.option.combat.shield_delay": "Shield Delay",
   "text.autoconfig.combat_reborn.option.combat.shield_delay.@Tooltip": "The time, in game ticks, before a shield is considered to be blocking attacks. Defaults to 0 for an instant response, with a maximum of 5 (identical to vanilla)",
+  "text.autoconfig.combat_reborn.option.combat.shield_display": "Shield Display",
+  "text.autoconfig.combat_reborn.option.combat.shield_display.@Tooltip": "Whether the Shield Strength overlay should be rendered as a hotbar or crosshair element",
   "text.autoconfig.combat_reborn.option.combat.cleaving": "Cleaving",
   "text.autoconfig.combat_reborn.option.combat.cleaving.@Tooltip": "Whether Axes should use the new Cleaving enchantment, as opposed to Sharpness. Cleaving increases both attack damage and the shield disable duration",
 
