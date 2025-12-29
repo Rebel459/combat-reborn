@@ -6,15 +6,14 @@ import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
-import net.legacy.combat_reborn.sound.CRSounds;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -51,22 +51,12 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         if (useTicks <= ShieldHelper.getParryWindow(stack) && damageSource.getEntity() != null && ShieldHelper.canBeParried(damageSource)) {
             ServerLevel serverLevel = attacked.level().getServer().getLevel(attacked.level().dimension());
             ShieldHelper.onParry(serverLevel, attacker, attacked, stack);
-            if (serverLevel != null) serverLevel.playSound(
-                    null,
-                    attacked.getX(),
-                    attacked.getY(),
-                    attacked.getZ(),
-                    CRSounds.SHIELD_PARRY,
-                    attacked.getSoundSource(),
-                    1F,
-                    1F
-            );
-            attacked.addTag("no_block_sound");
         }
     }
 
     @Unique int localTick = 0;
     @Unique int recoveryDelay = 0;
+    @Unique int hurtOrBlockedTime = 0;
 
     @Override
     public ShieldInfo getInfo() {
@@ -115,14 +105,16 @@ public abstract class LivingEntityMixin implements ShieldInfo {
     )
     private void trackShieldDamageBlocked(ServerPlayer player, ResourceLocation resourceLocation, int i, Operation<Void> original) {
         float blockedDamage = i / 10F;
-        if (blockedDamage > 0 && CRConfig.get.combat.shield_overhaul) {
+        if (blockedDamage > 0 && CRConfig.get.combat.shield_overhaul && this.hurtOrBlockedTime == 0) {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, blockedDamage);
                 if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
+                if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
                 if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
                 shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
+                this.hurtOrBlockedTime = 10;
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15F;
@@ -137,6 +129,20 @@ public abstract class LivingEntityMixin implements ShieldInfo {
                 }
             }
         }
+    }
+
+    @Shadow
+    public int hurtTime;
+
+    @Inject(method = "baseTick", at = @At(value = "HEAD"))
+    private void decreaseHurtOrBlockedTime(CallbackInfo ci) {
+        if (this.hurtOrBlockedTime > 0) {
+            this.hurtOrBlockedTime--;
+        }
+    }
+    @Inject(method = "handleDamageEvent", at = @At(value = "HEAD"))
+    private void setHurtOrBlockedTime(CallbackInfo ci) {
+        this.hurtOrBlockedTime = this.hurtTime;
     }
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
@@ -181,7 +187,7 @@ public abstract class LivingEntityMixin implements ShieldInfo {
 
     @ModifyVariable(method = "hurt", at = @At(value = "HEAD"), index = 2, argsOnly = true)
     private float activeShieldRecovery(float value) {
-        if (CRConfig.get.combat.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0) {
+        if (CRConfig.get.combat.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
             float restoration = value / 2;
             ItemStack stack = player.getWeaponItem();
             int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);
@@ -189,18 +195,5 @@ public abstract class LivingEntityMixin implements ShieldInfo {
             if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), serverPlayer);
         }
         return value;
-    }
-
-    @WrapOperation(
-            method = "handleEntityEvent",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V",
-                    ordinal = 2
-            )
-    )
-    private void noBlockSound(LivingEntity attacked, SoundEvent soundEvent, float f, float g, Operation<Void> original) {
-        if (attacked.getTags().contains("no_block_sound")) attacked.removeTag("no_block_sound");
-        else original.call(attacked, soundEvent, f, g);
     }
 }

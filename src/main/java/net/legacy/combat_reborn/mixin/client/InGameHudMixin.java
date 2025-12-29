@@ -1,8 +1,12 @@
 package net.legacy.combat_reborn.mixin.client;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.tag.CRItemTags;
+import net.legacy.combat_reborn.util.ClientTickInterface;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -15,6 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,38 +34,87 @@ public abstract class InGameHudMixin {
     @Shadow
     protected abstract boolean canRenderCrosshairForSpectator(HitResult hitResult);
 
-    @Shadow
-    @Final
-    private static ResourceLocation CROSSHAIR_SPRITE;
+    @Unique
+    private static final ResourceLocation SHIELD_INDICATOR_FULL = CombatReborn.id("hud/shield_indicator_full");
+    @Unique
+    private static final ResourceLocation SHIELD_INDICATOR_BACKGROUND = CombatReborn.id("hud/shield_indicator_background");
+    @Unique
+    private static final ResourceLocation SHIELD_INDICATOR_PROGRESS = CombatReborn.id("hud/shield_indicator_progress");
 
-    @Inject(method = "renderCrosshair", at = @At(value = "HEAD", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;"), cancellable = true)
-    private void renderShieldCrosshair(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        Player player = this.minecraft.player;
-        if (!CRConfig.get.combat.shield_overhaul || !player.getUseItem().is(CRItemTags.SHIELD)) return;
+    @Inject(method = "renderHotbarAndDecorations", at = @At(value = "HEAD"))
+    private void renderShieldHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        if (!CRConfig.get.combat.shield_overhaul || CRConfig.get.combat.shield_display != CRConfig.ShieldDisplay.HOTBAR) return;
         Options options = this.minecraft.options;
         if (options.getCameraType().isFirstPerson()) {
             if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
-                    guiGraphics.blitSprite(CROSSHAIR_SPRITE, (guiGraphics.guiWidth() - 15) / 2, (guiGraphics.guiHeight() - 15) / 2, 15, 15);
-                    if (player.getUseItem() != null) {
-                        if (!(player instanceof ShieldInfo info)) return;
+                Player player = this.minecraft.player;
+                if (!(player instanceof ShieldInfo info)) return;
+                if (!(player instanceof ClientTickInterface fullTicks)) return;
 
-                        int percentageBlocked = info.getPercentageDamage();
+                int percentageBlocked = info.getPercentageDamage();
 
-                        float f = 1F - percentageBlocked / 100F;
+                if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0 && fullTicks.getClientTicks() >= ClientTickInterface.maxTicks) return;
 
-                        int j = guiGraphics.guiHeight() / 2 - 7 + 16;
-                        int k = guiGraphics.guiWidth() / 2 - 8;
-                        if (f >= 1F) {
-                            guiGraphics.blitSprite(Gui.CROSSHAIR_ATTACK_INDICATOR_FULL_SPRITE, k, j, 16, 16);
-                        } else {
-                            int l = (int) (f * 17.0F);
-                            guiGraphics.blitSprite(Gui.CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_SPRITE, k, j, 16, 4);
-                            guiGraphics.blitSprite(Gui.CROSSHAIR_ATTACK_INDICATOR_PROGRESS_SPRITE, 16, 4, 0, 0, k, j, l, 4);
-                        }
-                    }
-                    ci.cancel();
+                float f = 1F - percentageBlocked / 100F;
+
+                int size = 12;
+
+                int j = guiGraphics.guiHeight() - 49; // height
+                int k = guiGraphics.guiWidth() / 2 - size / 2; // width
+
+                RenderSystem.enableBlend();
+
+                if (f >= 1F) {
+                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_FULL, k, j, size, size);
+                } else {
+                    int l = (int) (f * size * 1.0625);
+                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
+                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
                 }
 
+                RenderSystem.defaultBlendFunc();
+                RenderSystem.disableBlend();
+            }
+        }
+    }
+
+    @Inject(method = "renderCrosshair", at = @At(value = "HEAD", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;"))
+    private void renderShieldCrosshair(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        if (!CRConfig.get.combat.shield_overhaul || CRConfig.get.combat.shield_display != CRConfig.ShieldDisplay.CROSSHAIR) return;
+        Options options = this.minecraft.options;
+        if (options.getCameraType().isFirstPerson()) {
+            if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
+                Player player = this.minecraft.player;
+                if (!(player instanceof ShieldInfo info)) return;
+
+                int percentageBlocked = info.getPercentageDamage();
+
+                if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0) return;
+
+                float f = 1F - percentageBlocked / 100F;
+
+                int size = 16;
+
+                int j = guiGraphics.guiHeight() / 2 - 7 + 16 + 8;
+                int k = guiGraphics.guiWidth() / 2 - 8;
+
+                RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+
+                if (f >= 1F) {
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_FULL, k, j, size, size);
+                } else {
+                    int l = (int) (f * size * 1.0625);
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
+                    guiGraphics.blitSprite(SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
+                }
+
+                RenderSystem.defaultBlendFunc();
+                RenderSystem.disableBlend();
+            }
         }
     }
 }

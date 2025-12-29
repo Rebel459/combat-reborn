@@ -55,7 +55,7 @@ public class ShieldHelper {
 
     public static int processDamage(ItemStack stack, float f) {
         float maxDamage = ShieldInfo.defaultMaxBlockDamage;
-        if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage = maxDamage / 2;
+        if (CRConfig.get.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage = maxDamage * 2 / 3;
         int endurance = CREnchantments.getLevel(stack, CREnchantments.ENDURANCE);
         maxDamage = maxDamage * (1 + endurance / 3F);
         f = f / maxDamage;
