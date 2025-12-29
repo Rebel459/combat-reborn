@@ -6,7 +6,8 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.InGameHudMixin"
+    "client.InGameHudMixin",
+    "client.LocalPlayerMixin"
   ],
   "mixins": [
     "block.BlockMixin",

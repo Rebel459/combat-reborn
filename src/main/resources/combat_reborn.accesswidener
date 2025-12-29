@@ -1,8 +1,5 @@
 accessWidener v2 named
 
-accessible field net/minecraft/client/gui/Gui CROSSHAIR_ATTACK_INDICATOR_FULL_SPRITE Lnet/minecraft/resources/ResourceLocation;
-accessible field net/minecraft/client/gui/Gui CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_SPRITE Lnet/minecraft/resources/ResourceLocation;
-accessible field net/minecraft/client/gui/Gui CROSSHAIR_ATTACK_INDICATOR_PROGRESS_SPRITE Lnet/minecraft/resources/ResourceLocation;
 accessible field net/minecraft/world/inventory/ItemCombinerMenu inputSlots Lnet/minecraft/world/Container;
 accessible field net/minecraft/world/inventory/ItemCombinerMenu resultSlots Lnet/minecraft/world/inventory/ResultContainer;
 accessible field net/minecraft/world/inventory/ItemCombinerMenu player Lnet/minecraft/world/entity/player/Player;

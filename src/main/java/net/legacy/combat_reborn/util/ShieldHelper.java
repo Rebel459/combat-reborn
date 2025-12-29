@@ -3,9 +3,9 @@ package net.legacy.combat_reborn.util;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.sound.CRSounds;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -35,18 +35,16 @@ public class ShieldHelper {
                 attacked.getX(),
                 attacked.getY(),
                 attacked.getZ(),
-                SoundEvents.ANVIL_LAND,
+                CRSounds.SHIELD_PARRY,
                 attacked.getSoundSource(),
-                0.8F,
-                0.8F + serverLevel.random.nextFloat() * 0.4F
+                1F,
+                1F
         );
     }
 
     public static void handleKnockback(LivingEntity attacker, LivingEntity attacked, float strength) {
-        double d = 0.0;
-        double e = 0.0;
-        d = attacked.getX() - attacker.getX();
-        e = attacked.getZ() - attacker.getZ();
+        double d = attacked.getX() - attacker.getX();
+        double e = attacked.getZ() - attacker.getZ();
 
         attacker.knockback(strength, d, e);
     }

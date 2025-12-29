@@ -29,6 +29,11 @@ public class CRConfig implements ConfigData {
         get = AutoConfig.getConfigHolder(CRConfig.class).getConfig();
     }
 
+    public enum ShieldDisplay {
+        HOTBAR,
+        CROSSHAIR
+    }
+
     @ConfigEntry.Gui.CollapsibleObject
     public CombatConfig combat = new CombatConfig();
 
@@ -51,6 +56,9 @@ public class CRConfig implements ConfigData {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean shield_overhaul = true;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.Gui.EnumHandler(option=ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+        public ShieldDisplay shield_display = ShieldDisplay.HOTBAR;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=5L)
