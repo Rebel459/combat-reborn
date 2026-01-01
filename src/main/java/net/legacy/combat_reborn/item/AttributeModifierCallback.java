@@ -1,15 +1,13 @@
 package net.legacy.combat_reborn.item;
 
-import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.config.CRModifierConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,12 +27,12 @@ public class AttributeModifierCallback {
     }
 
     public static void init() {
-        if (!CRConfig.get.combat.modified_values) return;
+        if (!CRConfig.get().general.combat.modified_values) return;
 
         DefaultItemComponentEvents.MODIFY.register((context -> context.modify(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
-                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.modifiers.modifiers.stream()
+                    return optionalItem.filter(itemRegistryKey -> CRConfig.get().modifiers.sets.stream()
                                     .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
                             .isPresent();
                 },
@@ -42,13 +40,13 @@ public class AttributeModifierCallback {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     if (optionalItem.isEmpty()) return;
 
-                    Optional<CRConfig.ModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get.modifiers.modifiers.stream()
+                    Optional<CRModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get().modifiers.sets.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
                     if (optionalToolsModifier.isEmpty()) return;
 
                     int bonus = 0;
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.integrations.end_reborn && optionalItem.get().identifier().getPath().contains("netherite")) {
+                    if (CombatReborn.isEndRebornLoaded && CRConfig.get().general.integrations.end_reborn && optionalItem.get().identifier().getPath().contains("netherite")) {
                         bonus = 1;
                     }
 

@@ -1,5 +1,8 @@
 package net.legacy.combat_reborn;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -31,8 +34,8 @@ public class CombatReborn implements ModInitializer {
 	@Override
 	public void onInitialize() {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
+        AutoConfig.register(CRConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
 
-		CRConfig.init();
         CRDataComponents.init();
         CREnchantments.init();
         CRSounds.init();
@@ -42,14 +45,14 @@ public class CombatReborn implements ModInitializer {
 
         registerPayloads();
 
-        if (!CRConfig.get.combat.shield_overhaul) {
+        if (!CRConfig.get().general.combat.shield_overhaul) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_shield_overhaul"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.no_shield_overhaul"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (!CRConfig.get.combat.cleaving) {
+        if (!CRConfig.get().general.combat.cleaving) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_cleaving"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.no_cleaving"),
