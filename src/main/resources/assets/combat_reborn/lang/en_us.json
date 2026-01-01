@@ -35,9 +35,9 @@
   "text.autoconfig.combat_reborn.option.general.food.hunger_rework": "Hunger Rework",
   "text.autoconfig.combat_reborn.option.general.food.hunger_rework.@Tooltip": "Whether a reworked saturation, hunger and exhaustion system should be used",
   "text.autoconfig.combat_reborn.option.general.food.hunger_barrier": "Hunger Barrier",
+  "text.autoconfig.combat_reborn.option.general.food.hunger_barrier.@Tooltip": "The amount of points required to be considered low on hunger. Defaults to 6, like vanilla",
   "text.autoconfig.combat_reborn.option.general.food.stackable_stews": "Stackable Stews",
   "text.autoconfig.combat_reborn.option.general.food.stackable_stews.@Tooltip": "Whether soups & stews should stack to 16",
-  "text.autoconfig.combat_reborn.option.general.food.hunger_barrier.@Tooltip": "The amount of points required to be considered low on hunger. Defaults to 6, like vanilla",
 
   "text.autoconfig.combat_reborn.option.general.consumables": "Consumables",
   "text.autoconfig.combat_reborn.option.general.consumables.damage_interruptions": "Damage Interruptions",
