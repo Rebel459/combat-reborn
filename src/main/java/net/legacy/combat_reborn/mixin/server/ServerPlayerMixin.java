@@ -12,16 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
 
-/*    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    private void firstSpawnSaturation(ValueInput valueInput, CallbackInfo ci) {
-        if (!CRConfig.get().general.food.hunger_rework) return;
-        ServerPlayer serverPlayer = ServerPlayer.class.cast(this);
-        if (!serverPlayer.getTags().contains("received_starting_saturation")) {
-            serverPlayer.getFoodData().setSaturation(100F);
-            serverPlayer.addTag("received_starting_saturation");
-        }
-    }*/
-
     // Reduced exhaustion
 
     @Unique
