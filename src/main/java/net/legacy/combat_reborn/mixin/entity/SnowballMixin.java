@@ -16,7 +16,7 @@ public abstract class SnowballMixin {
 
     @Inject(method = "onHitEntity", at = @At(value = "TAIL"))
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
-        if (!CRConfig.get.consumables.knockback_throwables) return;
+        if (!CRConfig.get().general.consumables.knockback_throwables) return;
         Snowball snowball = Snowball.class.cast(this);
         Entity entity = entityHitResult.getEntity();
         if (entity instanceof Blaze) return;

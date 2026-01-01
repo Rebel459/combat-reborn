@@ -2,6 +2,7 @@ package net.legacy.combat_reborn.item;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.config.CRModifierConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -25,12 +26,12 @@ public class AttributeModifierCallback {
     }
 
     public static void init() {
-        if (!CRConfig.get.combat.modified_values) return;
+        if (!CRConfig.get().general.combat.modified_values) return;
 
         DefaultItemComponentEvents.MODIFY.register((context -> context.modify(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
-                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.modifiers.modifiers.stream()
+                    return optionalItem.filter(itemRegistryKey -> CRConfig.get().modifiers.sets.stream()
                                     .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.location().toString())))
                             .isPresent();
                 },
@@ -38,7 +39,7 @@ public class AttributeModifierCallback {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     if (optionalItem.isEmpty()) return;
 
-                    Optional<CRConfig.ModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get.modifiers.modifiers.stream()
+                    Optional<CRModifierConfig.Modifiers> optionalToolsModifier = CRConfig.get().modifiers.sets.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().location().toString()))
                             .findFirst();
                     if (optionalToolsModifier.isEmpty()) return;

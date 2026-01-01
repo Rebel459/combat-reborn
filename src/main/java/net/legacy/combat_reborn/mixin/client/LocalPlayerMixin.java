@@ -2,6 +2,7 @@ package net.legacy.combat_reborn.mixin.client;
 
 import com.mojang.logging.LogUtils;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.util.ClientTickInterface;
 import net.minecraft.client.player.LocalPlayer;
@@ -32,7 +33,7 @@ public abstract class LocalPlayerMixin implements ClientTickInterface {
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void renderShieldCrosshair(CallbackInfo ci) {
-        if (!CRConfig.get.combat.shield_overhaul || CRConfig.get.combat.shield_display == CRConfig.ShieldDisplay.CROSSHAIR) return;
+        if (!CRConfig.get().general.combat.shield_overhaul || CRConfig.get().general.combat.shield_display == CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
         this.localTick++;
         if (this.localTick >= 5) {
             LocalPlayer player = LocalPlayer.class.cast(this);

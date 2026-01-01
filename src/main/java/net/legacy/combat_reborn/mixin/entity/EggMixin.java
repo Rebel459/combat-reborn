@@ -15,7 +15,7 @@ public abstract class EggMixin {
 
     @Inject(method = "onHitEntity", at = @At(value = "TAIL"))
     private void cancelConsumption(EntityHitResult entityHitResult, CallbackInfo ci) {
-        if (!CRConfig.get.consumables.knockback_throwables) return;
+        if (!CRConfig.get().general.consumables.knockback_throwables) return;
         ThrownEgg egg = ThrownEgg.class.cast(this);
         Entity entity = entityHitResult.getEntity();
         float f = 0F;

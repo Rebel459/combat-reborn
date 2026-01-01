@@ -35,7 +35,7 @@ public abstract class FoodDataMixin {
 
     @Inject(method = "tick", at = @At(value = "HEAD"), cancellable = true)
     private void CR$tick(Player player, CallbackInfo ci) {
-        if (!CRConfig.get.food.hunger_rework) return;
+        if (!CRConfig.get().general.food.hunger_rework) return;
         Level level = player.level();
 
         Difficulty difficulty = level.getDifficulty();
@@ -94,7 +94,7 @@ public abstract class FoodDataMixin {
 
     @Inject(method = "addExhaustion", at = @At(value = "HEAD"), cancellable = true)
     private void CR$checkAddExhaustion(float f, CallbackInfo ci) {
-        if (!CRConfig.get.food.hunger_rework || !(this.saturationLevel > 0)) return;
+        if (!CRConfig.get().general.food.hunger_rework || !(this.saturationLevel > 0)) return;
         ci.cancel();
     }
 }
