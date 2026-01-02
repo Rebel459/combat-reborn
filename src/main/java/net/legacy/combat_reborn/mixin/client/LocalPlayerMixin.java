@@ -1,6 +1,5 @@
 package net.legacy.combat_reborn.mixin.client;
 
-import com.mojang.logging.LogUtils;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
@@ -45,7 +44,6 @@ public abstract class LocalPlayerMixin implements ClientTickInterface {
             else if (damage > 0) {
                 this.setClientTicks(0);
             }
-            LogUtils.getLogger().info("Ticks: " + this.clientTick);
             this.localTick = 0;
         }
     }
