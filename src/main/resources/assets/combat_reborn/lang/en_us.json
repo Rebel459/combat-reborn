@@ -6,7 +6,7 @@
   "enchantment.combat_reborn.endurance": "Endurance",
   "enchantment.combat_reborn.endurance.desc": "Increases total shield strength",
   "enchantment.combat_reborn.stagger": "Stagger",
-  "enchantment.combat_reborn.stagger.desc": "Applies damage, weakness and slowness to the attacker after a successful parry",
+  "enchantment.combat_reborn.stagger.desc": "Parrying an attack damages and applies both weakness and slowness to the attacker",
   "enchantment.combat_reborn.dueling": "Dueling",
   "enchantment.combat_reborn.dueling.desc": "Increases shield strength recovery provided when attacking",
 
