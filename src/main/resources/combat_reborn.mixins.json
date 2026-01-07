@@ -6,7 +6,9 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.InGameHudMixin",
+    "client.AbstractContainerScreenMixin",
+    "client.GuiMixin",
+    "client.ItemStackMixin",
     "client.LocalPlayerMixin"
   ],
   "mixins": [
@@ -17,8 +19,10 @@
     "entity.PlayerMixin",
     "entity.SnowballMixin",
     "food.FoodDataMixin",
-    "item.BlocksAttacksMixin",
+    "item.BowItemMixin",
+    "item.ItemMixin",
     "item.ItemStackMixin",
+    "item.ProjectileWeaponItemMixin",
     "menu.AnvilMenuMixin",
     "server.ServerPlayerMixin"
   ]

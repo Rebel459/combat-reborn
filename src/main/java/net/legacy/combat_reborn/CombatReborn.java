@@ -15,14 +15,20 @@ import net.fabricmc.loader.api.ModContainer;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.entity.PlayerSpawnCallback;
 import net.legacy.combat_reborn.item.AttributeModifierCallback;
+import net.legacy.combat_reborn.item.QuiverItem;
+import net.legacy.combat_reborn.network.SelectQuiverItemPacket;
+import net.legacy.combat_reborn.network.SelectQuiverSlotPacket;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.registry.CRItems;
 import net.legacy.combat_reborn.sound.CRSounds;
+import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
@@ -37,6 +43,7 @@ public class CombatReborn implements ModInitializer {
         AutoConfig.register(CRConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
 
         CRDataComponents.init();
+        CRItems.init();
         CREnchantments.init();
         CRSounds.init();
 
@@ -45,7 +52,7 @@ public class CombatReborn implements ModInitializer {
 
         registerPayloads();
 
-        if (!CRConfig.get().general.combat.shield_overhaul) {
+        if (!CRConfig.get().general.shields.shield_overhaul) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_shield_overhaul"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.no_shield_overhaul"),
@@ -69,10 +76,13 @@ public class CombatReborn implements ModInitializer {
 	}
 
     public static void registerPayloads() {
-        PayloadTypeRegistry.playS2C().register(ShieldInfo.Sync.TYPE, ShieldInfo.Sync.CODEC);     // Server → Client
-        PayloadTypeRegistry.playC2S().register(ShieldInfo.Request.TYPE, ShieldInfo.Request.CODEC); // Client → Server
 
-        // Client-side: receive Sync packet (server → client)
+        PayloadTypeRegistry.playS2C().register(ShieldInfo.Sync.TYPE, ShieldInfo.Sync.CODEC);
+        PayloadTypeRegistry.playC2S().register(ShieldInfo.Request.TYPE, ShieldInfo.Request.CODEC);
+
+        PayloadTypeRegistry.playC2S().register(SelectQuiverItemPacket.TYPE, SelectQuiverItemPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(SelectQuiverSlotPacket.TYPE, SelectQuiverSlotPacket.CODEC);
+
         ClientPlayNetworking.registerGlobalReceiver(ShieldInfo.Sync.TYPE, (payload, context) -> {
             Player player = context.player();
             if (player instanceof ShieldInfo shieldInfo) {
@@ -80,7 +90,6 @@ public class CombatReborn implements ModInitializer {
             }
         });
 
-        // Server-side: receive Request packet (client → server)
         ServerPlayNetworking.registerGlobalReceiver(ShieldInfo.Request.TYPE, (payload, context) -> {
             ServerPlayer player = context.player();
             if (player instanceof ShieldInfo shieldInfo) {
@@ -89,13 +98,37 @@ public class CombatReborn implements ModInitializer {
             }
         });
 
-        // 3. Initial sync on player join (server-side)
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.getPlayer();
             if (player instanceof ShieldInfo shieldInfo) {
                 int current = shieldInfo.getPercentageDamage();
                 ServerPlayNetworking.send(player, new ShieldInfo.Sync(current));
             }
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(SelectQuiverItemPacket.TYPE, (payload, context) -> {
+            ServerPlayer player = context.player();
+            int slotId = payload.slotId();
+            int selectedSlot = payload.selectedSlot();
+
+            context.player().level().getServer().execute(() -> {
+                ItemStack quiverStack = player.containerMenu.getSlot(slotId).getItem();
+                if (quiverStack.getItem() instanceof QuiverItem) {
+                    quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, selectedSlot);
+                }
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(SelectQuiverSlotPacket.TYPE, (payload, context) -> {
+            ServerPlayer player = context.player();
+            int slot = payload.slot();
+
+            context.player().level().getServer().execute(() -> {
+                ItemStack quiverStack = QuiverHelper.getQuiver(player);
+                if (quiverStack != null) {
+                    quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, slot);
+                }
+            });
         });
     }
 

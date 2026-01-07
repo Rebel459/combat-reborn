@@ -3,27 +3,113 @@ package net.legacy.combat_reborn.mixin.entity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.registry.CRDataComponents;
+import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.util.QuiverContents;
+import net.legacy.combat_reborn.util.QuiverHelper;
+import net.legacy.combat_reborn.util.QuiverInterface;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.enchantment.Enchantments;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin {
+public abstract class PlayerMixin implements QuiverInterface {
+
+    @Unique
+    private ItemStack quiver;
+
+    @Override
+    @Nullable
+    public ItemStack getQuiver() {
+        return this.quiver;
+    }
+
+    @Override
+    public void setQuiver(ItemStack quiver) {
+        this.quiver = quiver;
+    }
 
     @Shadow
     public abstract void causeFoodExhaustion(float f);
 
     @Shadow
     public abstract FoodData getFoodData();
+
+    @WrapOperation(method = "getProjectile", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getItem(I)Lnet/minecraft/world/item/ItemStack;"))
+    private ItemStack inventoryQuiver(Inventory inventory, int i, Operation<ItemStack> original) {
+        Player player = Player.class.cast(this);
+        ItemStack quiverStack = QuiverHelper.getStack(player);
+        if (quiverStack != null) {
+            quiverStack.applyComponents(DataComponentPatch.builder()
+                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                    .build()
+            );
+        }
+        ItemStack stack = inventory.getItem(i);
+        if (stack.has(CRDataComponents.QUIVER_CONTENTS) && !stack.get(CRDataComponents.QUIVER_CONTENTS).items.isEmpty() && !player.hasInfiniteMaterials()) {
+            if (!(player instanceof LocalPlayer)) {
+                var quiver = stack.get(CRDataComponents.QUIVER_CONTENTS);
+                this.setQuiver(stack);
+                ItemStack arrow = quiver.items.get(Math.max(stack.get(CRDataComponents.QUIVER_CONTENTS_SLOT), 0)).copy();
+                return arrow;
+            }
+        }
+        this.setQuiver(null);
+        return original.call(inventory, i);
+    }
+
+    @Inject(method = "getProjectile", at = @At("HEAD"), cancellable = true)
+    private void activeQuiver(ItemStack itemStack, CallbackInfoReturnable<ItemStack> cir) {
+        Player player = Player.class.cast(this);
+        ItemStack stack = QuiverHelper.getStack(player);
+        if (stack != null) {
+            stack.applyComponents(DataComponentPatch.builder()
+                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                    .build()
+            );
+        }
+
+        if (!(itemStack.getItem() instanceof ProjectileWeaponItem) || player.hasInfiniteMaterials() || CREnchantments.getLevel(itemStack, Enchantments.INFINITY) > 0) {
+            return;
+        }
+
+        ItemStack quiverStack = QuiverHelper.getQuiver(player);
+
+        if (quiverStack != null) {
+            Integer rawSlot = quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT);
+            int selectedSlot = (rawSlot != null && rawSlot >= 0) ? rawSlot : 0;
+
+            QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(quiverStack)));
+            if (selectedSlot < contents.size()) {
+                ItemStack arrow = contents.getItemUnsafe(selectedSlot).copy();
+                if (!arrow.isEmpty()) {
+                    this.setQuiver(quiverStack);
+
+                    cir.setReturnValue(arrow);
+                }
+            }
+        }
+    }
 
     @WrapOperation(
             method = "actuallyHurt",
@@ -36,13 +122,13 @@ public abstract class PlayerMixin {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void CR$addHurtExhaustion(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get().general.food.hunger_rework) return;
+        if (!CRConfig.get().general.hunger.hunger_rework) return;
         Player player = Player.class.cast(this);
         Difficulty difficulty = serverLevel.getDifficulty();
         float multiplier = 0.75F;
         if (difficulty == Difficulty.EASY) multiplier = 0.5F;
         if (difficulty == Difficulty.HARD) multiplier = 1F;
-        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.get().general.food.hunger_barrier;
+        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.get().general.hunger.hunger_barrier;
         float exhaustion = Math.max(f - aboveBarrier, 0F);
         this.causeFoodExhaustion(exhaustion * multiplier);
         this.getFoodData().setSaturation(Math.max(this.getFoodData().getSaturationLevel() - f / 2, 0));
@@ -79,7 +165,7 @@ public abstract class PlayerMixin {
             )
     )    private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
         Player player = Player.class.cast(this);
-        if (!CRConfig.get().general.food.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get().general.food.hunger_barrier) {
+        if (!CRConfig.get().general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get().general.hunger.hunger_barrier) {
             original.call(foodData, f);
             return;
         }

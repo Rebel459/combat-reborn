@@ -34,7 +34,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
 
     @Inject(method = "onBlocked", at = @At(value = "HEAD"))
     private void handleParrying(ServerLevel serverLevel, LivingEntity attacked, CallbackInfo ci) {
-        if (!CRConfig.get().general.combat.shield_overhaul || !(attacked instanceof BlockedSourceInterface blocked)) return;
+        if (!CRConfig.get().general.shields.shield_overhaul || !(attacked instanceof BlockedSourceInterface blocked)) return;
         DamageSource damageSource = blocked.getLastBlockedSource();
         ItemStack stack = attacked.getUseItem();
         int useTicks = attacked.getTicksUsingItem();
@@ -50,7 +50,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
             return;
         }
         int level = CREnchantments.getLevel(stack, CREnchantments.PARRY);
-        boolean shouldContinue = CRConfig.get().general.combat.shield_overhaul;
+        boolean shouldContinue = CRConfig.get().general.shields.shield_overhaul;
         if (level > 0) {
             if (new Random().nextInt(1, 5) <= level && entity.getTicksUsingItem() < ShieldHelper.getParryWindow(stack)) {
                 shouldContinue = false;

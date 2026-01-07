@@ -5,9 +5,13 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
+import net.legacy.combat_reborn.item.QuiverItem;
 import net.legacy.combat_reborn.network.ShieldInfo;
+import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ClientTickInterface;
+import net.legacy.combat_reborn.util.QuiverContents;
+import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -15,8 +19,13 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.HitResult;
 import org.jspecify.annotations.Nullable;
@@ -28,8 +37,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(Gui.class)
-public abstract class InGameHudMixin {
+public abstract class GuiMixin {
 
     @Shadow
     @Final
@@ -37,6 +48,9 @@ public abstract class InGameHudMixin {
 
     @Shadow
     protected abstract boolean canRenderCrosshairForSpectator(@Nullable HitResult hitResult);
+
+    @Shadow
+    protected abstract void renderSlot(GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, ItemStack itemStack, int k);
 
     @Unique
     private static final Identifier HOTBAR_SHIELD_INDICATOR_FULL = CombatReborn.id("hud/hotbar_shield_indicator_full");
@@ -63,7 +77,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderHotbarAndDecorations", at = @At(value = "HEAD"))
     private void renderShieldHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get().general.combat.shield_overhaul || CRConfig.get().general.combat.shield_display != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
+        if (!CRConfig.get().general.shields.shield_overhaul || CRConfig.get().general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
         Options options = this.minecraft.options;
         if (options.getCameraType().isFirstPerson()) {
             if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
@@ -96,7 +110,7 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderCrosshair", at = @At(value = "HEAD", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;"))
     private void renderShieldCrosshair(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get().general.combat.shield_overhaul || CRConfig.get().general.combat.shield_display != CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
+        if (!CRConfig.get().general.shields.shield_overhaul || CRConfig.get().general.shields.display_style != CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
         Options options = this.minecraft.options;
         if (options.getCameraType().isFirstPerson()) {
             if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
@@ -126,5 +140,51 @@ public abstract class InGameHudMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "renderItemHotbar", at = @At("TAIL"))
+    private void renderQuiverSelectedArrow(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return;
+
+        ItemStack quiverStack = QuiverHelper.getQuiver(player);
+
+        if (quiverStack == null) return;
+
+        int selectedSlot = Math.max(quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT), 0);
+
+        QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(quiverStack)));
+        if (contents.items.isEmpty()) return;
+
+        ItemStack selectedArrow = contents.getItemUnsafe(selectedSlot).copy();
+        if (selectedArrow.isEmpty()) return;
+
+        int centerX = guiGraphics.guiWidth() / 2;
+
+        HumanoidArm mainArm = player.getMainArm();
+        boolean isLeftHanded = mainArm == HumanoidArm.LEFT;
+
+        Identifier backgroundSprite = isLeftHanded ? Gui.HOTBAR_OFFHAND_LEFT_SPRITE : Gui.HOTBAR_OFFHAND_RIGHT_SPRITE;
+
+        int bgX = isLeftHanded ? centerX - 91 - 29 : centerX + 91;
+        int bgY = guiGraphics.guiHeight() - 23;
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, backgroundSprite, bgX, bgY, 29, 24);
+
+        int pos1 = centerX - 91 - 26;
+        int pos2 = centerX + 91 + 10;
+
+        int arrowX = isLeftHanded ? pos1 : pos2;
+        int quiverX = !isLeftHanded ? pos1 : pos2;
+        int arrowY = guiGraphics.guiHeight() - 16 - 3;
+
+        ItemStack renderedQuiver = quiverStack.copy();
+        renderedQuiver.applyComponents(DataComponentPatch.builder()
+                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
+                .build()
+        );
+
+        renderSlot(guiGraphics, arrowX, arrowY, deltaTracker, player, selectedArrow, 0);
+        renderSlot(guiGraphics, quiverX, arrowY, deltaTracker, player, renderedQuiver, 0);
+        guiGraphics.renderItemDecorations(this.minecraft.font, quiverStack, quiverX, arrowY);
     }
 }

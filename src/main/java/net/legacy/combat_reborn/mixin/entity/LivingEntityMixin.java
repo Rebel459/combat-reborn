@@ -8,7 +8,9 @@ import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.BlockedSourceInterface;
+import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.ShieldHelper;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,6 +21,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
+import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
@@ -31,6 +35,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
@@ -98,6 +103,18 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         this.damageSource = damageSource;
     }
 
+    @Inject(at = @At("HEAD"), method = "stopUsingItem")
+    private void resetQuiverModel(CallbackInfo ci) {
+        LivingEntity livingEntity = LivingEntity.class.cast(this);
+        if (livingEntity instanceof Player player) {
+            ItemStack stack = QuiverHelper.getStack(player);
+            stack.applyComponents(DataComponentPatch.builder()
+                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
+                    .build()
+            );
+        }
+    }
+
     @WrapOperation(
             method = "hurtServer",
             at = @At(
@@ -107,7 +124,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     )
     private float trackShieldDamageBlocked(LivingEntity instance, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
         float blockedDamage = original.call(instance, serverLevel, damageSource, f);
-        if (blockedDamage > 0 && CRConfig.get().general.combat.shield_overhaul && this.hurtOrBlockedTime == 0) {
+        if (blockedDamage > 0 && CRConfig.get().general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
@@ -133,7 +150,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void passiveShieldRecovery(CallbackInfo ci) {
         LivingEntity entity = LivingEntity.class.cast(this);
-        if (!(entity instanceof ServerPlayer player) || !CRConfig.get().general.combat.shield_overhaul) return;
+        if (!(entity instanceof ServerPlayer player) || !CRConfig.get().general.shields.shield_overhaul) return;
         this.localTick++;
         if (localTick >= 5) {
             if (this.recoveryDelay == 0) {
@@ -168,7 +185,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "getSecondsToDisableBlocking", at = @At(value = "TAIL"), cancellable = true)
     private void cleaving(CallbackInfoReturnable<Float> cir) {
         float disableTime = cir.getReturnValue();
-        if (CRConfig.get().general.combat.shield_overhaul) {
+        if (CRConfig.get().general.shields.shield_overhaul) {
             if (disableTime >= 3F) disableTime -= 2F;
         }
         if (disableTime <= 0) return;
@@ -177,7 +194,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         if (level > 0) {
             disableTime = disableTime + level;
         }
-        if (CRConfig.get().general.combat.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
+        if (CRConfig.get().general.shields.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
         cir.setReturnValue(disableTime);
     }
 
@@ -191,7 +208,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         BlocksAttacks blocksAttacks = stack.get(DataComponents.BLOCKS_ATTACKS);
         if (blocksAttacks != null) {
             int i = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
-            if (i >= CRConfig.get().general.combat.shield_delay) {
+            if (i >= CRConfig.get().general.shields.block_delay) {
                 cir.setReturnValue(stack);
             }
         }
@@ -199,7 +216,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
 
     @ModifyVariable(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "HEAD"), index = 3, argsOnly = true)
     private float activeShieldRecovery(float value) {
-        if (CRConfig.get().general.combat.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
+        if (CRConfig.get().general.shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
             float restoration = value / 2;
             ItemStack stack = player.getWeaponItem();
             int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);

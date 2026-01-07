@@ -17,7 +17,13 @@ public class CRGeneralConfig implements ConfigData {
     public CombatConfig combat = new CombatConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public FoodConfig food = new FoodConfig();
+    public ShieldConfig shields = new ShieldConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public QuiverConfig quivers = new QuiverConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public HungerConfig hunger = new HungerConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public ConsumableConfig consumables = new ConsumableConfig();
@@ -31,20 +37,35 @@ public class CRGeneralConfig implements ConfigData {
         public boolean modified_values = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean shield_overhaul = true;
-        @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.Gui.EnumHandler(option=ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-        public ShieldDisplay shield_display = ShieldDisplay.HOTBAR;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(max=5L)
-        public int shield_delay = 0;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
         public boolean cleaving = true;
     }
 
-    public static class FoodConfig {
+    public static class ShieldConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean shield_overhaul = true;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.Gui.EnumHandler(option=ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+        public ShieldDisplay display_style = ShieldDisplay.HOTBAR;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(max=5L)
+        public int block_delay = 0;
+    }
+
+    public static class QuiverConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean enable_quivers = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean quiver_recipe = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean ranged_rebalance = true;
+    }
+
+    public static class HungerConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean hunger_rework = true;
@@ -52,18 +73,18 @@ public class CRGeneralConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=20L)
         public int hunger_barrier = 6;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean stackable_stews = true;
     }
 
     public static class ConsumableConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean damage_interruptions = true;
+        public boolean stackable_stews = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean stackable_potions = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean damage_interruptions = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean knockback_throwables = true;

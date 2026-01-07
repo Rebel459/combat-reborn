@@ -1,0 +1,13 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:custom_model_data",
+    "on_true": {
+      "type": "minecraft:bundle/selected_item"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "combat_reborn:item/quiver"
+    }
+  }
+}

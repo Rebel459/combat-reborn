@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CRItemTags {
     public static final TagKey<Item> SHIELD = bind("shield");
+    public static final TagKey<Item> QUIVER = bind("quiver");
 
     public static final TagKey<Item> RUBBLE_SHIELD = bindEnderscape("rubble_shields");
 

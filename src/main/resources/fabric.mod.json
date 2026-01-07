@@ -1,34 +1,37 @@
 {
-	"schemaVersion": 1,
-	"id": "combat_reborn",
-	"version": "${version}",
-	"name": "Combat Reborn",
-	"description": "A simple, thoughtful overhaul to many vanilla combat and hunger-related mechanics.",
-	"authors": [
-		"Rebel459"
-	],
-	"contact": {
-		"homepage": "https://modrinth.com/user/Rebel459",
-		"sources": "https://github.com/Rebel459/combat-reborn"
-	},
-	"license": "Legacy License",
-	"icon": "assets/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"net.legacy.combat_reborn.CombatReborn"
-		],
-		"modmenu": [
-          "net.legacy.combat_reborn.config.CRModMenuIntegration"
-		]
-	},
-	"mixins": [
-		"combat_reborn.mixins.json"
-	],
+  "schemaVersion": 1,
+  "id": "combat_reborn",
+  "version": "${version}",
+  "name": "Combat Reborn",
+  "description": "A simple, thoughtful overhaul to many vanilla combat and hunger-related mechanics.",
+  "authors": [
+    "Rebel459"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/user/Rebel459",
+    "sources": "https://github.com/Rebel459/combat-reborn"
+  },
+  "license": "Legacy License",
+  "icon": "assets/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.legacy.combat_reborn.CombatReborn"
+    ],
+    "client": [
+      "net.legacy.combat_reborn.CombatRebornClient"
+    ],
+    "modmenu": [
+      "net.legacy.combat_reborn.config.CRModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "combat_reborn.mixins.json"
+  ],
   "accessWidener": "combat_reborn.accesswidener",
   "depends": {
-		"minecraft": "1.21.11",
-		"fabric-api": "*",
-		"cloth-config": "*"
-	}
+    "minecraft": "1.21.11",
+    "fabric-api": "*",
+    "cloth-config": "*"
+  }
 }
