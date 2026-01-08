@@ -43,9 +43,17 @@ public abstract class ItemMixin {
             strength = enchantedStrength;
             strengthColor = ChatFormatting.BLUE;
         }
+        else if (enchantedStrength < strength) {
+            strength = enchantedStrength;
+            strengthColor = ChatFormatting.BLUE;
+        }
         if (enchantedParryBonus > parryBonus) {
             parryBonus = enchantedParryBonus;
-            parryBonusColor = ChatFormatting.BLUE;
+            parryBonusColor = ChatFormatting.RED;
+        }
+        else if (enchantedParryBonus < parryBonus) {
+            parryBonus = enchantedParryBonus;
+            parryBonusColor = ChatFormatting.RED;
         }
 
         list.add(prefix.copy().append(Component.translatable("tooltip.combat_reborn.shield.strength").append(": ").withStyle(ChatFormatting.DARK_GREEN).append(Component.literal(String.valueOf(strength)).withStyle(strengthColor))));
