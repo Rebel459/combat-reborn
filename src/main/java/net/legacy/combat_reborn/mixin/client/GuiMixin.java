@@ -9,7 +9,6 @@ import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CRDataComponents;
-import net.legacy.combat_reborn.registry.CRItems;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ClientTickInterface;
 import net.legacy.combat_reborn.util.QuiverContents;
@@ -21,13 +20,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.HitResult;
 import org.jspecify.annotations.Nullable;
@@ -38,8 +34,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
@@ -175,12 +169,6 @@ public abstract class GuiMixin {
         int arrowX = isLeftHanded ? centerX - 91 - 26 : centerX + 91 + 10;
         int arrowY = guiGraphics.guiHeight() - 16 - 3;
 
-        ItemStack renderedQuiver = quiverStack.copy();
-        renderedQuiver.applyComponents(DataComponentPatch.builder()
-                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
-                .build()
-        );
-
         renderSlot(guiGraphics, arrowX, arrowY, deltaTracker, player, selectedArrow, 0);
     }
 
@@ -191,10 +179,8 @@ public abstract class GuiMixin {
             return;
         }
         ItemStack quiver = itemStack.copy();
-        quiver.applyComponents(DataComponentPatch.builder()
-                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
-                .build()
-        );
+        QuiverContents.Mutable mutable = new QuiverContents.Mutable(quiver.get(CRDataComponents.QUIVER_CONTENTS));
+        QuiverHelper.updateFullness(quiver, mutable);
         original.call(instance, guiGraphics, i, j, deltaTracker, player, quiver, k);
     }
 }

@@ -70,36 +70,35 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (CRConfig.get().general.quivers.craftable && CRConfig.get().general.integrations.lal_quiver_variants) {
-            ResourceManagerHelper.registerBuiltinResourcePack(
-                    CombatReborn.id("weighted_quiver"), modContainer.get(),
-                    Component.translatable("pack.combat_reborn.weighted_quiver"),
-                    ResourcePackActivationType.ALWAYS_ENABLED
-            );
+        if (FabricLoader.getInstance().isModLoaded("legacies_and_legends")) {
+            isLegaciesAndLegendsLoaded = true;
+            if (CRConfig.get().general.quivers.craftable && CRConfig.get().general.integrations.lal_quiver_variants) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        CombatReborn.id("weighted_quiver"), modContainer.get(),
+                        Component.translatable("pack.combat_reborn.weighted_quiver"),
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
+            if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.integrations.lal_quiver_variants) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        CombatReborn.id("sapphire_quiver"), modContainer.get(),
+                        Component.translatable("pack.combat_reborn.sapphire_quiver"),
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
+            if (CRConfig.get().general.integrations.lal_quiver_accessories) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        CombatReborn.id("quiver_accessories"), modContainer.get(),
+                        Component.translatable("pack.combat_reborn.quiver_accessories"),
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
         }
-        if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.integrations.lal_quiver_variants) {
-            ResourceManagerHelper.registerBuiltinResourcePack(
-                    CombatReborn.id("sapphire_quiver"), modContainer.get(),
-                    Component.translatable("pack.combat_reborn.sapphire_quiver"),
-                    ResourcePackActivationType.ALWAYS_ENABLED
-            );
-        }
-        if (CRConfig.get().general.integrations.lal_quiver_accessories) {
-            ResourceManagerHelper.registerBuiltinResourcePack(
-                    CombatReborn.id("quiver_accessories"), modContainer.get(),
-                    Component.translatable("pack.combat_reborn.quiver_accessories"),
-                    ResourcePackActivationType.ALWAYS_ENABLED
-            );
-        }
-
         if (FabricLoader.getInstance().isModLoaded("end_reborn_netherite")) {
             isEndRebornLoaded = true;
         }
         if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
             isEnchantsAndExpeditionsLoaded = true;
-        }
-        if (FabricLoader.getInstance().isModLoaded("legacies_and_legends")) {
-            isLegaciesAndLegendsLoaded = true;
         }
 	}
 

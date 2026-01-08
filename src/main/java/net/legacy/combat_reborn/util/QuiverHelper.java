@@ -3,8 +3,13 @@ package net.legacy.combat_reborn.util;
 import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.item.QuiverItem;
 import net.legacy.combat_reborn.registry.CRItems;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomModelData;
+
+import java.util.List;
 
 public class QuiverHelper {
     public static final String QUIVER = CombatReborn.id("quiver").toString();
@@ -63,5 +68,18 @@ public class QuiverHelper {
 
     public static boolean shouldRender(Player player) {
         return true;
+    }
+
+    public static void updateFullness(ItemStack stack, QuiverContents.Mutable mutable) {
+        double percentage = mutable.weight().doubleValue();
+        String model = "empty";
+        if (percentage > 0.75) model = "full";
+        else if (percentage > 0.5) model = "three";
+        else if (percentage > 0.25) model = "two";
+        else if (percentage > 0) model = "one";
+        stack.applyComponents(DataComponentPatch.builder()
+                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of(model), List.of()))
+                .build()
+        );
     }
 }

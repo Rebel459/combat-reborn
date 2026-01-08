@@ -36,6 +36,7 @@ public abstract class ProjectileWeaponItemMixin {
                 ItemStack checkedStack = mutable.getSelectedStack(quiverStack);
                 if (CREnchantments.getLevel(quiverStack, Enchantments.INFINITY) > 0 && checkedStack != null && checkedStack.getItem() == Items.ARROW) return;
                 if (mutable.consumeOne(quiverStack)) {
+                    QuiverHelper.updateFullness(itemStack, mutable);
                     quiverStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                     player.containerMenu.sendAllDataToRemote();
                 }

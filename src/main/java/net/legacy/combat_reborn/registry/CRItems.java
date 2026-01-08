@@ -5,14 +5,18 @@ import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.item.QuiverItem;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.CustomModelData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Function;
 
 public final class CRItems {
@@ -24,6 +28,8 @@ public final class CRItems {
                     .stacksTo(1)
                     .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.QUIVER))
                     .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .component(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("empty"), List.of()))
     );
 
     public static final QuiverItem WEIGHTED_QUIVER = register("weighted_quiver",
@@ -33,6 +39,8 @@ public final class CRItems {
                     .stacksTo(1)
                     .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.WEIGHTED_QUIVER))
                     .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .component(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("empty"), List.of()))
     );
 
     public static final QuiverItem SAPPHIRE_QUIVER = register("sapphire_quiver",
@@ -42,6 +50,8 @@ public final class CRItems {
                     .stacksTo(1)
                     .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.SAPPHIRE_QUIVER))
                     .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .component(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("empty"), List.of()))
     );
 
     public static void init() {

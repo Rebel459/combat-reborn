@@ -60,6 +60,7 @@ public class QuiverItem extends Item {
                     playInsertFailSound(player);
                 }
 
+                QuiverHelper.updateFullness(itemStack, mutable);
                 itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                 this.broadcastChangesOnContainerMenu(player);
                 return true;
@@ -74,6 +75,7 @@ public class QuiverItem extends Item {
                     }
                 }
 
+                QuiverHelper.updateFullness(itemStack, mutable);
                 itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                 this.broadcastChangesOnContainerMenu(player);
                 return true;
@@ -101,6 +103,7 @@ public class QuiverItem extends Item {
                         playInsertFailSound(player);
                     }
 
+                    QuiverHelper.updateFullness(itemStack, mutable);
                     itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                     this.broadcastChangesOnContainerMenu(player);
                     return true;
@@ -113,6 +116,7 @@ public class QuiverItem extends Item {
                         }
                     }
 
+                    QuiverHelper.updateFullness(itemStack, mutable);
                     itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                     this.broadcastChangesOnContainerMenu(player);
                     return true;
@@ -147,6 +151,8 @@ public class QuiverItem extends Item {
         if (quiverContents != null) {
             QuiverContents.Mutable mutable = new QuiverContents.Mutable(quiverContents);
             mutable.toggleSelectedItem(i);
+
+            QuiverHelper.updateFullness(itemStack, mutable);
             itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
         }
     }
@@ -191,6 +197,7 @@ public class QuiverItem extends Item {
         ItemStack itemStack2 = mutable.removeOne(itemStack);
         if (itemStack2 != null) {
             playRemoveOneSound(player);
+            QuiverHelper.updateFullness(itemStack, mutable);
             itemStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
             return Optional.of(itemStack2);
         } else {

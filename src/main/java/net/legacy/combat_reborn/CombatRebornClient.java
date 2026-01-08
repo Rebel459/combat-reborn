@@ -1,6 +1,7 @@
 package net.legacy.combat_reborn;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,8 +16,12 @@ import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -54,12 +59,21 @@ public final class CombatRebornClient implements ClientModInitializer {
                     nextSlot = 0;
                 }
 
+                double stacks = contents.items.size();
+                CompoundTag compoundTag = new CompoundTag();
+                compoundTag.putDouble("quiver_stacks", stacks);
+                quiverStack.applyComponents(DataComponentPatch.builder()
+                        .set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag))
+                        .build()
+                );
+                LogUtils.getLogger().info("client: " + compoundTag);
+
                 quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, nextSlot);
 
                 SelectQuiverSlotPacket packet = new SelectQuiverSlotPacket(nextSlot);
                 ClientPlayNetworking.send(packet);
 
-                client.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.2F, 1.0F);
+                client.player.playSound(SoundEvents.ARMOR_EQUIP_GENERIC.value(), 0.5F, 1.0F);
             }
         });
     }

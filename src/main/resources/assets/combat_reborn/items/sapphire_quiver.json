@@ -1,13 +1,53 @@
 {
   "model": {
-    "type": "minecraft:condition",
+    "type": "minecraft:select",
     "property": "minecraft:custom_model_data",
-    "on_true": {
-      "type": "minecraft:bundle/selected_item"
-    },
-    "on_false": {
+    "cases": [
+      {
+        "when": "hidden",
+        "model": {
+          "type": "minecraft:empty"
+        }
+      },
+      {
+        "when": "empty",
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/sapphire_quiver_empty"
+        }
+      },
+      {
+        "when": "one",
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/sapphire_quiver_1"
+        }
+      },
+      {
+        "when": "two",
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/sapphire_quiver_2"
+        }
+      },
+      {
+        "when": "three",
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/sapphire_quiver_3"
+        }
+      },
+      {
+        "when": "full",
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/sapphire_quiver_full"
+        }
+      }
+    ],
+    "fallback": {
       "type": "minecraft:model",
-      "model": "combat_reborn:item/sapphire_quiver"
+      "model": "combat_reborn:item/sapphire_quiver_full"
     }
   }
 }

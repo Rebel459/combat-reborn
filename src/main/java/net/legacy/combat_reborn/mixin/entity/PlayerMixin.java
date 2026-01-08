@@ -59,7 +59,7 @@ public abstract class PlayerMixin implements QuiverInterface {
         ItemStack quiverStack = QuiverHelper.getStack(player);
         if (quiverStack != null) {
             quiverStack.applyComponents(DataComponentPatch.builder()
-                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("hidden"), List.of()))
                     .build()
             );
         }
@@ -82,7 +82,7 @@ public abstract class PlayerMixin implements QuiverInterface {
         ItemStack stack = QuiverHelper.getStack(player);
         if (stack != null) {
             stack.applyComponents(DataComponentPatch.builder()
-                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("hidden"), List.of()))
                     .build()
             );
         }

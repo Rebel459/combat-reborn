@@ -5,9 +5,11 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
+import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.BlockedSourceInterface;
+import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponentPatch;
@@ -107,10 +109,10 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         LivingEntity livingEntity = LivingEntity.class.cast(this);
         if (livingEntity instanceof Player player && !player.getWeaponItem().has(DataComponents.CHARGED_PROJECTILES)) {
             ItemStack stack = QuiverHelper.getStack(player);
-            if (stack != null) stack.applyComponents(DataComponentPatch.builder()
-                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
-                    .build()
-            );
+            if (stack != null) {
+                QuiverContents.Mutable mutable = new QuiverContents.Mutable(stack.get(CRDataComponents.QUIVER_CONTENTS));
+                QuiverHelper.updateFullness(stack, mutable);
+            }
         }
     }
 
@@ -123,7 +125,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             if (stack != null) {
                 player.addTag("hidden_quiver");
                 stack.applyComponents(DataComponentPatch.builder()
-                        .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                        .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("hidden"), List.of()))
                         .build()
                 );
             }
@@ -132,10 +134,8 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             ItemStack stack = QuiverHelper.getStack(player);
             if (stack != null) {
                 player.removeTag("hidden_quiver");
-                stack.applyComponents(DataComponentPatch.builder()
-                        .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
-                        .build()
-                );
+                QuiverContents.Mutable mutable = new QuiverContents.Mutable(stack.get(CRDataComponents.QUIVER_CONTENTS));
+                QuiverHelper.updateFullness(stack, mutable);
             }
         }
     }
