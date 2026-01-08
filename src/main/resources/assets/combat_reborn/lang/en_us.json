@@ -1,7 +1,10 @@
 {
   "item.combat_reborn.quiver": "Quiver",
-  "item.combat_reborn.quiver.desc": "Used to store large amounts of arrows which can be accessed directly by ranged weapons",
   "item.combat_reborn.quiver.empty.desc": "Can carry stacks of arrows",
+
+  "tooltip.combat_reborn.when_blocking": "When Blocking",
+  "tooltip.combat_reborn.shield.strength": "Block Strength",
+  "tooltip.combat_reborn.shield.parry": "Parry Bonus",
 
   "tooltip.combat_reborn.when_equipped": "When Equipped",
   "tooltip.combat_reborn.quiver.storage": "Slots",

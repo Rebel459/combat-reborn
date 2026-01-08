@@ -49,6 +49,9 @@ public class CRGeneralConfig implements ConfigData {
         public ShieldDisplay display_style = ShieldDisplay.HOTBAR;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
+        public boolean shield_tooltips = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=5L)
         public int block_delay = 0;
     }
@@ -59,7 +62,10 @@ public class CRGeneralConfig implements ConfigData {
         public boolean enable_quivers = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean quiver_recipe = true;
+        public boolean quiver_tooltips = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean quiver_recipe = false;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean ranged_rebalance = true;

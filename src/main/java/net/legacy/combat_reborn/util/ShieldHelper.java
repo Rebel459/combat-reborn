@@ -54,18 +54,31 @@ public class ShieldHelper {
     }
 
     public static int processDamage(ItemStack stack, float f) {
-        float maxDamage = ShieldInfo.defaultMaxBlockDamage;
-        if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage = maxDamage * 3 / 2;
-        int endurance = CREnchantments.getLevel(stack, CREnchantments.ENDURANCE);
-        maxDamage = maxDamage * (1 + endurance / 3F);
+        float maxDamage = getMaxDamage(stack);
         f = f / maxDamage;
         return (int) (f * 100F);
     }
 
+    public static float getMaxDamage(ItemStack stack) {
+        return getMaxDamage(stack, true);
+    }
+    public static float getMaxDamage(ItemStack stack, boolean includeEnchantments) {
+        float maxDamage = ShieldInfo.defaultMaxBlockDamage;
+        if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage = maxDamage - 12;
+        int endurance = CREnchantments.getLevel(stack, CREnchantments.ENDURANCE);
+        if (!includeEnchantments) endurance = 0;
+        maxDamage = maxDamage * (1 + endurance / 3F);
+        return maxDamage;
+    }
+
     public static float getParryBonus(ItemStack stack) {
+        return getParryBonus(stack, true);
+    }
+    public static float getParryBonus(ItemStack stack, boolean includeEnchantments) {
         float base = 1.25F;
         if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) base += 0.5F;
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
+        if (!includeEnchantments) parry = 0;
         return base + parry * 0.25F;
     }
 
