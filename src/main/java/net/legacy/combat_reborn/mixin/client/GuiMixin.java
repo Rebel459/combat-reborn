@@ -1,13 +1,15 @@
 package net.legacy.combat_reborn.mixin.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
-import net.legacy.combat_reborn.item.QuiverItem;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CRDataComponents;
+import net.legacy.combat_reborn.registry.CRItems;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ClientTickInterface;
 import net.legacy.combat_reborn.util.QuiverContents;
@@ -153,7 +155,7 @@ public abstract class GuiMixin {
 
         int selectedSlot = Math.max(quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT), 0);
 
-        QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(quiverStack)));
+        QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(quiverStack)));
         if (contents.items.isEmpty()) return;
 
         ItemStack selectedArrow = contents.getItemUnsafe(selectedSlot).copy();
@@ -170,11 +172,7 @@ public abstract class GuiMixin {
         int bgY = guiGraphics.guiHeight() - 23;
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, backgroundSprite, bgX, bgY, 29, 24);
 
-        int pos1 = centerX - 91 - 26;
-        int pos2 = centerX + 91 + 10;
-
-        int arrowX = isLeftHanded ? pos1 : pos2;
-        int quiverX = !isLeftHanded ? pos1 : pos2;
+        int arrowX = isLeftHanded ? centerX - 91 - 26 : centerX + 91 + 10;
         int arrowY = guiGraphics.guiHeight() - 16 - 3;
 
         ItemStack renderedQuiver = quiverStack.copy();
@@ -184,7 +182,19 @@ public abstract class GuiMixin {
         );
 
         renderSlot(guiGraphics, arrowX, arrowY, deltaTracker, player, selectedArrow, 0);
-        renderSlot(guiGraphics, quiverX, arrowY, deltaTracker, player, renderedQuiver, 0);
-        guiGraphics.renderItemDecorations(this.minecraft.font, quiverStack, quiverX, arrowY);
+    }
+
+    @WrapOperation(method = "renderItemHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderSlot(Lnet/minecraft/client/gui/GuiGraphics;IILnet/minecraft/client/DeltaTracker;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;I)V"))
+    private void renderQuivers(Gui instance, GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, ItemStack itemStack, int k, Operation<Void> original) {
+        if (!itemStack.is(CRItemTags.QUIVER)) {
+            original.call(instance, guiGraphics, i, j, deltaTracker, player, itemStack, k);
+            return;
+        }
+        ItemStack quiver = itemStack.copy();
+        quiver.applyComponents(DataComponentPatch.builder()
+                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
+                .build()
+        );
+        original.call(instance, guiGraphics, i, j, deltaTracker, player, quiver, k);
     }
 }

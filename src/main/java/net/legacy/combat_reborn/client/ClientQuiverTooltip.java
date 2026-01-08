@@ -45,7 +45,7 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
 
     public ClientQuiverTooltip(ItemStack quiverStack) {
         this.quiverStack = quiverStack;
-        this.contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(quiverStack)));
+        this.contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(quiverStack)));
     }
 	@Override
 	public int getHeight(Font font) {

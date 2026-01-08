@@ -22,7 +22,7 @@ public final class CRItems {
             new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .stacksTo(1)
-                    .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.QUIVER))
+                    .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.QUIVER))
                     .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
     );
 

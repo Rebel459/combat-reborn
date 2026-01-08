@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class QuiverContents implements TooltipComponent {
-	public static QuiverContents getEmpty(String type) {
+	public static QuiverContents empty(String type) {
         return new QuiverContents(List.of(), type);
     };
     public static final Codec<QuiverContents> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -170,6 +170,8 @@ public class QuiverContents implements TooltipComponent {
         private int selectedItem;
         private String type;
 
+        private int selectedSlot;
+
 		public Mutable(QuiverContents quiverContents) {
 			this.items = new ArrayList(quiverContents.items);
 			this.weight = quiverContents.weight;
@@ -294,18 +296,25 @@ public class QuiverContents implements TooltipComponent {
             return removed;
         }
 
-        public boolean consumeOne(ItemStack quiverStack) {
+        public ItemStack getSelectedStack(ItemStack quiverStack) {
+            this.selectedSlot = 0;
             if (this.items.isEmpty()) {
-                return false;
+                return null;
             }
 
             Integer rawSelected = quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT);
-            int selectedSlot = (rawSelected != null && rawSelected >= 0 && rawSelected < this.items.size()) ? rawSelected : 0;
+            this.selectedSlot = (rawSelected != null && rawSelected >= 0 && rawSelected < this.items.size()) ? rawSelected : 0;
 
-            ItemStack selectedStack = this.items.get(selectedSlot);
+            ItemStack selectedStack = this.items.get(this.selectedSlot);
             if (selectedStack.isEmpty()) {
-                return false;
+                return null;
             }
+            return selectedStack;
+        }
+
+        public boolean consumeOne(ItemStack quiverStack) {
+            ItemStack selectedStack = getSelectedStack(quiverStack);
+            if (selectedStack == null) return false;
 
             Fraction singleWeight = QuiverContents.getWeight(selectedStack, this.type);
             this.weight = this.weight.subtract(singleWeight);
@@ -313,13 +322,13 @@ public class QuiverContents implements TooltipComponent {
             selectedStack.shrink(1);
 
             if (selectedStack.isEmpty()) {
-                this.items.remove(selectedSlot);
+                this.items.remove(this.selectedSlot);
                 if (this.items.isEmpty()) {
                     quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, -1);
-                } else if (selectedSlot >= this.items.size()) {
+                } else if (this.selectedSlot >= this.items.size()) {
                     quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, this.items.size() - 1);
                 } else {
-                    quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, selectedSlot);
+                    quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT, this.selectedSlot);
                 }
             }
 

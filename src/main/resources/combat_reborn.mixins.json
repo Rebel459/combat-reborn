@@ -19,6 +19,7 @@
     "entity.PlayerMixin",
     "entity.SnowballMixin",
     "food.FoodDataMixin",
+    "item.BlocksAttacksMixin",
     "item.BowItemMixin",
     "item.ItemMixin",
     "item.ItemStackMixin",

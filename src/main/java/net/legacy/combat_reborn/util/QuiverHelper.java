@@ -48,4 +48,10 @@ public class QuiverHelper {
     public static float getPower(ItemStack stack) {
         return 1;
     }
+
+    public static void postProjectileEvents(Player player) {}
+
+    public static boolean shouldRender(Player player) {
+        return true;
+    }
 }

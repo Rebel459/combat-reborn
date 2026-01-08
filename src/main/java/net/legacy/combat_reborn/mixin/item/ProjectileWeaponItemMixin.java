@@ -1,6 +1,7 @@
 package net.legacy.combat_reborn.mixin.item;
 
 import net.legacy.combat_reborn.registry.CRDataComponents;
+import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.QuiverInterface;
@@ -11,12 +12,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,22 +35,13 @@ public abstract class ProjectileWeaponItemMixin {
             QuiverContents contents = quiverStack.get(CRDataComponents.QUIVER_CONTENTS);
             if (contents != null) {
                 QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
+                ItemStack checkedStack = mutable.getSelectedStack(quiverStack);
+                if (CREnchantments.getLevel(quiverStack, Enchantments.INFINITY) > 0 && checkedStack != null && checkedStack.getItem() == Items.ARROW) return;
                 if (mutable.consumeOne(quiverStack)) {
                     quiverStack.set(CRDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
                     player.containerMenu.sendAllDataToRemote();
                 }
             }
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "draw")
-    private static void quiver(ItemStack itemStack, ItemStack itemStack2, LivingEntity livingEntity, CallbackInfoReturnable<List<ItemStack>> cir) {
-        if (livingEntity instanceof Player player) {
-            ItemStack stack = QuiverHelper.getStack(player);
-            stack.applyComponents(DataComponentPatch.builder()
-                    .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
-                    .build()
-            );
         }
     }
 
@@ -84,7 +74,7 @@ public abstract class ProjectileWeaponItemMixin {
                     if (weapon.isEmpty()) {
                         break;
                     }
-                    player.addTag("damaged_accessory");
+                    QuiverHelper.postProjectileEvents(player);
                     ci.cancel();
                 }
             }

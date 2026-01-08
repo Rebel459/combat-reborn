@@ -41,7 +41,7 @@ public class QuiverItem extends Item {
     }
 
     public static float getFullnessDisplay(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return quiverContents.weight().floatValue();
     }
 
@@ -126,19 +126,19 @@ public class QuiverItem extends Item {
 
     @Override
     public boolean isBarVisible(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return quiverContents.weight().compareTo(Fraction.ZERO) > 0;
     }
 
     @Override
     public int getBarWidth(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return Math.min(1 + Mth.mulAndTruncate(quiverContents.weight(), 12), 13);
     }
 
     @Override
     public int getBarColor(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return quiverContents.weight().compareTo(Fraction.ONE) >= 0 ? FULL_BAR_COLOR : BAR_COLOR;
     }
 
@@ -157,7 +157,7 @@ public class QuiverItem extends Item {
     }
 
     public static int getSelectedItem(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return quiverContents.getSelectedItem();
     }
 
@@ -167,7 +167,7 @@ public class QuiverItem extends Item {
     }
 
     public static int getNumberOfItemsToShow(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemStack)));
+        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemStack)));
         return quiverContents.getNumberOfItemsToShow();
     }
 
@@ -213,7 +213,7 @@ public class QuiverItem extends Item {
     public void onDestroyed(ItemEntity itemEntity) {
         QuiverContents quiverContents = itemEntity.getItem().get(CRDataComponents.QUIVER_CONTENTS);
         if (quiverContents != null) {
-            itemEntity.getItem().set(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(itemEntity.getItem())));
+            itemEntity.getItem().set(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(itemEntity.getItem())));
             ItemUtils.onContainerDestroyed(itemEntity, quiverContents.itemsCopy());
         }
     }

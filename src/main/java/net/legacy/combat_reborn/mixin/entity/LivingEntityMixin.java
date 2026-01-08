@@ -106,12 +106,38 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(at = @At("HEAD"), method = "stopUsingItem")
     private void resetQuiverModel(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (livingEntity instanceof Player player) {
+        if (livingEntity instanceof Player player && !player.getWeaponItem().has(DataComponents.CHARGED_PROJECTILES)) {
             ItemStack stack = QuiverHelper.getStack(player);
-            stack.applyComponents(DataComponentPatch.builder()
+            if (stack != null) stack.applyComponents(DataComponentPatch.builder()
                     .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
                     .build()
             );
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "tick")
+    private void handleCrossbowQuiverModel(CallbackInfo ci) {
+        LivingEntity livingEntity = LivingEntity.class.cast(this);
+        if (!(livingEntity instanceof Player player)) return;
+        if (player.getWeaponItem().has(DataComponents.CHARGED_PROJECTILES) && !player.getWeaponItem().get(DataComponents.CHARGED_PROJECTILES).isEmpty()) {
+            ItemStack stack = QuiverHelper.getStack(player);
+            if (stack != null) {
+                player.addTag("hidden_quiver");
+                stack.applyComponents(DataComponentPatch.builder()
+                        .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()))
+                        .build()
+                );
+            }
+        }
+        else if (player.getTags().contains("hidden_quiver")) {
+            ItemStack stack = QuiverHelper.getStack(player);
+            if (stack != null) {
+                player.removeTag("hidden_quiver");
+                stack.applyComponents(DataComponentPatch.builder()
+                        .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(false), List.of(), List.of()))
+                        .build()
+                );
+            }
         }
     }
 

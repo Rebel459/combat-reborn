@@ -43,7 +43,7 @@ public final class CombatRebornClient implements ClientModInitializer {
 
                 if (quiverStack == null) return;
 
-                QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.getEmpty(QuiverHelper.getType(quiverStack)));
+                QuiverContents contents = quiverStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.getType(quiverStack)));
                 if (contents.isEmpty()) return;
 
                 Integer currentRaw = quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT);
