@@ -1,8 +1,5 @@
 package net.legacy.combat_reborn;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -41,7 +38,6 @@ public class CombatReborn implements ModInitializer {
 	@Override
 	public void onInitialize() {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
-        AutoConfig.register(CRConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
 
         CRDataComponents.init();
         CRItems.init();
@@ -74,17 +70,24 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (CRConfig.get().general.quivers.craftable && CRConfig.get().general.integrations.lal_quivers) {
+        if (CRConfig.get().general.quivers.craftable && CRConfig.get().general.integrations.lal_quiver_variants) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("weighted_quiver"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.weighted_quiver"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.integrations.lal_quivers) {
+        if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.integrations.lal_quiver_variants) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("sapphire_quiver"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.sapphire_quiver"),
+                    ResourcePackActivationType.ALWAYS_ENABLED
+            );
+        }
+        if (CRConfig.get().general.integrations.lal_quiver_accessories) {
+            ResourceManagerHelper.registerBuiltinResourcePack(
+                    CombatReborn.id("quiver_accessories"), modContainer.get(),
+                    Component.translatable("pack.combat_reborn.quiver_accessories"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }

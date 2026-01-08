@@ -99,10 +99,13 @@ public class CRGeneralConfig implements ConfigData {
     public static class IntegrationConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean lal_quivers = true;
+        public boolean lal_quiver_variants = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean enderscape_shields = true;
+        public boolean lal_quiver_accessories = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean enderscape_rubble_shields = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean end_reborn_netherite = true;

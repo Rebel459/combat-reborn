@@ -83,7 +83,7 @@ public final class CRLootTables {
                     tableBuilder.withPool(pool);
                 }
 
-                if (CRConfig.get().general.integrations.lal_quivers) {
+                if (CRConfig.get().general.integrations.lal_quiver_variants) {
                     if (SPIRE.equals(id)) {
                         pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(11))

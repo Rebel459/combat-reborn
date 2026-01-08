@@ -2,6 +2,7 @@
   "required": true,
   "package": "net.legacy.combat_reborn.mixin",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "net.legacy.combat_reborn.mixin.CRMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   },
@@ -19,6 +20,7 @@
     "entity.PlayerMixin",
     "entity.SnowballMixin",
     "food.FoodDataMixin",
+    "integration.legacies_and_legends.QuiverHelperMixin",
     "item.BlocksAttacksMixin",
     "item.BowItemMixin",
     "item.ItemMixin",

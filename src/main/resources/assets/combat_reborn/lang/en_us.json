@@ -33,6 +33,7 @@
   "key.combat_reborn.quiver": "Cycle Quiver",
 
   "pack.combat_reborn.craftable_quivers": "Craftable Quivers",
+  "pack.combat_reborn.quiver_accessories": "Quiver Accessories",
   "pack.combat_reborn.weighted_quiver": "Weighted Quiver",
   "pack.combat_reborn.sapphire_quiver": "Sapphire Quiver",
   "pack.combat_reborn.no_cleaving": "No Cleaving",
@@ -85,10 +86,12 @@
   "text.autoconfig.combat_reborn.option.general.consumables.knockback_throwables.@Tooltip": "Whether snowballs and eggs should inflict knockback",
 
   "text.autoconfig.combat_reborn.option.general.integrations": "Mod Integration",
-  "text.autoconfig.combat_reborn.option.general.integrations.lal_quivers": "Legacies and Legends Quivers",
-  "text.autoconfig.combat_reborn.option.general.integrations.lal_quivers.@Tooltip": "Whether new Quiver variants should be added as artifacts when Legacies and Legends is installed",
-  "text.autoconfig.combat_reborn.option.general.integrations.enderscape_shields": "Enderscape Shields",
-  "text.autoconfig.combat_reborn.option.general.integrations.enderscape_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing",
+  "text.autoconfig.combat_reborn.option.general.integrations.lal_quiver_variants": "Legacies and Legends Quiver Variants",
+  "text.autoconfig.combat_reborn.option.general.integrations.lal_quiver_variants.@Tooltip": "Whether new Quiver variants should be added as artifacts when Legacies and Legends is installed",
+  "text.autoconfig.combat_reborn.option.general.integrations.lal_quiver_accessories": "Legacies and Legends Quiver Accessories",
+  "text.autoconfig.combat_reborn.option.general.integrations.lal_quiver_accessories.@Tooltip": "Whether Quivers should be equippable in the Accessory slot when Legacies and Legends is installed",
+  "text.autoconfig.combat_reborn.option.general.integrations.enderscape_rubble_shields": "Enderscape Rubble Shields",
+  "text.autoconfig.combat_reborn.option.general.integrations.enderscape_rubble_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing",
   "text.autoconfig.combat_reborn.option.general.integrations.end_reborn_netherite": "End Reborn",
   "text.autoconfig.combat_reborn.option.general.integrations.end_reborn_netherite.@Tooltip": "Whether Netherite tools should deal increased damage with End Reborn installed",
 

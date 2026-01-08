@@ -162,7 +162,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15F;
-                    if (CRConfig.get().general.integrations.enderscape_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    if (CRConfig.get().general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
                     entity.addTag("should_disable_shield");
