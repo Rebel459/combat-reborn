@@ -37,6 +37,9 @@ public class CRGeneralConfig implements ConfigData {
         public ShieldDisplay shield_display = ShieldDisplay.HOTBAR;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
+        public boolean shield_tooltips = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=5L)
         public int shield_delay = 0;
         @ConfigEntry.Category("config")
