@@ -36,6 +36,7 @@ public class CombatReborn implements ModInitializer {
 
     public static boolean isEndRebornLoaded = false;
     public static boolean isEnchantsAndExpeditionsLoaded = false;
+    public static boolean isLegaciesAndLegendsLoaded = false;
 
 	@Override
 	public void onInitialize() {
@@ -66,12 +67,36 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
+        if (CRConfig.get().general.quivers.craftable) {
+            ResourceManagerHelper.registerBuiltinResourcePack(
+                    CombatReborn.id("craftable_quivers"), modContainer.get(),
+                    Component.translatable("pack.combat_reborn.craftable_quivers"),
+                    ResourcePackActivationType.ALWAYS_ENABLED
+            );
+        }
+        if (CRConfig.get().general.quivers.craftable && CRConfig.get().general.integrations.lal_quivers) {
+            ResourceManagerHelper.registerBuiltinResourcePack(
+                    CombatReborn.id("weighted_quiver"), modContainer.get(),
+                    Component.translatable("pack.combat_reborn.weighted_quiver"),
+                    ResourcePackActivationType.ALWAYS_ENABLED
+            );
+        }
+        if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.integrations.lal_quivers) {
+            ResourceManagerHelper.registerBuiltinResourcePack(
+                    CombatReborn.id("sapphire_quiver"), modContainer.get(),
+                    Component.translatable("pack.combat_reborn.sapphire_quiver"),
+                    ResourcePackActivationType.ALWAYS_ENABLED
+            );
+        }
 
-        if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
+        if (FabricLoader.getInstance().isModLoaded("end_reborn_netherite")) {
             isEndRebornLoaded = true;
         }
         if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
             isEnchantsAndExpeditionsLoaded = true;
+        }
+        if (FabricLoader.getInstance().isModLoaded("legacies_and_legends")) {
+            isLegaciesAndLegendsLoaded = true;
         }
 	}
 

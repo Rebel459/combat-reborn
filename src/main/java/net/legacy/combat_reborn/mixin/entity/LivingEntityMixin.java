@@ -22,7 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.CustomModelData;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
@@ -163,7 +162,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15F;
-                    if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    if (CRConfig.get().general.integrations.enderscape_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
                     entity.addTag("should_disable_shield");

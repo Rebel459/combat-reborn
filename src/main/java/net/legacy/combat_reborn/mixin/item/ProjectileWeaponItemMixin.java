@@ -5,7 +5,6 @@ import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.QuiverInterface;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,7 +72,7 @@ public abstract class ProjectileWeaponItemMixin {
                     if (weapon.isEmpty()) {
                         break;
                     }
-                    QuiverHelper.postProjectileEvents(player);
+                    QuiverHelper.postProjectileEvent(player);
                     ci.cancel();
                 }
             }

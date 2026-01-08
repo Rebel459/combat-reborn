@@ -63,7 +63,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
                 shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15;
-                    if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    if (CRConfig.get().general.integrations.enderscape_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     int disableTicks = (int) (disableTime * 20);
                     Player player = (Player) entity;
                     player.getCooldowns().addCooldown(stack, disableTicks);

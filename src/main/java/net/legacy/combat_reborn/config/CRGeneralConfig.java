@@ -49,7 +49,7 @@ public class CRGeneralConfig implements ConfigData {
         public ShieldDisplay display_style = ShieldDisplay.HOTBAR;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean shield_tooltips = true;
+        public boolean show_tooltips = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=5L)
@@ -62,10 +62,10 @@ public class CRGeneralConfig implements ConfigData {
         public boolean enable_quivers = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean quiver_tooltips = true;
+        public boolean show_tooltips = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean quiver_recipe = false;
+        public boolean craftable = false;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean ranged_rebalance = true;
@@ -99,10 +99,13 @@ public class CRGeneralConfig implements ConfigData {
     public static class IntegrationConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean end_reborn = true;
+        public boolean lal_quivers = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean enderscape = true;
+        public boolean enderscape_shields = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean end_reborn_netherite = true;
     }
 
 }

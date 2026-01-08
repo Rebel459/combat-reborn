@@ -46,7 +46,7 @@ public class AttributeModifierCallback {
                     if (optionalToolsModifier.isEmpty()) return;
 
                     int bonus = 0;
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get().general.integrations.end_reborn && optionalItem.get().identifier().getPath().contains("netherite")) {
+                    if (CombatReborn.isEndRebornLoaded && CRConfig.get().general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
                         bonus = 1;
                     }
 

@@ -26,9 +26,28 @@ public final class CRItems {
                     .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
     );
 
+    public static final QuiverItem WEIGHTED_QUIVER = register("weighted_quiver",
+            QuiverItem::new,
+            new Item.Properties()
+                    .rarity(Rarity.UNCOMMON)
+                    .stacksTo(1)
+                    .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.WEIGHTED_QUIVER))
+                    .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
+    );
+
+    public static final QuiverItem SAPPHIRE_QUIVER = register("sapphire_quiver",
+            QuiverItem::new,
+            new Item.Properties()
+                    .rarity(Rarity.RARE)
+                    .stacksTo(1)
+                    .component(CRDataComponents.QUIVER_CONTENTS, QuiverContents.empty(QuiverHelper.SAPPHIRE_QUIVER))
+                    .component(CRDataComponents.QUIVER_CONTENTS_SLOT, -1)
+    );
+
     public static void init() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
-            entries.addBefore(Items.SHIELD, QUIVER);
+            entries.addAfter(Items.CROSSBOW, QUIVER);
+            if (CombatReborn.isLegaciesAndLegendsLoaded) entries.addAfter(QUIVER, WEIGHTED_QUIVER, SAPPHIRE_QUIVER);
         });
     }
 

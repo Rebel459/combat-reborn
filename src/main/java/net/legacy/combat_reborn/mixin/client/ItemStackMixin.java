@@ -39,10 +39,11 @@ public abstract class ItemStackMixin {
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
     private void quiverTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.QUIVER) || !CRConfig.get().general.quivers.quiver_tooltips) return;
+        if (!stack.is(CRItemTags.QUIVER) || !CRConfig.get().general.quivers.show_tooltips) return;
         consumer.accept(Component.literal(""));
         consumer.accept(Component.translatable("tooltip.combat_reborn.when_equipped").append(":").withStyle(ChatFormatting.GRAY));
-        if (QuiverHelper.getStorage(stack) > 0) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stacks")).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getStorage(stack) == 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stack")).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getStorage(stack) > 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stacks")).withStyle(ChatFormatting.DARK_GREEN)));
         if (QuiverHelper.getAccuracy(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.accuracy").append(": x" + QuiverHelper.getAccuracy(stack)).withStyle(ChatFormatting.DARK_GREEN)));
         if (QuiverHelper.getBowSpeed(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.speed").append(": x" + QuiverHelper.getBowSpeed(stack)).withStyle(ChatFormatting.DARK_GREEN)));
         if (QuiverHelper.getPower(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.power").append(": x" + QuiverHelper.getPower(stack)).withStyle(ChatFormatting.DARK_GREEN)));
@@ -51,7 +52,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
     private void shieldTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get().general.shields.shield_overhaul || !CRConfig.get().general.shields.shield_tooltips) return;
+        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get().general.shields.shield_overhaul || !CRConfig.get().general.shields.show_tooltips) return;
         consumer.accept(Component.literal(""));
         consumer.accept(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
 

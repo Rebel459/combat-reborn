@@ -48,8 +48,8 @@ public class CRModifierConfig implements ConfigData {
             ), 7, 2, 3),
             new Modifiers(List.of(
                     "minecraft:netherite_sword",
-                    "end_reborn:remnant_sword",
-                    "end_reborn:featherzeal_sword"
+                    "end_reborn_netherite:remnant_sword",
+                    "end_reborn_netherite:featherzeal_sword"
             ), 8, 2, 3),
 
             // Axes
@@ -71,8 +71,8 @@ public class CRModifierConfig implements ConfigData {
             ), 8, 1.2, 3),
             new Modifiers(List.of(
                     "minecraft:netherite_axe",
-                    "end_reborn:remnant_axe",
-                    "end_reborn:featherzeal_axe"
+                    "end_reborn_netherite:remnant_axe",
+                    "end_reborn_netherite:featherzeal_axe"
             ), 9, 1.2, 3),
 
             // Spears
@@ -94,8 +94,8 @@ public class CRModifierConfig implements ConfigData {
             ), 5, 1.0, 3),
             new Modifiers(List.of(
                     "minecraft:netherite_spear",
-                    "end_reborn:remnant_spear",
-                    "end_reborn:featherzeal_spear"
+                    "end_reborn_netherite:remnant_spear",
+                    "end_reborn_netherite:featherzeal_spear"
             ), 6, 0.8, 3),
 
             // Pickaxes
@@ -117,8 +117,8 @@ public class CRModifierConfig implements ConfigData {
             ), 6, 0.8, 3),
             new Modifiers(List.of(
                     "minecraft:netherite_pickaxe",
-                    "end_reborn:remnant_pickaxe",
-                    "end_reborn:featherzeal_pickaxe"
+                    "end_reborn_netherite:remnant_pickaxe",
+                    "end_reborn_netherite:featherzeal_pickaxe"
             ), 7, 0.8, 3),
 
             // Shovels
@@ -140,8 +140,8 @@ public class CRModifierConfig implements ConfigData {
             ), 5, 1, 3),
             new Modifiers(List.of(
                     "minecraft:netherite_shovel",
-                    "end_reborn:remnant_shovel",
-                    "end_reborn:featherzeal_shovel"
+                    "end_reborn_netherite:remnant_shovel",
+                    "end_reborn_netherite:featherzeal_shovel"
             ), 6, 1, 3),
 
             // Hoes
@@ -163,8 +163,8 @@ public class CRModifierConfig implements ConfigData {
             ), 1, 3.5, 3.5),
             new Modifiers(List.of(
                     "minecraft:netherite_hoe",
-                    "end_reborn:remnant_hoe",
-                    "end_reborn:featherzeal_hoe"
+                    "end_reborn_netherite:remnant_hoe",
+                    "end_reborn_netherite:featherzeal_hoe"
             ), 1, 4, 3.5),
 
             // Mace

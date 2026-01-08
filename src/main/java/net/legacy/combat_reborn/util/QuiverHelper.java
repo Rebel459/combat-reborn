@@ -8,6 +8,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class QuiverHelper {
     public static final String QUIVER = CombatReborn.id("quiver").toString();
+    public static final String WEIGHTED_QUIVER = CombatReborn.id("heavy_quiver").toString();
+    public static final String SAPPHIRE_QUIVER = CombatReborn.id("sapphire_quiver").toString();
 
     public static ItemStack getStack(Player player) {
         return getQuiver(player);
@@ -24,32 +26,40 @@ public class QuiverHelper {
         return null;
     }
 
-    public static String getType(ItemStack stack) {
-        return QUIVER;
-    }
-
     public static int getStorage(ItemStack stack) {
         return getStorage(getType(stack));
     }
     public static int getStorage(String type) {
+        if (type.equals(WEIGHTED_QUIVER)) return 8;
+        if (type.equals(SAPPHIRE_QUIVER)) return 1;
         return 4;
+    }
+
+    public static String getType(ItemStack stack) {
+        if (stack.is(CRItems.WEIGHTED_QUIVER)) return WEIGHTED_QUIVER;
+        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return SAPPHIRE_QUIVER;
+        return QUIVER;
     }
 
     public static float getAccuracy(ItemStack stack) {
         if (stack.is(CRItems.QUIVER)) return 1.4F;
-        return 1;
+        if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.1F;
+        return 1F;
     }
 
     public static float getBowSpeed(ItemStack stack) {
         if (stack.is(CRItems.QUIVER)) return 1.2F;
-        return 1;
+        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.7F;
+        return 1F;
     }
 
     public static float getPower(ItemStack stack) {
-        return 1;
+        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.1F;
+        if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.2F;
+        return 1F;
     }
 
-    public static void postProjectileEvents(Player player) {}
+    public static void postProjectileEvent(Player player) {}
 
     public static boolean shouldRender(Player player) {
         return true;
