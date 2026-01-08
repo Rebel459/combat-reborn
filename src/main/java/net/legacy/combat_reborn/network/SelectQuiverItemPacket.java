@@ -29,7 +29,6 @@ public record SelectQuiverItemPacket(int slotId, int selectedSlot) implements Cu
         return TYPE;
     }
 
-    // Helper to create the vanilla packet wrapper (for sending from client)
     public Packet<?> toVanillaPacket() {
         return new ServerboundCustomPayloadPacket(this);
     }

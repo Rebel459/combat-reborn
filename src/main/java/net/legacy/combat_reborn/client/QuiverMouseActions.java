@@ -49,9 +49,7 @@ public class QuiverMouseActions implements ItemSlotMouseAction {
 	}
 
 	@Override
-	public void onStopHovering(Slot slot) {
-		//this.unselectedQuiverItem(slot.getItem(), slot.index);
-	}
+	public void onStopHovering(Slot slot) {}
 
 	@Override
 	public void onSlotClicked(Slot slot, ClickType clickType) {
