@@ -8,6 +8,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomModelData;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -47,6 +48,9 @@ public class QuiverHelper {
     }
 
     public static float getAccuracy(ItemStack stack) {
+        return getAccuracy(stack, null);
+    }
+    public static float getAccuracy(ItemStack stack, @Nullable Player player) {
         if (stack.is(CRItems.QUIVER)) return 1.4F;
         if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.1F;
         return 1F;
@@ -59,6 +63,9 @@ public class QuiverHelper {
     }
 
     public static float getPower(ItemStack stack) {
+        return getPower(stack, null);
+    }
+    public static float getPower(ItemStack stack, @Nullable Player player) {
         if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.1F;
         if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.2F;
         return 1F;
@@ -81,5 +88,9 @@ public class QuiverHelper {
                 .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of(model), List.of()))
                 .build()
         );
+    }
+
+    public class Projectile {
+
     }
 }

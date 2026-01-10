@@ -56,8 +56,8 @@
   "text.autoconfig.combat_reborn.option.general.shields.display_style.@Tooltip": "Whether the Shield Strength overlay should be rendered as a hotbar or crosshair element",
   "text.autoconfig.combat_reborn.option.general.shields.show_tooltips": "Show Tooltips",
   "text.autoconfig.combat_reborn.option.general.shields.show_tooltips.@Tooltip": "Whether Shields should display tooltips for their new attributes",
-  "text.autoconfig.combat_reborn.option.general.shields.blocking_delay": "Blocking Delay",
-  "text.autoconfig.combat_reborn.option.general.shields.blocking_delay.@Tooltip": "The time, in game ticks, before a Shield is considered to be blocking attacks. Defaults to 0 for an instant response, with a maximum of 5 (identical to vanilla)",
+  "text.autoconfig.combat_reborn.option.general.shields.block_delay": "Block Delay",
+  "text.autoconfig.combat_reborn.option.general.shields.block_delay.@Tooltip": "The time, in game ticks, before a Shield is considered to be blocking attacks. Defaults to 0 for an instant response, with a maximum of 5 (identical to vanilla)",
 
   "text.autoconfig.combat_reborn.option.general.quivers": "Quivers",
   "text.autoconfig.combat_reborn.option.general.quivers.enable_quivers": "Enable Quivers",
