@@ -47,18 +47,18 @@ public class QuiverHelper {
         return QUIVER;
     }
 
+    public static float getBowSpeed(ItemStack stack) {
+        if (stack.is(CRItems.QUIVER)) return 1.2F;
+        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.7F;
+        return 1F;
+    }
+
     public static float getAccuracy(ItemStack stack) {
         return getAccuracy(stack, null);
     }
     public static float getAccuracy(ItemStack stack, @Nullable Player player) {
         if (stack.is(CRItems.QUIVER)) return 1.4F;
         if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.1F;
-        return 1F;
-    }
-
-    public static float getBowSpeed(ItemStack stack) {
-        if (stack.is(CRItems.QUIVER)) return 1.2F;
-        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.7F;
         return 1F;
     }
 
