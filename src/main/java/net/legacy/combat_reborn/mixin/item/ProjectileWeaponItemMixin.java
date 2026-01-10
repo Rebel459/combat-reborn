@@ -51,8 +51,8 @@ public abstract class ProjectileWeaponItemMixin {
 
             ItemStack stack = QuiverHelper.getStack(player);
 
-            float accuracy = QuiverHelper.getAccuracy(stack);
-            float power = QuiverHelper.getPower(stack);
+            float accuracy = QuiverHelper.getAccuracy(stack, player);
+            float power = QuiverHelper.getPower(stack, player);
 
             float f = EnchantmentHelper.processProjectileSpread(level, weapon, shooter, 0.0F);
             float g = projectileItems.size() == 1 ? 0.0F : 2.0F * f / (float)(projectileItems.size() - 1);
