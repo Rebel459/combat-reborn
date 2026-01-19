@@ -61,7 +61,7 @@ public abstract class ItemStackMixin {
         }
         if (enchantedParryBonus > parryBonus) {
             parryBonus = enchantedParryBonus;
-            parryBonusColor = ChatFormatting.RED;
+            parryBonusColor = ChatFormatting.BLUE;
         }
         else if (enchantedParryBonus < parryBonus) {
             parryBonus = enchantedParryBonus;
