@@ -21,6 +21,9 @@
     "client": [
       "net.legacy.combat_reborn.CombatRebornClient"
     ],
+    "fabric-datagen": [
+      "net.legacy.combat_reborn.datagen.CRDataGenerator"
+    ],
     "modmenu": [
       "net.legacy.combat_reborn.config.CRModMenuIntegration"
     ]

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "quiver_dye",
+  "ingredients": [
+    [
+      "combat_reborn:black_quiver",
+      "combat_reborn:blue_quiver",
+      "combat_reborn:brown_quiver",
+      "combat_reborn:cyan_quiver",
+      "combat_reborn:gray_quiver",
+      "combat_reborn:green_quiver",
+      "combat_reborn:light_blue_quiver",
+      "combat_reborn:light_gray_quiver",
+      "combat_reborn:lime_quiver",
+      "combat_reborn:orange_quiver",
+      "combat_reborn:pink_quiver",
+      "combat_reborn:purple_quiver",
+      "combat_reborn:red_quiver",
+      "combat_reborn:yellow_quiver",
+      "combat_reborn:white_quiver"
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "combat_reborn:magenta_quiver"
+  }
+}

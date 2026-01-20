@@ -48,8 +48,8 @@ public class QuiverHelper {
     }
 
     public static float getBowSpeed(ItemStack stack) {
-        if (stack.is(CRItems.QUIVER)) return 1.2F;
-        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.7F;
+        if (getType(stack).equals(QUIVER)) return 1.2F;
+        if (getType(stack).equals(SAPPHIRE_QUIVER)) return 1.7F;
         return 1F;
     }
 
@@ -57,8 +57,8 @@ public class QuiverHelper {
         return getAccuracy(stack, null);
     }
     public static float getAccuracy(ItemStack stack, @Nullable Player player) {
-        if (stack.is(CRItems.QUIVER)) return 1.4F;
-        if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.1F;
+        if (getType(stack).equals(QUIVER)) return 1.4F;
+        if (getType(stack).equals(WEIGHTED_QUIVER)) return 1.1F;
         return 1F;
     }
 
@@ -66,8 +66,8 @@ public class QuiverHelper {
         return getPower(stack, null);
     }
     public static float getPower(ItemStack stack, @Nullable Player player) {
-        if (stack.is(CRItems.SAPPHIRE_QUIVER)) return 1.1F;
-        if (stack.is(CRItems.WEIGHTED_QUIVER)) return 1.2F;
+        if (getType(stack).equals(SAPPHIRE_QUIVER)) return 1.1F;
+        if (getType(stack).equals(WEIGHTED_QUIVER)) return 1.2F;
         return 1F;
     }
 

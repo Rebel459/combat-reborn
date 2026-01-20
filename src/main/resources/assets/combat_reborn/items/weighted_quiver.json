@@ -1,53 +1,53 @@
 {
   "model": {
     "type": "minecraft:select",
-    "property": "minecraft:custom_model_data",
     "cases": [
       {
-        "when": "hidden",
         "model": {
           "type": "minecraft:empty"
-        }
+        },
+        "when": "hidden"
       },
       {
-        "when": "empty",
         "model": {
           "type": "minecraft:model",
-          "model": "combat_reborn:item/weighted_quiver_empty"
-        }
+          "model": "combat_reborn:item/weighted_quiver"
+        },
+        "when": "empty"
       },
       {
-        "when": "one",
         "model": {
           "type": "minecraft:model",
-          "model": "combat_reborn:item/weighted_quiver_1"
-        }
+          "model": "combat_reborn:item/weighted_quiver_stack0"
+        },
+        "when": "one"
       },
       {
-        "when": "two",
         "model": {
           "type": "minecraft:model",
-          "model": "combat_reborn:item/weighted_quiver_2"
-        }
+          "model": "combat_reborn:item/weighted_quiver_stack1"
+        },
+        "when": "two"
       },
       {
-        "when": "three",
         "model": {
           "type": "minecraft:model",
-          "model": "combat_reborn:item/weighted_quiver_3"
-        }
+          "model": "combat_reborn:item/weighted_quiver_stack2"
+        },
+        "when": "three"
       },
       {
-        "when": "full",
         "model": {
           "type": "minecraft:model",
-          "model": "combat_reborn:item/weighted_quiver_full"
-        }
+          "model": "combat_reborn:item/weighted_quiver_stack3"
+        },
+        "when": "full"
       }
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "combat_reborn:item/weighted_quiver_full"
-    }
+      "model": "combat_reborn:item/weighted_quiver"
+    },
+    "property": "minecraft:custom_model_data"
   }
 }

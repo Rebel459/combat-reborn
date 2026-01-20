@@ -45,6 +45,14 @@ dependencies {
 
 }
 
+fabricApi {
+    configureDataGeneration() {
+        client = true
+        modId = "combat_reborn"
+        createSourceSet = true
+    }
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/combat_reborn.accesswidener")
 }

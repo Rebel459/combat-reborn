@@ -1,0 +1,53 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:empty"
+        },
+        "when": "hidden"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/purple_quiver"
+        },
+        "when": "empty"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/purple_quiver_stack0"
+        },
+        "when": "one"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/purple_quiver_stack1"
+        },
+        "when": "two"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/purple_quiver_stack2"
+        },
+        "when": "three"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "combat_reborn:item/purple_quiver_stack3"
+        },
+        "when": "full"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "combat_reborn:item/purple_quiver"
+    },
+    "property": "minecraft:custom_model_data"
+  }
+}

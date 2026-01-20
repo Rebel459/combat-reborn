@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "combat_reborn:item/yellow_quiver_stack1"
+  }
+}
