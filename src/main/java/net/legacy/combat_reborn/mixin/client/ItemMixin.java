@@ -45,11 +45,11 @@ public abstract class ItemMixin {
         }
         else if (enchantedStrength < strength) {
             strength = enchantedStrength;
-            strengthColor = ChatFormatting.BLUE;
+            strengthColor = ChatFormatting.RED;
         }
         if (enchantedParryBonus > parryBonus) {
             parryBonus = enchantedParryBonus;
-            parryBonusColor = ChatFormatting.RED;
+            parryBonusColor = ChatFormatting.BLUE;
         }
         else if (enchantedParryBonus < parryBonus) {
             parryBonus = enchantedParryBonus;
