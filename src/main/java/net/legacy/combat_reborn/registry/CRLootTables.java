@@ -45,7 +45,7 @@ public final class CRLootTables {
         LootTableEvents.MODIFY.register((id, tableBuilder, source, registries) -> {
             LootPool.Builder pool;
 
-            if (CRConfig.get().general.quivers.enable_quivers) {
+            if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.quivers.lootable) {
                 if (BuiltInLootTables.SIMPLE_DUNGEON.equals(id)) {
                     pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(EmptyLootItem.emptyItem().setWeight(2))
@@ -58,7 +58,7 @@ public final class CRLootTables {
                             .add(LootItem.lootTableItem(CRItems.QUIVER));
                     tableBuilder.withPool(pool);
                 }
-                if (BuiltInLootTables.VILLAGE_TANNERY.equals(id) || BuiltInLootTables.VILLAGE_FLETCHER.equals(id)) {
+                if (BuiltInLootTables.VILLAGE_FLETCHER.equals(id)) {
                     pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(EmptyLootItem.emptyItem().setWeight(5))
                             .add(LootItem.lootTableItem(CRItems.QUIVER));

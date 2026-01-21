@@ -65,6 +65,12 @@ public class CRGeneralConfig implements ConfigData {
         public boolean show_tooltips = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
+        public boolean lootable = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean tradable = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
         public boolean craftable = false;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip

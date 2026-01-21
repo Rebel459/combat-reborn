@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "combat_reborn:item/weighted_quiver_empty"
-  }
-}

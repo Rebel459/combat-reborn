@@ -16,9 +16,7 @@ import net.legacy.combat_reborn.item.QuiverItem;
 import net.legacy.combat_reborn.network.SelectQuiverItemPacket;
 import net.legacy.combat_reborn.network.SelectQuiverSlotPacket;
 import net.legacy.combat_reborn.network.ShieldInfo;
-import net.legacy.combat_reborn.registry.CRDataComponents;
-import net.legacy.combat_reborn.registry.CREnchantments;
-import net.legacy.combat_reborn.registry.CRItems;
+import net.legacy.combat_reborn.registry.*;
 import net.legacy.combat_reborn.sound.CRSounds;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.network.chat.Component;
@@ -43,6 +41,8 @@ public class CombatReborn implements ModInitializer {
         CRItems.init();
         CREnchantments.init();
         CRSounds.init();
+        CRVillagerTrades.init();
+        CRLootTables.init();
 
         AttributeModifierCallback.init();
         PlayerSpawnCallback.init();

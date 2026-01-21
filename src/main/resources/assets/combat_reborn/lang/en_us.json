@@ -78,11 +78,15 @@
 
   "text.autoconfig.combat_reborn.option.general.quivers": "Quivers",
   "text.autoconfig.combat_reborn.option.general.quivers.enable_quivers": "Enable Quivers",
-  "text.autoconfig.combat_reborn.option.general.quivers.enable_quivers.@Tooltip": "Whether Quivers should be added to the game",
+  "text.autoconfig.combat_reborn.option.general.quivers.enable_quivers.@Tooltip": "Whether Quivers should be added to the game. This option bypasses the Craftable, Tradable & Lootable options",
   "text.autoconfig.combat_reborn.option.general.quivers.show_tooltips": "Show Tooltips",
   "text.autoconfig.combat_reborn.option.general.quivers.show_tooltips.@Tooltip": "Whether Quiver attributes should be displayed on their tooltips",
+  "text.autoconfig.combat_reborn.option.general.quivers.lootable": "Lootable",
+  "text.autoconfig.combat_reborn.option.general.quivers.lootable.@Tooltip": "Whether Quiver loot table injections should be enabled. It is best to keep this option enabled unless you intend on using a custom datapack to handle Quivers as loot",
+  "text.autoconfig.combat_reborn.option.general.quivers.tradable": "Tradable",
+  "text.autoconfig.combat_reborn.option.general.quivers.tradable.@Tooltip": "Whether Quivers should have a chance to be traded by max-level Fletchers",
   "text.autoconfig.combat_reborn.option.general.quivers.craftable": "Craftable",
-  "text.autoconfig.combat_reborn.option.general.quivers.craftable.@Tooltip": "Whether Quivers should have a crafting recipe. Defaults to false, in favour of being structure-exclusive loot",
+  "text.autoconfig.combat_reborn.option.general.quivers.craftable.@Tooltip": "Whether Quivers should be craftable. Defaults to false, in favour of being structure-exclusive loot",
   "text.autoconfig.combat_reborn.option.general.quivers.ranged_rebalance": "Ranged Rebalance",
   "text.autoconfig.combat_reborn.option.general.quivers.ranged_rebalance.@Tooltip": "Whether slight tweaks should be made to the performance of ranged weapons in order to better suit the introduction of Quivers",
 
