@@ -23,6 +23,7 @@
     "integration.legacies_and_legends.QuiverHelperMixin",
     "item.BlocksAttacksMixin",
     "item.BowItemMixin",
+    "item.BundleContentsMixin",
     "item.ItemMixin",
     "item.ItemStackMixin",
     "item.ProjectileWeaponItemMixin",
