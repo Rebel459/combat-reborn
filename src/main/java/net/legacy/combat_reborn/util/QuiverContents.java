@@ -208,53 +208,51 @@ public class QuiverContents implements TooltipComponent {
         public int tryInsert(ItemStack itemStack) {
             if (!QuiverContents.canItemBeInBundle(itemStack)) {
                 return 0;
-            } else {
-                int remaining = itemStack.getCount();
-                int addedTotal = 0;
-                int maxPerStack = itemStack.getMaxStackSize();
+            }
 
-                for (int i = 0; i < this.items.size(); i++) {
-                    ItemStack existing = this.items.get(i);
-                    if (ItemStack.isSameItemSameComponents(existing, itemStack) && existing.getCount() < maxPerStack) {
-                        int space = maxPerStack - existing.getCount();
-                        int toAdd = Math.min(remaining, space);
-                        int maxForWeight = this.getMaxAmountToAdd(itemStack);
-                        toAdd = Math.min(toAdd, maxForWeight);
-                        if (toAdd <= 0) {
-                            return addedTotal;
-                        }
+            int addedTotal = 0;
+            int maxPerStack = itemStack.getMaxStackSize();
 
-                        this.weight = this.weight.add(QuiverContents.getWeight(itemStack, this.type).multiplyBy(Fraction.getFraction(toAdd, 1)));
-                        existing.grow(toAdd);
-                        addedTotal += toAdd;
-                        remaining -= toAdd;
-
-                        if (remaining == 0) {
-                            return addedTotal;
-                        }
-                    }
-                }
-
-                while (remaining > 0) {
-                    int toAdd = Math.min(remaining, maxPerStack);
+            for (ItemStack existing : this.items) {
+                if (ItemStack.isSameItemSameComponents(existing, itemStack) && existing.getCount() < maxPerStack) {
+                    int space = maxPerStack - existing.getCount();
                     int maxForWeight = this.getMaxAmountToAdd(itemStack);
-                    toAdd = Math.min(toAdd, maxForWeight);
+                    int toAdd = Math.min(space, maxForWeight);
+                    toAdd = Math.min(toAdd, itemStack.getCount());
+
                     if (toAdd <= 0) {
-                        break;
+                        return addedTotal;
                     }
 
                     this.weight = this.weight.add(QuiverContents.getWeight(itemStack, this.type).multiplyBy(Fraction.getFraction(toAdd, 1)));
-
-                    ItemStack newStack = itemStack.copyWithCount(toAdd);
-                    this.items.add(0, newStack);
-
+                    existing.grow(toAdd);
+                    itemStack.shrink(toAdd);
                     addedTotal += toAdd;
-                    remaining -= toAdd;
+
+                    if (itemStack.isEmpty()) {
+                        return addedTotal;
+                    }
+                }
+            }
+
+            while (!itemStack.isEmpty()) {
+                int maxForWeight = this.getMaxAmountToAdd(itemStack);
+                int toAdd = Math.min(maxPerStack, maxForWeight);
+                toAdd = Math.min(toAdd, itemStack.getCount());
+
+                if (toAdd <= 0) {
+                    break;
                 }
 
-                itemStack.setCount(remaining);
-                return addedTotal;
+                this.weight = this.weight.add(QuiverContents.getWeight(itemStack, this.type).multiplyBy(Fraction.getFraction(toAdd, 1)));
+
+                ItemStack newStack = itemStack.split(toAdd);
+                this.items.addFirst(newStack);
+
+                addedTotal += toAdd;
             }
+
+            return addedTotal;
         }
 
 		public int tryTransfer(Slot slot, Player player) {
