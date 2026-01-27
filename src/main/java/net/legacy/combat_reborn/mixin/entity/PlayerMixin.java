@@ -7,7 +7,6 @@ import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.QuiverInterface;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -65,12 +64,10 @@ public abstract class PlayerMixin implements QuiverInterface {
         }
         ItemStack stack = inventory.getItem(i);
         if (stack.has(CRDataComponents.QUIVER_CONTENTS) && !stack.get(CRDataComponents.QUIVER_CONTENTS).items.isEmpty()) {
-            if (!(player instanceof LocalPlayer)) {
-                var quiver = stack.get(CRDataComponents.QUIVER_CONTENTS);
-                this.setQuiver(stack);
-                ItemStack arrow = quiver.items.get(Math.max(stack.get(CRDataComponents.QUIVER_CONTENTS_SLOT), 0)).copy();
-                return arrow;
-            }
+            var quiver = stack.get(CRDataComponents.QUIVER_CONTENTS);
+            this.setQuiver(stack);
+            ItemStack arrow = quiver.items.get(Math.max(stack.get(CRDataComponents.QUIVER_CONTENTS_SLOT), 0)).copy();
+            return arrow;
         }
         this.setQuiver(null);
         return original.call(inventory, i);

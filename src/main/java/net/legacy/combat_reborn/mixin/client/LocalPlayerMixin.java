@@ -1,5 +1,7 @@
 package net.legacy.combat_reborn.mixin.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
@@ -11,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Environment(EnvType.CLIENT)
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin implements ClientTickInterface {
 

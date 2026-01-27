@@ -1,7 +1,6 @@
 package net.legacy.combat_reborn;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -22,7 +21,6 @@ import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
@@ -109,13 +107,6 @@ public class CombatReborn implements ModInitializer {
 
         PayloadTypeRegistry.playC2S().register(SelectQuiverItemPacket.TYPE, SelectQuiverItemPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectQuiverSlotPacket.TYPE, SelectQuiverSlotPacket.CODEC);
-
-        ClientPlayNetworking.registerGlobalReceiver(ShieldInfo.Sync.TYPE, (payload, context) -> {
-            Player player = context.player();
-            if (player instanceof ShieldInfo shieldInfo) {
-                shieldInfo.setPercentageDamage(payload.percentageDamage());
-            }
-        });
 
         ServerPlayNetworking.registerGlobalReceiver(ShieldInfo.Request.TYPE, (payload, context) -> {
             ServerPlayer player = context.player();
