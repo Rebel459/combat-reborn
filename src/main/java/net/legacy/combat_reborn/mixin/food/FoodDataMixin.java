@@ -53,8 +53,8 @@ public abstract class FoodDataMixin {
             int requiredTicks = 20;
             float saturationConsumed = 0.5F;
             if (difficulty == Difficulty.HARD) {
-                saturationConsumed = 1F;
                 requiredTicks = 40;
+                saturationConsumed = 1F;
             }
             if (difficulty == Difficulty.EASY) {
                 saturationConsumed = 0.25F;
