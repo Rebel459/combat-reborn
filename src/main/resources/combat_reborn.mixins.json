@@ -15,6 +15,7 @@
   "mixins": [
     "block.BlockMixin",
     "enchantment.EnchantmentHelperMixin",
+    "entity.CombatRulesMixin",
     "entity.EggMixin",
     "entity.LivingEntityMixin",
     "entity.PlayerMixin",

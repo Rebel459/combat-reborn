@@ -13,6 +13,12 @@ public class CRGeneralConfig implements ConfigData {
         CROSSHAIR
     }
 
+    public enum ToughnessMechanics {
+        DURABILITY,
+        DAMAGE,
+        NONE
+    }
+
     @ConfigEntry.Gui.CollapsibleObject
     public CombatConfig combat = new CombatConfig();
 
@@ -24,6 +30,9 @@ public class CRGeneralConfig implements ConfigData {
 
     @ConfigEntry.Gui.CollapsibleObject
     public HungerConfig hunger = new HungerConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public ArmorConfig armor = new ArmorConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public ConsumableConfig consumables = new ConsumableConfig();
@@ -74,7 +83,7 @@ public class CRGeneralConfig implements ConfigData {
         public boolean craftable = false;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean ranged_rebalance = true;
+        public boolean ranged_tweaks = true;
     }
 
     public static class HungerConfig {
@@ -85,6 +94,65 @@ public class CRGeneralConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=20L)
         public int hunger_barrier = 6;
+    }
+
+    public static class ArmorConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean armor_rebalance = true;
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public ToughnessConfig toughness = new ToughnessConfig();
+
+        public static class ToughnessConfig {
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+            public ToughnessMechanics toughness_type = ToughnessMechanics.DURABILITY;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float base_toughness = 0F;
+        }
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public FormulaConfig formula = new FormulaConfig();
+
+        public static class FormulaConfig {
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float middle_points = 20F;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            @ConfigEntry.BoundedDiscrete(max=100)
+            public float middle_percentage = 60F;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float max_points = 100;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            @ConfigEntry.BoundedDiscrete(max=100)
+            public float max_percentage = 80F;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            @ConfigEntry.BoundedDiscrete(max=2)
+            public float gradient = 1F;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float multiplier = 1F;
+        }
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public ProtectionConfig protection = new ProtectionConfig();
+
+        public static class ProtectionConfig {
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float multiplier = 1F;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            @ConfigEntry.BoundedDiscrete(max=100)
+            public float max_percentage = 80F;
+        }
     }
 
     public static class ConsumableConfig {
