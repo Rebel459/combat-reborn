@@ -92,18 +92,15 @@ public class CRGeneralConfig implements ConfigData {
             public float middle_points = 20F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            @ConfigEntry.BoundedDiscrete(max=100)
             public float middle_percentage = 60F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
             public float max_points = 100;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            @ConfigEntry.BoundedDiscrete(max=100)
             public float max_percentage = 80F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            @ConfigEntry.BoundedDiscrete(max=2)
             public float gradient = 1F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
@@ -119,7 +116,6 @@ public class CRGeneralConfig implements ConfigData {
             public float multiplier = 1F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            @ConfigEntry.BoundedDiscrete(max=100)
             public float max_percentage = 80F;
         }
     }
