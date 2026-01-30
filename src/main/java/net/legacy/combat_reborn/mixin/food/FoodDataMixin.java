@@ -69,7 +69,6 @@ public abstract class FoodDataMixin {
             int requiredTicks = 80;
             float exhaustionGained = 4F;
             if (difficulty == Difficulty.HARD) {
-                exhaustionGained = 8F;
                 requiredTicks = 160;
             }
             if (difficulty == Difficulty.EASY) {
