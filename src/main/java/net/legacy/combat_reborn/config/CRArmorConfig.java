@@ -310,9 +310,9 @@ public class CRArmorConfig implements ConfigData {
                     List.of("enderscape:drift_leggings"),
                     4, 1, 0,
                     List.of(
-                            Triple.of("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
-                            Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            Triple.of("minecraft:gravity", -0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            Triple.of("minecraft:generic.movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                            Triple.of("minecraft:generic.safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            Triple.of("minecraft:generic.gravity", -0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ),
                     EquipmentSlotGroup.LEGS
             )
