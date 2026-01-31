@@ -2,13 +2,12 @@ package net.legacy.combat_reborn.item;
 
 import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.legacy.combat_reborn.CombatReborn;
 import net.legacy.combat_reborn.config.CRArmorConfig;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -30,7 +29,7 @@ public class ArmorAttributeModifierCallback {
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     return optionalItem.filter(itemRegistryKey -> CRConfig.get.armor.sets.stream()
-                                    .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
+                                    .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.location().toString())))
                             .isPresent();
                 },
                 (builder, item) -> {
@@ -38,15 +37,9 @@ public class ArmorAttributeModifierCallback {
                     if (optionalItem.isEmpty()) return;
 
                     Optional<CRArmorConfig.Modifiers> optionalArmorModifier = CRConfig.get.armor.sets.stream()
-                            .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
+                            .filter(modifier -> modifier.ids.contains(optionalItem.get().location().toString()))
                             .findFirst();
                     if (optionalArmorModifier.isEmpty()) return;
-
-                    var attributes = optionalArmorModifier.get().attributes;
-
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
-                        attributes.add(Triple.of("minecraft:burning_time", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-                    }
 
                     builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
@@ -65,7 +58,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.ARMOR,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:armor", slot),
+                                attributeId("minecraft:armor", slot),
                                 defense,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -73,7 +66,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.ARMOR_TOUGHNESS,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:armor_toughness", slot),
+                                attributeId("minecraft:armor_toughness", slot),
                                 toughness,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -81,7 +74,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.KNOCKBACK_RESISTANCE,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:knockback_resistance", slot),
+                                attributeId("minecraft:knockback_resistance", slot),
                                 knockbackResistance / 10D,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -91,14 +84,14 @@ public class ArmorAttributeModifierCallback {
             String attribute = entry.getLeft();
             double value = entry.getMiddle();
             AttributeModifier.Operation operation = entry.getRight();
-            if (BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).isEmpty()) {
+            if (BuiltInRegistries.ATTRIBUTE.getHolder(ResourceLocation.parse(attribute)).isEmpty()) {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }
             else {
                 itemAttributes = itemAttributes.withModifierAdded(
-                        BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).get(),
+                        BuiltInRegistries.ATTRIBUTE.getHolder(ResourceLocation.parse(attribute)).get(),
                         new AttributeModifier(
-                                attributeIdentifier(attribute, slot),
+                                attributeId(attribute, slot),
                                 value,
                                 operation),
                         slot
@@ -108,7 +101,7 @@ public class ArmorAttributeModifierCallback {
         return itemAttributes;
     }
 
-    private static Identifier attributeIdentifier(String attribute, EquipmentSlotGroup slot) {
-        return Identifier.parse(attribute + "_" + slot.name().toLowerCase());
+    private static ResourceLocation attributeId(String attribute, EquipmentSlotGroup slot) {
+        return ResourceLocation.parse(attribute + "_" + slot.name().toLowerCase());
     }
 }

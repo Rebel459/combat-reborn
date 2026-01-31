@@ -32,7 +32,7 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$reducedExhaustionSwimming(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
         else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
@@ -44,7 +44,7 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$reducedExhaustionUnderwater(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
         else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
@@ -56,7 +56,7 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$reducedExhaustionWater(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
         else reduceExhaustionPerDifficulty(instance, v, original);
     }
     @WrapOperation(
@@ -68,7 +68,7 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$reducedExhaustionSprinting(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
         else reduceExhaustionPerDifficulty(instance, v, original);
     }
     
@@ -83,7 +83,7 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$noExhaustionCrouching(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
     }
 
     @WrapOperation(
@@ -95,6 +95,6 @@ public abstract class ServerPlayerMixin {
             )
     )
     private void CR$noExhaustionWalking(ServerPlayer instance, float v, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, v);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, v);
     }
 }

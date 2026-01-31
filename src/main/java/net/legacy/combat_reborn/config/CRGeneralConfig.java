@@ -26,9 +26,6 @@ public class CRGeneralConfig implements ConfigData {
     public ShieldConfig shields = new ShieldConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public QuiverConfig quivers = new QuiverConfig();
-
-    @ConfigEntry.Gui.CollapsibleObject
     public HungerConfig hunger = new HungerConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -65,35 +62,10 @@ public class CRGeneralConfig implements ConfigData {
         public int block_delay = 0;
     }
 
-    public static class QuiverConfig {
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean enable_quivers = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean show_tooltips = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean lootable = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean tradable = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean craftable = false;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean ranged_tweaks = true;
-    }
-
     public static class HungerConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean hunger_rework = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(max=20L)
-        public int hunger_barrier = 6;
     }
 
     public static class ArmorConfig {
@@ -175,16 +147,7 @@ public class CRGeneralConfig implements ConfigData {
     public static class IntegrationConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean lal_quiver_variants = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean lal_quiver_accessories = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
         public boolean enderscape_rubble_shields = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean end_reborn_netherite = true;
     }
 
 }

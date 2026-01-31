@@ -1,8 +1,7 @@
 package net.legacy.combat_reborn;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -11,9 +10,13 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.legacy.combat_reborn.config.CRArmorConfig;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.config.CRGeneralConfig;
+import net.legacy.combat_reborn.config.CRWeaponConfig;
 import net.legacy.combat_reborn.entity.PlayerSpawnCallback;
-import net.legacy.combat_reborn.item.AttributeModifierCallback;
+import net.legacy.combat_reborn.item.ArmorAttributeModifierCallback;
+import net.legacy.combat_reborn.item.ItemAttributeModifierCallback;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.sound.CRSounds;
@@ -31,24 +34,27 @@ public class CombatReborn implements ModInitializer {
 	@Override
 	public void onInitialize() {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
-        AutoConfig.register(CRConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
+        AutoConfig.register(CRGeneralConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
 
         CREnchantments.init();
         CRSounds.init();
 
-        AttributeModifierCallback.init();
+        ArmorAttributeModifierCallback.init();
+        ItemAttributeModifierCallback.init();
         PlayerSpawnCallback.init();
 
         registerPayloads();
 
-        if (!CRConfig.get().general.combat.shield_overhaul) {
+        if (!CRConfig.get.general.shields.shield_overhaul) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_shield_overhaul"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.no_shield_overhaul"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (!CRConfig.get().general.combat.cleaving) {
+        if (!CRConfig.get.general.misc.cleaving_enchantment) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_cleaving"), modContainer.get(),
                     Component.translatable("pack.combat_reborn.no_cleaving"),

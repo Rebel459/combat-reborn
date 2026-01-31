@@ -45,7 +45,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void CR$addHurtExhaustion(DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get().general.food.hunger_rework) return;
+        if (!CRConfig.get.general.hunger.hunger_rework) return;
         Player player = Player.class.cast(this);
         Difficulty difficulty = player.level().getDifficulty();
         float multiplier = 0.75F;
@@ -59,7 +59,7 @@ public abstract class PlayerMixin {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void cancelConsumption(DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get().general.consumables.damage_interruptions || damageSource.getEntity() == null) return;
+        if (!CRConfig.get.general.misc.damage_interruptions || damageSource.getEntity() == null) return;
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.POTION_CONTENTS)) player.stopUsingItem();
@@ -88,7 +88,7 @@ public abstract class PlayerMixin {
             )
     )    private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
         Player player = Player.class.cast(this);
-        if (!CRConfig.get().general.food.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= 6) {
+        if (!CRConfig.get.general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= 6) {
             original.call(foodData, f);
             return;
         }
@@ -105,7 +105,7 @@ public abstract class PlayerMixin {
     private void handleDisabling(CallbackInfo ci) {
         Player player = Player.class.cast(this);
         float disableTime = 5F;
-        if (CRConfig.get().general.combat.shield_overhaul) {
+        if (CRConfig.get.general.shields.shield_overhaul) {
             disableTime -= 2F;
         }
         ItemStack stack = this.getWeaponItem();
@@ -114,16 +114,16 @@ public abstract class PlayerMixin {
             disableTime = disableTime + cleaving;
         }
         player.addTag("stop_shield_recharge");
-        if (CRConfig.get().general.combat.shield_overhaul && cleaving == 1) player.addTag("stop_shield_recharge_1");
-        if (CRConfig.get().general.combat.shield_overhaul && cleaving == 2) player.addTag("stop_shield_recharge_2");
-        if (CRConfig.get().general.combat.shield_overhaul && cleaving == 3) player.addTag("stop_shield_recharge_3");
+        if (CRConfig.get.general.shields.shield_overhaul && cleaving == 1) player.addTag("stop_shield_recharge_1");
+        if (CRConfig.get.general.shields.shield_overhaul && cleaving == 2) player.addTag("stop_shield_recharge_2");
+        if (CRConfig.get.general.shields.shield_overhaul && cleaving == 3) player.addTag("stop_shield_recharge_3");
 
         if (player.getTags().contains("should_disable_shield")) {
             player.removeTag("should_disable_shield");
             return;
         }
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
-        boolean shouldContinue = CRConfig.get().general.combat.shield_overhaul;
+        boolean shouldContinue = CRConfig.get.general.shields.shield_overhaul;
         if (parry > 0) {
             if (new Random().nextInt(1, 5) <= parry && player.getTicksUsingItem() < ShieldHelper.getParryWindow(stack)) {
                 shouldContinue = false;
@@ -135,7 +135,7 @@ public abstract class PlayerMixin {
                 shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) player);
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     disableTime = 15;
-                    if (CRConfig.get().general.integrations.enderscape && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     int disableTicks = (int) (disableTime * 20);
                     player.getCooldowns().addCooldown(stack.getItem(), disableTicks);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) player);
@@ -172,7 +172,7 @@ public abstract class PlayerMixin {
             )
     )
     private void CR$reducedExhaustionSprintJumping(Player instance, float f, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, f);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, f);
         else reduceExhaustionPerDifficulty(instance, f, original);
     }
 
@@ -185,6 +185,6 @@ public abstract class PlayerMixin {
             )
     )
     private void CR$noExhaustionJumping(Player instance, float f, Operation<Void> original) {
-        if (!CRConfig.get().general.food.hunger_rework) original.call(instance, f);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, f);
     }
 }

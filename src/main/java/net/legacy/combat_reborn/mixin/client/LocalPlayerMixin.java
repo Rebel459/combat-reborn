@@ -32,7 +32,7 @@ public abstract class LocalPlayerMixin implements ClientTickInterface {
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void renderShieldCrosshair(CallbackInfo ci) {
-        if (!CRConfig.get().general.combat.shield_overhaul || CRConfig.get().general.combat.shield_display == CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
+        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style == CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
         this.localTick++;
         if (this.localTick >= 5) {
             LocalPlayer player = LocalPlayer.class.cast(this);

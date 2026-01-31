@@ -28,7 +28,7 @@ public abstract class ItemMixin {
     @Inject(method = "appendHoverText", at = @At("TAIL"))
     private void shieldTooltip(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag tooltipFlag, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get().general.combat.shield_overhaul || !CRConfig.get().general.combat.shield_tooltips) return;
+        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get.general.shields.shield_overhaul || !CRConfig.get.general.shields.show_tooltips) return;
         list.add(Component.literal(""));
         list.add(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
 

@@ -14,7 +14,7 @@ public abstract class ItemMixin {
     @Inject(at = @At("TAIL"), method = "getEnchantmentValue", cancellable = true)
     private void overrideEnchantmentValue(CallbackInfoReturnable<Integer> cir) {
         Item item = Item.class.cast(this);
-        if (CRConfig.get().general.combat.shield_overhaul && item.getDefaultInstance().is(CRItemTags.SHIELD) && cir.getReturnValue() == 0) {
+        if (CRConfig.get.general.shields.shield_overhaul && item.getDefaultInstance().is(CRItemTags.SHIELD) && cir.getReturnValue() == 0) {
             cir.setReturnValue(10);
         }
     }

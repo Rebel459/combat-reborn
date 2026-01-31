@@ -126,8 +126,8 @@
   "text.autoconfig.combat_reborn/general.option.armor.protection.max_percentage.@Tooltip": "The maximum percentage of damage reduction that can be provided by enchantments. 80% is equivalent to vanilla (0-100)",
 
   "text.autoconfig.combat_reborn/general.option.misc": "Miscellaneous",
-  "text.autoconfig.combat_reborn/general.option.misc.cleaving": "Cleaving",
-  "text.autoconfig.combat_reborn/general.option.misc.cleaving.@Tooltip": "Whether Cleaving should be enabled as a substitute of Sharpness for Axes. Cleaving increases both attack damage and the shield disable duration",
+  "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment": "Cleaving Enchantment",
+  "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment.@Tooltip": "Whether Cleaving should be enabled as a substitute of Sharpness for Axes. Cleaving increases both attack damage and the shield disable duration",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_stews": "Stackable Stews",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_stews.@Tooltip": "Whether soups & stews should stack to 16",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_potions": "Stackable Potions",
