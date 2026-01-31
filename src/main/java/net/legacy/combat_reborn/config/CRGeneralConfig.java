@@ -3,9 +3,9 @@ package net.legacy.combat_reborn.config;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import net.legacy.combat_reborn.CombatReborn;
 
-
-@Config(name = "general")
+@Config(name = CombatReborn.MOD_ID + "/" + "general")
 public class CRGeneralConfig implements ConfigData {
 
     public enum ShieldDisplay {
@@ -20,49 +20,80 @@ public class CRGeneralConfig implements ConfigData {
     }
 
     @ConfigEntry.Gui.CollapsibleObject
-    public CombatConfig combat = new CombatConfig();
+    public ModifiersConfig modifiers = new ModifiersConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public FoodConfig food = new FoodConfig();
+    public ShieldConfig shields = new ShieldConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public QuiverConfig quivers = new QuiverConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public HungerConfig hunger = new HungerConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public ArmorConfig armor = new ArmorConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public ConsumableConfig consumables = new ConsumableConfig();
+    public MiscConfig misc = new MiscConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public IntegrationConfig integrations = new IntegrationConfig();
 
-    public static class CombatConfig {
+    public static class ModifiersConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean modified_values = true;
+        public boolean weapons = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean armor = true;
+    }
+
+    public static class ShieldConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean shield_overhaul = true;
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.Gui.EnumHandler(option=ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-        public ShieldDisplay shield_display = ShieldDisplay.HOTBAR;
+        public ShieldDisplay display_style = ShieldDisplay.HOTBAR;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean shield_tooltips = true;
+        public boolean show_tooltips = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=5L)
-        public int shield_delay = 0;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean cleaving = true;
+        public int block_delay = 0;
     }
 
-    public static class FoodConfig {
+    public static class QuiverConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean enable_quivers = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean show_tooltips = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean lootable = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean tradable = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean craftable = false;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean ranged_tweaks = true;
+    }
+
+    public static class HungerConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean hunger_rework = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean stackable_stews = true;
+        @ConfigEntry.BoundedDiscrete(max=20L)
+        public int hunger_barrier = 6;
     }
 
     public static class ArmorConfig {
@@ -80,7 +111,10 @@ public class CRGeneralConfig implements ConfigData {
             public ToughnessMechanics toughness_type = ToughnessMechanics.DURABILITY;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            public float base_toughness = 0F;
+            public boolean toughness_overlay = true;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float multiplier = 0.5F;
         }
 
         @ConfigEntry.Gui.CollapsibleObject
@@ -120,13 +154,19 @@ public class CRGeneralConfig implements ConfigData {
         }
     }
 
-    public static class ConsumableConfig {
+    public static class MiscConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean damage_interruptions = true;
+        public boolean cleaving_enchantment = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean stackable_stews = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean stackable_potions = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean damage_interruptions = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean knockback_throwables = true;
@@ -135,10 +175,16 @@ public class CRGeneralConfig implements ConfigData {
     public static class IntegrationConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean end_reborn = true;
+        public boolean lal_quiver_variants = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean enderscape = true;
+        public boolean lal_quiver_accessories = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean enderscape_rubble_shields = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean end_reborn_netherite = true;
     }
 
 }
