@@ -81,11 +81,6 @@ public abstract class GuiMixin {
     private static final Identifier TOUGHNESS_FULL_SPRITE = CombatReborn.id("hud/toughness_full");
 
     @Unique
-    private static final Identifier SATURATION_HALF_SPRITE = CombatReborn.id("hud/saturation_half");
-    @Unique
-    private static final Identifier SATURATION_FULL_SPRITE = CombatReborn.id("hud/saturation_full");
-
-    @Unique
     private static final RenderPipeline SHIELD_INDICATOR = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator").withBlend(BlendFunction.TRANSLUCENT).build()
     );

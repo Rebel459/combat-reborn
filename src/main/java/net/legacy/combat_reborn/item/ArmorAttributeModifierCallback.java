@@ -55,7 +55,7 @@ public class ArmorAttributeModifierCallback {
                                     optionalArmorModifier.get().toughness,
                                     optionalArmorModifier.get().knockback_resistance,
                                     optionalArmorModifier.get().slot,
-                                    optionalArmorModifier.get().attributes
+                                    attributes
                             ));
                 })));
     }
