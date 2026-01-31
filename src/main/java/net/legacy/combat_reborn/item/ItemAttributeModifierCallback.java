@@ -21,9 +21,9 @@ import java.util.Optional;
 public class ItemAttributeModifierCallback {
     public static final ResourceLocation BASE_ATTACK_RANGE_MODIFIER_ID = ResourceLocation.withDefaultNamespace("base_attack_range");
 
-    private static final double DEFAULT_ATTACK_DAMAGE = 1.0; // GENERIC_ATTACK_DAMAGE base value is changed for players!
-    private static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
-    private static final double DEFAULT_ATTACK_RANGE = Attributes.ENTITY_INTERACTION_RANGE.value().getDefaultValue();
+    public static final double DEFAULT_ATTACK_DAMAGE = 1.0; // GENERIC_ATTACK_DAMAGE base value is changed for players!
+    public static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
+    public static final double DEFAULT_ATTACK_RANGE = Attributes.ENTITY_INTERACTION_RANGE.value().getDefaultValue();
 
     private ItemAttributeModifierCallback() {
     }
@@ -54,7 +54,8 @@ public class ItemAttributeModifierCallback {
                                     optionalToolsModifier.get().speed - DEFAULT_ATTACK_SPEED,
                                     optionalToolsModifier.get().reach - DEFAULT_ATTACK_RANGE,
                                     optionalToolsModifier.get().attributes
-                            ));
+                            )
+                    );
                 })));
     }
 
