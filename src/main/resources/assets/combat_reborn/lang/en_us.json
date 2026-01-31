@@ -145,5 +145,5 @@
   "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields": "Enderscape Rubble Shields",
   "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing",
   "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite": "End Reborn",
-  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite.@Tooltip": "Whether Netherite tools should deal increased damage with End Reborn installed"
+  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite.@Tooltip": "Whether Netherite armor & tool attributes should be automatically adjusted when End Reborn is installed"
 }

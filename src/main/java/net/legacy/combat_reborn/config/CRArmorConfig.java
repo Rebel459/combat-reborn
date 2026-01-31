@@ -92,7 +92,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:copper_horse_armor"),
-                    10, 1, 0,
+                    10, 0, 0,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("minecraft:copper_nautilus_armor"),
+                    10, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
@@ -121,12 +127,6 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
-                    List.of("minecraft:chainmail_horse_armor"),
-                    12, 3, 1,
-                    List.of(),
-                    EquipmentSlotGroup.BODY
-            ),
-            new Modifiers(
                     List.of("minecraft:iron_helmet"),
                     3, 2, 0,
                     List.of(),
@@ -152,7 +152,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:iron_horse_armor"),
-                    16, 2, 0,
+                    16, 0, 0,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("minecraft:iron_nautilus_armor"),
+                    16, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
@@ -187,6 +193,12 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
+                    List.of("minecraft:golden_nautilus_armor"),
+                    16, 0, 0,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
                     List.of("minecraft:diamond_helmet"),
                     4, 4, 0,
                     List.of(),
@@ -212,7 +224,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:diamond_horse_armor"),
-                    20, 4, 0,
+                    20, 0, 0,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("minecraft:diamond_nautilus_armor"),
+                    20, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
@@ -242,7 +260,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:netherite_horse_armor"),
-                    20, 5, 1,
+                    20, 0, 4,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("minecraft:netherite_nautilus_armor"),
+                    20, 0, 4,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
@@ -289,6 +313,12 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
+                    List.of("progression_reborn:rose_nautilus_armor"),
+                    20, 0, 0,
+                    List.of(),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
                     List.of("end_reborn:remnant_helmet"),
                     4, 5, 1,
                     List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
@@ -314,8 +344,14 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_horse_armor"),
-                    20, 5, 1,
+                    20, 0, 4,
                     List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("end_reborn:remnant_nautilus_armor"),
+                    20, 0, 4,
+                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 1.0, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
@@ -344,8 +380,14 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_horse_armor"),
-                    20, 5, 1,
+                    20, 0, 4,
                     List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
+                    List.of("end_reborn:featherzeal_nautilus_armor"),
+                    20, 0, 4,
+                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3 * 0.3 * 0.3 * 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
