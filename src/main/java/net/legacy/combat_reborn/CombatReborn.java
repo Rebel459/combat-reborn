@@ -32,9 +32,9 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean isEndRebornLoaded = false;
-    public static boolean isEnchantsAndExpeditionsLoaded = false;
-    public static boolean isLegaciesAndLegendsLoaded = false;
+    public static boolean isEndRebornLoaded = FabricLoader.getInstance().isModLoaded("end_reborn");
+    public static boolean isEnchantsAndExpeditionsLoaded = FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
+    public static boolean isLegaciesAndLegendsLoaded = FabricLoader.getInstance().isModLoaded("legacies_and_legends");
 
 	@Override
 	public void onInitialize() {
@@ -77,8 +77,7 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (FabricLoader.getInstance().isModLoaded("legacies_and_legends")) {
-            isLegaciesAndLegendsLoaded = true;
+        if (isLegaciesAndLegendsLoaded) {
             if (CRConfig.get.general.quivers.craftable && CRConfig.get.general.integrations.lal_quiver_variants) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         CombatReborn.id("weighted_quiver"), modContainer.get(),
@@ -100,12 +99,6 @@ public class CombatReborn implements ModInitializer {
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
             }
-        }
-        if (FabricLoader.getInstance().isModLoaded("end_reborn_netherite")) {
-            isEndRebornLoaded = true;
-        }
-        if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
-            isEnchantsAndExpeditionsLoaded = true;
         }
 	}
 
