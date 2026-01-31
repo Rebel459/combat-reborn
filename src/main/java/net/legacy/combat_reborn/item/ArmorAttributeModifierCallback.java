@@ -44,7 +44,7 @@ public class ArmorAttributeModifierCallback {
 
                     var attributes = optionalArmorModifier.get().attributes;
 
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
+                    if (CombatReborn.isEndRebornLoaded() && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
                         attributes.add(Triple.of("minecraft:burning_time", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
                     }
 
