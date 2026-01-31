@@ -174,7 +174,7 @@ public class CRWeaponConfig implements ConfigData {
             // Mace
             new Modifiers(List.of(
                     "minecraft:mace"
-            ), 6, 0.8, 3, List.of()),
+            ), 6, 0.9, 3, List.of()),
 
             // Trident
             new Modifiers(List.of(
@@ -189,7 +189,7 @@ public class CRWeaponConfig implements ConfigData {
             // Hook
             new Modifiers(List.of(
                     "legacies_and_legends:hook"
-            ), 9, 0.8, 3.5, List.of()),
+            ), 9, 0.9, 3.5, List.of()),
 
             // Katana
             new Modifiers(List.of(
