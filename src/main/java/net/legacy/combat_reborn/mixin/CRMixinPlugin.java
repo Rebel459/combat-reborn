@@ -3,9 +3,7 @@ package net.legacy.combat_reborn.mixin;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.legacy.combat_reborn.config.CRArmorConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
-import net.legacy.combat_reborn.config.CRWeaponConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.tree.ClassNode;
@@ -22,8 +20,6 @@ public final class CRMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
         AutoConfig.register(CRGeneralConfig.class, JanksonConfigSerializer::new);
-        AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
-        AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
         this.hasLegaciesAndLegends = FabricLoader.getInstance().isModLoaded("legacies_and_legends");
     }
 
