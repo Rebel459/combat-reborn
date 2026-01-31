@@ -28,9 +28,8 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean isEnchantsAndExpeditionsLoaded() {
-            return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
-    }
+    public static boolean isEndRebornLoaded = false;
+    public static boolean isEnchantsAndExpeditionsLoaded = false;
 
 	@Override
 	public void onInitialize() {
@@ -61,6 +60,13 @@ public class CombatReborn implements ModInitializer {
                     Component.translatable("pack.combat_reborn.no_cleaving"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
+        }
+
+        if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
+            isEndRebornLoaded = true;
+        }
+        if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
+            isEnchantsAndExpeditionsLoaded = true;
         }
 	}
 
