@@ -1,4 +1,4 @@
-package net.legacy.combat_reborn.mixin.entity;
+package net.legacy.combat_reborn.mixin.util;
 
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.util.DamageHelper;
@@ -15,13 +15,13 @@ public class CombatRulesMixin {
 
     @Inject(at = @At(value = "HEAD"), method = "getDamageAfterAbsorb", cancellable = true)
     private static void getDamageAfterAbsorb(LivingEntity livingEntity, float damage, DamageSource damageSource, float defence, float toughness, CallbackInfoReturnable<Float> cir) {
-        if (!CRConfig.get().general.armor.armor_rebalance) return;
+        if (!CRConfig.get.general.armor.armor_rebalance) return;
         cir.setReturnValue(DamageHelper.processDamage(livingEntity, damage, damageSource, defence, toughness));
     }
 
     @Inject(at = @At(value = "HEAD"), method = "getDamageAfterMagicAbsorb", cancellable = true)
     private static void getDamageAfterAbsorb(float damage, float protection, CallbackInfoReturnable<Float> cir) {
-        if (!CRConfig.get().general.armor.armor_rebalance) return;
+        if (!CRConfig.get.general.armor.armor_rebalance) return;
         cir.setReturnValue(DamageHelper.processEnchantedDamage(damage, protection));
     }
 }

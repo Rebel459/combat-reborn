@@ -40,7 +40,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
     private void shieldTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get().general.shields.shield_overhaul || !CRConfig.get().general.shields.show_tooltips) return;
+        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get.general.shields.shield_overhaul || !CRConfig.get.general.shields.show_tooltips) return;
         consumer.accept(Component.literal(""));
         consumer.accept(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
 
@@ -86,14 +86,14 @@ public abstract class ItemStackMixin {
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
     private void quiverTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.QUIVER) || !CRConfig.get().general.quivers.show_tooltips) return;
+        if (!stack.is(CRItemTags.QUIVER) || !CRConfig.get.general.quivers.show_tooltips) return;
         addQuiverTooltip(consumer, stack);
     }
 
     @Inject(method = "addDetailsToTooltip", at = @At("HEAD"), cancellable = true)
     private void hideQuiverAccessoryTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (CombatReborn.isLegaciesAndLegendsLoaded && CRConfig.get().general.integrations.lal_quiver_accessories && stack.is(CRItemTags.QUIVER)) {
+        if (CombatReborn.isLegaciesAndLegendsLoaded && CRConfig.get.general.integrations.lal_quiver_accessories && stack.is(CRItemTags.QUIVER)) {
             addQuiverTooltip(consumer, stack);
             ci.cancel();
         }

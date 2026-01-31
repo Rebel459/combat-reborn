@@ -3,9 +3,9 @@ package net.legacy.combat_reborn.config;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import net.legacy.combat_reborn.CombatReborn;
 
-
-@Config(name = "general")
+@Config(name = CombatReborn.MOD_ID + "/" + "general")
 public class CRGeneralConfig implements ConfigData {
 
     public enum ShieldDisplay {
@@ -20,7 +20,7 @@ public class CRGeneralConfig implements ConfigData {
     }
 
     @ConfigEntry.Gui.CollapsibleObject
-    public CombatConfig combat = new CombatConfig();
+    public ModifiersConfig modifiers = new ModifiersConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public ShieldConfig shields = new ShieldConfig();
@@ -35,18 +35,18 @@ public class CRGeneralConfig implements ConfigData {
     public ArmorConfig armor = new ArmorConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public ConsumableConfig consumables = new ConsumableConfig();
+    public MiscConfig misc = new MiscConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public IntegrationConfig integrations = new IntegrationConfig();
 
-    public static class CombatConfig {
+    public static class ModifiersConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean modified_values = true;
+        public boolean weapons = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean cleaving = true;
+        public boolean armor = true;
     }
 
     public static class ShieldConfig {
@@ -111,7 +111,10 @@ public class CRGeneralConfig implements ConfigData {
             public ToughnessMechanics toughness_type = ToughnessMechanics.DURABILITY;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            public float base_toughness = 0F;
+            public boolean toughness_overlay = true;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
+            public float multiplier = 0.5F;
         }
 
         @ConfigEntry.Gui.CollapsibleObject
@@ -151,7 +154,10 @@ public class CRGeneralConfig implements ConfigData {
         }
     }
 
-    public static class ConsumableConfig {
+    public static class MiscConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean cleaving_enchantment = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean stackable_stews = true;

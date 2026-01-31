@@ -11,6 +11,7 @@ import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ClientTickInterface;
+import net.legacy.combat_reborn.util.DamageHelper;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.minecraft.client.DeltaTracker;
@@ -21,7 +22,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -48,6 +51,16 @@ public abstract class GuiMixin {
     @Shadow
     protected abstract void renderSlot(GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, ItemStack itemStack, int k);
 
+    @Shadow
+    @Final
+    private RandomSource random;
+    @Shadow
+    private int tickCount;
+
+    @Shadow
+    @Nullable
+    protected abstract Player getCameraPlayer();
+
     @Unique
     private static final Identifier HOTBAR_SHIELD_INDICATOR_FULL = CombatReborn.id("hud/hotbar_shield_indicator_full");
     @Unique
@@ -63,6 +76,16 @@ public abstract class GuiMixin {
     private static final Identifier CROSSHAIR_SHIELD_INDICATOR_PROGRESS = CombatReborn.id("hud/crosshair_shield_indicator_progress");
 
     @Unique
+    private static final Identifier TOUGHNESS_HALF_SPRITE = CombatReborn.id("hud/toughness_half");
+    @Unique
+    private static final Identifier TOUGHNESS_FULL_SPRITE = CombatReborn.id("hud/toughness_full");
+
+    @Unique
+    private static final Identifier SATURATION_HALF_SPRITE = CombatReborn.id("hud/saturation_half");
+    @Unique
+    private static final Identifier SATURATION_FULL_SPRITE = CombatReborn.id("hud/saturation_full");
+
+    @Unique
     private static final RenderPipeline SHIELD_INDICATOR = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator").withBlend(BlendFunction.TRANSLUCENT).build()
     );
@@ -73,7 +96,7 @@ public abstract class GuiMixin {
 
     @Inject(method = "renderHotbarAndDecorations", at = @At(value = "HEAD"))
     private void renderShieldHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get().general.shields.shield_overhaul || CRConfig.get().general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
+        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
         Options options = this.minecraft.options;
         if (options.getCameraType().isFirstPerson()) {
             if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
@@ -106,7 +129,7 @@ public abstract class GuiMixin {
 
     @Inject(method = "renderCrosshair", at = @At(value = "HEAD", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;"))
     private void renderShieldCrosshair(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get().general.shields.shield_overhaul || CRConfig.get().general.shields.display_style != CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
+        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.CROSSHAIR) return;
         Options options = this.minecraft.options;
         if (options.getCameraType().isFirstPerson()) {
             if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
@@ -182,5 +205,32 @@ public abstract class GuiMixin {
         QuiverContents.Mutable mutable = new QuiverContents.Mutable(quiver.get(CRDataComponents.QUIVER_CONTENTS));
         QuiverHelper.updateFullness(quiver, mutable);
         original.call(instance, guiGraphics, i, j, deltaTracker, player, quiver, k);
+    }
+
+    @Inject(method = "renderArmor", at = @At("TAIL"))
+    private static void renderArmorToughness(GuiGraphics guiGraphics, Player player, int i, int j, int k, int l, CallbackInfo ci) {
+        if (!CRConfig.get.general.armor.toughness.toughness_overlay) return;
+
+        int m;
+        if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DURABILITY) m = (int) Math.ceil(DamageHelper.getDurabilityToughness(player, (float) player.getAttributeValue(Attributes.ARMOR_TOUGHNESS)));
+        else if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.NONE) return;
+        else m = (int) Math.ceil(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+        m = Math.min(m, player.getArmorValue());
+
+        if (m > 0) {
+            int n = i - (j - 1) * k - 10;
+
+            for(int o = 0; o < 10; ++o) {
+                int p = l + o * 8;
+                if (o * 2 + 1 < m) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, TOUGHNESS_FULL_SPRITE, p, n, 9, 9);
+                }
+
+                if (o * 2 + 1 == m) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, TOUGHNESS_HALF_SPRITE, p, n, 9, 9);
+                }
+            }
+
+        }
     }
 }

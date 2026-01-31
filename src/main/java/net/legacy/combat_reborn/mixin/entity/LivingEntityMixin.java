@@ -149,7 +149,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     )
     private float trackShieldDamageBlocked(LivingEntity instance, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
         float blockedDamage = original.call(instance, serverLevel, damageSource, f);
-        if (blockedDamage > 0 && CRConfig.get().general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
+        if (blockedDamage > 0 && CRConfig.get.general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
@@ -162,7 +162,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableTime = 15F;
-                    if (CRConfig.get().general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
                     stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
                     entity.addTag("should_disable_shield");
@@ -175,7 +175,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void passiveShieldRecovery(CallbackInfo ci) {
         LivingEntity entity = LivingEntity.class.cast(this);
-        if (!(entity instanceof ServerPlayer player) || !CRConfig.get().general.shields.shield_overhaul) return;
+        if (!(entity instanceof ServerPlayer player) || !CRConfig.get.general.shields.shield_overhaul) return;
         this.localTick++;
         if (localTick >= 5) {
             if (this.recoveryDelay == 0) {
@@ -210,7 +210,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "getSecondsToDisableBlocking", at = @At(value = "TAIL"), cancellable = true)
     private void cleaving(CallbackInfoReturnable<Float> cir) {
         float disableTime = cir.getReturnValue();
-        if (CRConfig.get().general.shields.shield_overhaul) {
+        if (CRConfig.get.general.shields.shield_overhaul) {
             if (disableTime >= 3F) disableTime -= 2F;
         }
         if (disableTime <= 0) return;
@@ -219,7 +219,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         if (level > 0) {
             disableTime = disableTime + level;
         }
-        if (CRConfig.get().general.shields.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
+        if (CRConfig.get.general.shields.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
         cir.setReturnValue(disableTime);
     }
 
@@ -233,7 +233,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         BlocksAttacks blocksAttacks = stack.get(DataComponents.BLOCKS_ATTACKS);
         if (blocksAttacks != null) {
             int i = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
-            if (i >= CRConfig.get().general.shields.block_delay) {
+            if (i >= CRConfig.get.general.shields.block_delay) {
                 cir.setReturnValue(stack);
             }
         }
@@ -241,7 +241,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
 
     @ModifyVariable(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "HEAD"), index = 3, argsOnly = true)
     private float activeShieldRecovery(float value) {
-        if (CRConfig.get().general.shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
+        if (CRConfig.get.general.shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
             float restoration = value / 2;
             ItemStack stack = player.getWeaponItem();
             int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);

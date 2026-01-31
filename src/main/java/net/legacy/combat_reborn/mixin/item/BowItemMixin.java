@@ -29,7 +29,7 @@ public abstract class BowItemMixin {
     @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BowItem;getPowerForTime(I)F"), method = "releaseUsing")
     private float quiver(int i, Operation<Float> original) {
         float base = original.call(i);
-        if (CRConfig.get().general.quivers.ranged_tweaks) base *= 0.9F;
+        if (CRConfig.get.general.quivers.ranged_tweaks) base *= 0.9F;
         ItemStack stack = QuiverHelper.getStack(this.player);
         if (stack != null) {
             return base * QuiverHelper.getBowSpeed(stack);

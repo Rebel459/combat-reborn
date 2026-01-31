@@ -9,7 +9,7 @@ public class CRVillagerTrades {
 
     public static void init() {
 
-        if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.quivers.tradable) {
+        if (CRConfig.get.general.quivers.enable_quivers && CRConfig.get.general.quivers.tradable) {
             TradeOfferHelper.registerVillagerOffers(
                     VillagerProfession.FLETCHER,
                     5,

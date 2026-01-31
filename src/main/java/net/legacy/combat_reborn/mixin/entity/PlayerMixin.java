@@ -115,13 +115,13 @@ public abstract class PlayerMixin implements QuiverInterface {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void CR$addHurtExhaustion(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get().general.hunger.hunger_rework) return;
+        if (!CRConfig.get.general.hunger.hunger_rework) return;
         Player player = Player.class.cast(this);
         Difficulty difficulty = serverLevel.getDifficulty();
         float multiplier = 0.75F;
         if (difficulty == Difficulty.EASY) multiplier = 0.5F;
         if (difficulty == Difficulty.HARD) multiplier = 1F;
-        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.get().general.hunger.hunger_barrier;
+        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.get.general.hunger.hunger_barrier;
         float exhaustion = Math.max(f - aboveBarrier, 0F);
         this.causeFoodExhaustion(exhaustion * multiplier);
         this.getFoodData().setSaturation(Math.max(this.getFoodData().getSaturationLevel() - f / 2, 0));
@@ -129,7 +129,7 @@ public abstract class PlayerMixin implements QuiverInterface {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void cancelConsumption(ServerLevel level, DamageSource damageSource, float amount, CallbackInfo info) {
-        if (!CRConfig.get().general.consumables.damage_interruptions || damageSource.getEntity() == null) return;
+        if (!CRConfig.get.general.misc.damage_interruptions || damageSource.getEntity() == null) return;
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.CONSUMABLE)) player.stopUsingItem();
@@ -158,7 +158,7 @@ public abstract class PlayerMixin implements QuiverInterface {
             )
     )    private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
         Player player = Player.class.cast(this);
-        if (!CRConfig.get().general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get().general.hunger.hunger_barrier) {
+        if (!CRConfig.get.general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get.general.hunger.hunger_barrier) {
             original.call(foodData, f);
             return;
         }

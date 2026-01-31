@@ -19,6 +19,6 @@ public abstract class BlockMixin {
             )
     )
     private void CR$noExhaustionCrouching(Player instance, float f, Operation<Void> original) {
-        if (!CRConfig.get().general.hunger.hunger_rework) original.call(instance, f);
+        if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, f);
     }
 }

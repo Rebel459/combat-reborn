@@ -45,7 +45,7 @@ public final class CRLootTables {
         LootTableEvents.MODIFY.register((id, tableBuilder, source, registries) -> {
             LootPool.Builder pool;
 
-            if (CRConfig.get().general.quivers.enable_quivers && CRConfig.get().general.quivers.lootable) {
+            if (CRConfig.get.general.quivers.enable_quivers && CRConfig.get.general.quivers.lootable) {
                 if (BuiltInLootTables.SIMPLE_DUNGEON.equals(id)) {
                     pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(EmptyLootItem.emptyItem().setWeight(2))
@@ -83,7 +83,7 @@ public final class CRLootTables {
                     tableBuilder.withPool(pool);
                 }
 
-                if (CRConfig.get().general.integrations.lal_quiver_variants) {
+                if (CRConfig.get.general.integrations.lal_quiver_variants) {
                     if (SPIRE.equals(id)) {
                         pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(11))

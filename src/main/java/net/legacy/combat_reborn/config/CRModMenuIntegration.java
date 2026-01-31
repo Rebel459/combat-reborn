@@ -8,6 +8,6 @@ public final class CRModMenuIntegration implements ModMenuApi {
 
     @Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return parent -> AutoConfig.getConfigScreen(CRConfig.class, parent).get();
+		return parent -> AutoConfig.getConfigScreen(CRGeneralConfig.class, parent).get();
 	}
 }

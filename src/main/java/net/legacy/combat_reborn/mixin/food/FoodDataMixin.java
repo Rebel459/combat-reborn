@@ -36,7 +36,7 @@ public abstract class FoodDataMixin {
 
     @Inject(method = "tick", at = @At(value = "HEAD"), cancellable = true)
     private void CR$tick(ServerPlayer serverPlayer, CallbackInfo ci) {
-        if (!CRConfig.get().general.hunger.hunger_rework) return;
+        if (!CRConfig.get.general.hunger.hunger_rework) return;
         ServerLevel serverLevel = serverPlayer.level();
 
         Difficulty difficulty = serverLevel.getDifficulty();
@@ -64,7 +64,7 @@ public abstract class FoodDataMixin {
                 if (serverPlayer.isHurt()) serverPlayer.heal(1F);
                 this.tickTimer = 0;
             }
-        } else if (bl && this.foodLevel > CRConfig.get().general.hunger.hunger_barrier && serverPlayer.isHurt()) {
+        } else if (bl && this.foodLevel > CRConfig.get.general.hunger.hunger_barrier && serverPlayer.isHurt()) {
             ++this.tickTimer;
             int requiredTicks = 80;
             float exhaustionGained = 4F;
@@ -96,12 +96,12 @@ public abstract class FoodDataMixin {
 
     @Inject(method = "addExhaustion", at = @At(value = "HEAD"), cancellable = true)
     private void CR$checkAddExhaustion(float f, CallbackInfo ci) {
-        if (!CRConfig.get().general.hunger.hunger_rework || !(this.saturationLevel > 0)) return;
+        if (!CRConfig.get.general.hunger.hunger_rework || !(this.saturationLevel > 0)) return;
         ci.cancel();
     }
 
     @Inject(method = "hasEnoughFood", at = @At(value = "HEAD"), cancellable = true)
     private void CR$checkAddExhaustion(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(this.getFoodLevel() > CRConfig.get().general.hunger.hunger_barrier);
+        cir.setReturnValue(this.getFoodLevel() > CRConfig.get.general.hunger.hunger_barrier);
     }
 }
