@@ -13,7 +13,6 @@
   "mixins": [
     "block.BlockMixin",
     "enchantment.EnchantmentHelperMixin",
-    "util.CombatRulesMixin",
     "entity.EggMixin",
     "entity.LivingEntityMixin",
     "entity.PlayerMixin",
@@ -21,7 +20,9 @@
     "food.FoodDataMixin",
     "item.ItemMixin",
     "item.ItemStackMixin",
+    "item.TridentItemMixin",
     "menu.AnvilMenuMixin",
-    "server.ServerPlayerMixin"
+    "server.ServerPlayerMixin",
+    "util.CombatRulesMixin"
   ]
 }
