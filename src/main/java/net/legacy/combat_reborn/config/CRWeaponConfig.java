@@ -176,7 +176,7 @@ public class CRWeaponConfig implements ConfigData {
                     "minecraft:mace"
             ), 6, 0.8, 3, List.of()),
 
-            //
+            // Trident
             new Modifiers(List.of(
                     "minecraft:trident"
             ), 9, 1.6, 3.5, List.of()),

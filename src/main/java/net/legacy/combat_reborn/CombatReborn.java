@@ -33,13 +33,13 @@ import java.util.Optional;
 public class CombatReborn implements ModInitializer {
 
     public static boolean isEndRebornLoaded() {
-        return true;
+        return FabricLoader.getInstance().isModLoaded("end_reborn");
     }
-    public static boolean isEnchantsAndExpeditionsLoaded() {
-        return true;
+    public static boolean isEnchantsAndExpeditionsLoaded () {
+        return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
     }
-    public static boolean isLegaciesAndLegendsLoaded() {
-        return true;
+    public static boolean isLegaciesAndLegendsLoaded () {
+        return FabricLoader.getInstance().isModLoaded("legacies_and_legends");
     }
 
 	@Override
