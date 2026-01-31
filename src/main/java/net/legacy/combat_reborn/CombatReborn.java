@@ -38,10 +38,10 @@ public class CombatReborn implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
-
         AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
         AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
+
+        loadResources();
 
         CRDataComponents.init();
         CRItems.init();
@@ -55,7 +55,10 @@ public class CombatReborn implements ModInitializer {
         PlayerSpawnCallback.init();
 
         registerPayloads();
+	}
 
+    public void loadResources() {
+        Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
         if (!CRConfig.get.general.shields.shield_overhaul) {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     CombatReborn.id("no_shield_overhaul"), modContainer.get(),
@@ -101,13 +104,13 @@ public class CombatReborn implements ModInitializer {
                 );
             }
         }
-        if (FabricLoader.getInstance().isModLoaded("end_reborn_netherite")) {
+        if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
             isEndRebornLoaded = true;
         }
         if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
             isEnchantsAndExpeditionsLoaded = true;
         }
-	}
+    }
 
     public static void registerPayloads() {
 

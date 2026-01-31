@@ -42,12 +42,6 @@ public class ArmorAttributeModifierCallback {
                             .findFirst();
                     if (optionalArmorModifier.isEmpty()) return;
 
-                    var attributes = optionalArmorModifier.get().attributes;
-
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
-                        attributes.add(Triple.of("minecraft:burning_time", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-                    }
-
                     builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
                             createAttributeModifiers(
@@ -55,12 +49,13 @@ public class ArmorAttributeModifierCallback {
                                     optionalArmorModifier.get().toughness,
                                     optionalArmorModifier.get().knockback_resistance,
                                     optionalArmorModifier.get().slot,
-                                    attributes
+                                    optionalArmorModifier.get().attributes,
+                                    optionalItem.get().identifier().getPath()
                             ));
                 })));
     }
 
-    public static ItemAttributeModifiers createAttributeModifiers(double defense, double toughness, double knockbackResistance, EquipmentSlotGroup slot, List<Triple<String, Double, AttributeModifier.Operation>> attributes) {
+    public static ItemAttributeModifiers createAttributeModifiers(double defense, double toughness, double knockbackResistance, EquipmentSlotGroup slot, List<Triple<String, Double, AttributeModifier.Operation>> attributes, String itemPath) {
         var itemAttributes = ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ARMOR,
@@ -87,6 +82,8 @@ public class ArmorAttributeModifierCallback {
                         slot
                 )
                 .build();
+        String burningTime = "minecraft:burning_time";
+        boolean applyEndRebornBurningTime = CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && itemPath.contains("netherite");
         for (Triple<String, Double, AttributeModifier.Operation> entry : attributes) {
             String attribute = entry.getLeft();
             double value = entry.getMiddle();
@@ -95,6 +92,7 @@ public class ArmorAttributeModifierCallback {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }
             else {
+                if (attribute.equals(burningTime)) applyEndRebornBurningTime = false;
                 itemAttributes = itemAttributes.withModifierAdded(
                         BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).get(),
                         new AttributeModifier(
@@ -104,6 +102,17 @@ public class ArmorAttributeModifierCallback {
                         slot
                 );
             }
+        }
+        if (applyEndRebornBurningTime) {
+            itemAttributes = itemAttributes.withModifierAdded(
+                    BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(burningTime)).get(),
+                    new AttributeModifier(
+                            attributeId(burningTime, slot),
+                            -0.2,
+                            AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                    ),
+                    slot
+            );
         }
         return itemAttributes;
     }
