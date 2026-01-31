@@ -196,6 +196,15 @@ public class CRWeaponConfig implements ConfigData {
                     "remnants:katana"
             ), 6, 2.4, 3, List.of()),
 
+            // Dagger
+            new Modifiers(
+                    List.of("enderscape:dagger"),
+                    4,
+                    2.4,
+                    2.5,
+                    List.of(Triple.of("enderscape:backstab_damage", 4.0, AttributeModifier.Operation.ADD_VALUE))
+            ),
+
             // Knives
             new Modifiers(List.of(
                     "farmersdelight:flint_knife"
