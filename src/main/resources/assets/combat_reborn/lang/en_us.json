@@ -1,38 +1,7 @@
 {
-  "item.combat_reborn.quiver": "Quiver",
-  "item.combat_reborn.black_quiver": "Black Quiver",
-  "item.combat_reborn.blue_quiver": "Blue Quiver",
-  "item.combat_reborn.brown_quiver": "Brown Quiver",
-  "item.combat_reborn.cyan_quiver": "Cyan Quiver",
-  "item.combat_reborn.gray_quiver": "Gray Quiver",
-  "item.combat_reborn.green_quiver": "Green Quiver",
-  "item.combat_reborn.light_blue_quiver": "Light Blue Quiver",
-  "item.combat_reborn.light_gray_quiver": "Light Gray Quiver",
-  "item.combat_reborn.lime_quiver": "Lime Quiver",
-  "item.combat_reborn.magenta_quiver": "Magenta Quiver",
-  "item.combat_reborn.orange_quiver": "Orange Quiver",
-  "item.combat_reborn.pink_quiver": "Pink Quiver",
-  "item.combat_reborn.purple_quiver": "Purple Quiver",
-  "item.combat_reborn.red_quiver": "Red Quiver",
-  "item.combat_reborn.white_quiver": "White Quiver",
-  "item.combat_reborn.yellow_quiver": "Yellow Quiver",
-
-  "item.combat_reborn.sapphire_quiver": "Sapphire Quiver",
-  "item.combat_reborn.weighted_quiver": "Weighted Quiver",
-
-  "item.combat_reborn.quiver.empty.desc": "Can carry stacks of arrows",
-
   "tooltip.combat_reborn.when_blocking": "When Blocking",
   "tooltip.combat_reborn.shield.strength": "Block Strength",
   "tooltip.combat_reborn.shield.parry": "Parry Bonus",
-
-  "tooltip.combat_reborn.when_equipped": "When Equipped",
-  "tooltip.combat_reborn.quiver.storage": "Slots",
-  "tooltip.combat_reborn.quiver.stack": "stack",
-  "tooltip.combat_reborn.quiver.stacks": "stacks",
-  "tooltip.combat_reborn.quiver.accuracy": "Accuracy",
-  "tooltip.combat_reborn.quiver.speed": "Draw Speed",
-  "tooltip.combat_reborn.quiver.power": "Range",
 
   "enchantment.combat_reborn.cleaving": "Cleaving",
   "enchantment.combat_reborn.cleaving.desc": "Increases both damage dealt and the duration for which shields are disabled",
@@ -47,12 +16,6 @@
 
   "subtitles.item.shield.parry": "Shield parries",
 
-  "key.combat_reborn.quiver": "Cycle Quiver",
-
-  "pack.combat_reborn.craftable_quivers": "Craftable Quivers",
-  "pack.combat_reborn.quiver_accessories": "Quiver Accessories",
-  "pack.combat_reborn.weighted_quiver": "Weighted Quiver",
-  "pack.combat_reborn.sapphire_quiver": "Sapphire Quiver",
   "pack.combat_reborn.no_cleaving": "No Cleaving",
   "pack.combat_reborn.no_shield_overhaul": "No Shield Overhaul",
 
@@ -74,25 +37,9 @@
   "text.autoconfig.combat_reborn/general.option.shields.block_delay": "Block Delay",
   "text.autoconfig.combat_reborn/general.option.shields.block_delay.@Tooltip": "The time, in game ticks, before a Shield is considered to be blocking attacks. Defaults to 0 for an instant response, with a maximum of 5 (identical to vanilla)",
 
-  "text.autoconfig.combat_reborn/general.option.quivers": "Quivers",
-  "text.autoconfig.combat_reborn/general.option.quivers.enable_quivers": "Enable Quivers",
-  "text.autoconfig.combat_reborn/general.option.quivers.enable_quivers.@Tooltip": "Whether Quivers should be added to the game. This option bypasses the Craftable, Tradable & Lootable options",
-  "text.autoconfig.combat_reborn/general.option.quivers.show_tooltips": "Show Tooltips",
-  "text.autoconfig.combat_reborn/general.option.quivers.show_tooltips.@Tooltip": "Whether Quiver attributes should be displayed on their tooltips",
-  "text.autoconfig.combat_reborn/general.option.quivers.lootable": "Lootable",
-  "text.autoconfig.combat_reborn/general.option.quivers.lootable.@Tooltip": "Whether Quiver loot table injections should be enabled. It is best to keep this option enabled unless you intend on using a custom datapack to handle Quivers as loot",
-  "text.autoconfig.combat_reborn/general.option.quivers.tradable": "Tradable",
-  "text.autoconfig.combat_reborn/general.option.quivers.tradable.@Tooltip": "Whether Quivers should have a chance to be traded by max-level Fletchers",
-  "text.autoconfig.combat_reborn/general.option.quivers.craftable": "Craftable",
-  "text.autoconfig.combat_reborn/general.option.quivers.craftable.@Tooltip": "Whether Quivers should be craftable. Defaults to false, in favour of being structure-exclusive loot",
-  "text.autoconfig.combat_reborn/general.option.quivers.ranged_tweaks": "Ranged Tweaks",
-  "text.autoconfig.combat_reborn/general.option.quivers.ranged_tweaks.@Tooltip": "Whether slight tweaks should be made to the performance of ranged weapons in order to better suit the introduction of Quivers",
-
   "text.autoconfig.combat_reborn/general.option.hunger": "Hunger",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_rework": "Hunger Rework",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_rework.@Tooltip": "Whether Combat Reborn's reworked saturation, hunger and exhaustion systems should be used",
-  "text.autoconfig.combat_reborn/general.option.hunger.hunger_barrier": "Hunger Barrier",
-  "text.autoconfig.combat_reborn/general.option.hunger.hunger_barrier.@Tooltip": "The amount of points required to be considered low on hunger. Defaults to 6, like vanilla",
 
   "text.autoconfig.combat_reborn/general.option.armor": "Armor",
   "text.autoconfig.combat_reborn/general.option.armor.armor_rebalance": "Armor Rebalance",
@@ -138,12 +85,6 @@
   "text.autoconfig.combat_reborn/general.option.misc.knockback_throwables.@Tooltip": "Whether snowballs and eggs should inflict knockback",
 
   "text.autoconfig.combat_reborn/general.option.integrations": "Mod Integration",
-  "text.autoconfig.combat_reborn/general.option.integrations.lal_quiver_variants": "Legacies and Legends Quiver Variants",
-  "text.autoconfig.combat_reborn/general.option.integrations.lal_quiver_variants.@Tooltip": "Whether new Quiver variants should be added as artifacts when Legacies and Legends is installed",
-  "text.autoconfig.combat_reborn/general.option.integrations.lal_quiver_accessories": "Legacies and Legends Quiver Accessories",
-  "text.autoconfig.combat_reborn/general.option.integrations.lal_quiver_accessories.@Tooltip": "Whether Quivers should be equippable in the Accessory slot when Legacies and Legends is installed",
   "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields": "Enderscape Rubble Shields",
-  "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing",
-  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite": "End Reborn",
-  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite.@Tooltip": "Whether Netherite tools should deal increased damage with End Reborn installed"
+  "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing"
 }

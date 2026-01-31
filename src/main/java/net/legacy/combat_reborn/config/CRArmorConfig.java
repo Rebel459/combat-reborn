@@ -67,31 +67,31 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
-                    List.of("minecraft:copper_helmet"),
+                    List.of("progression_reborn:copper_helmet"),
                     2, 1, 0,
                     List.of(),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
-                    List.of("minecraft:copper_chestplate"),
+                    List.of("progression_reborn:copper_chestplate"),
                     4, 1, 0,
                     List.of(),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
-                    List.of("minecraft:copper_leggings"),
+                    List.of("progression_reborn:copper_leggings"),
                     3, 1, 0,
                     List.of(),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
-                    List.of("minecraft:copper_boots"),
+                    List.of("progression_reborn:copper_boots"),
                     1, 1, 0,
                     List.of(),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
-                    List.of("minecraft:copper_horse_armor"),
+                    List.of("progression_reborn:copper_horse_armor"),
                     10, 1, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
@@ -241,7 +241,7 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
-                    List.of("minecraft:netherite_horse_armor"),
+                    List.of("progression_reborn:netherite_horse_armor"),
                     20, 5, 1,
                     List.of(),
                     EquipmentSlotGroup.BODY
@@ -287,84 +287,6 @@ public class CRArmorConfig implements ConfigData {
                     20, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
-            ),
-            new Modifiers(
-                    List.of("end_reborn:remnant_helmet"),
-                    4, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
-                    EquipmentSlotGroup.HEAD
-            ),
-            new Modifiers(
-                    List.of("end_reborn:remnant_chestplate"),
-                    7, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
-                    EquipmentSlotGroup.CHEST
-            ),
-            new Modifiers(
-                    List.of("end_reborn:remnant_leggings"),
-                    6, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
-                    EquipmentSlotGroup.LEGS
-            ),
-            new Modifiers(
-                    List.of("end_reborn:remnant_boots"),
-                    3, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
-                    EquipmentSlotGroup.FEET
-            ),
-            new Modifiers(
-                    List.of("end_reborn:remnant_horse_armor"),
-                    20, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
-                    EquipmentSlotGroup.BODY
-            ),
-            new Modifiers(
-                    List.of("end_reborn:featherzeal_helmet"),
-                    4, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
-                    EquipmentSlotGroup.HEAD
-            ),
-            new Modifiers(
-                    List.of("end_reborn:featherzeal_chestplate"),
-                    7, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
-                    EquipmentSlotGroup.CHEST
-            ),
-            new Modifiers(
-                    List.of("end_reborn:featherzeal_leggings"),
-                    6, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
-                    EquipmentSlotGroup.LEGS
-            ),
-            new Modifiers(
-                    List.of("end_reborn:featherzeal_boots"),
-                    3, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
-                    EquipmentSlotGroup.FEET
-            ),
-            new Modifiers(
-                    List.of("end_reborn:featherzeal_horse_armor"),
-                    20, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
-                    EquipmentSlotGroup.BODY
-            ),
-            new Modifiers(
-                    List.of("legacies_and_legends:reinforced_chestplate"),
-                    7, 1, 5,
-                    List.of(),
-                    EquipmentSlotGroup.CHEST
-            ),
-            new Modifiers(
-                    List.of("legacies_and_legends:travelling_strides"),
-                    3, 0, 0,
-                    List.of(Triple.of("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
-                    EquipmentSlotGroup.LEGS
-            ),
-            new Modifiers(
-                    List.of("legacies_and_legends:wanderer_boots"),
-                    2, 1, 0,
-                    List.of(Triple.of("minecraft:step_height", 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
-                    EquipmentSlotGroup.FEET
             ),
             new Modifiers(
                     List.of("enderscape:shadoline_helmet"),

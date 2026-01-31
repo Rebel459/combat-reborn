@@ -36,11 +36,10 @@ public class CRWeaponConfig implements ConfigData {
             // Swords
             new Modifiers(List.of(
                     "minecraft:wooden_sword",
-                    "minecraft:stone_sword",
-                    "legacies_and_legends:verdant_sword"
+                    "minecraft:stone_sword"
             ), 4, 2, 3, List.of()),
             new Modifiers(List.of(
-                    "minecraft:copper_sword",
+                    "progression_reborn:copper_sword",
                     "minecraft:golden_sword"
             ), 5, 2, 3, List.of()),
             new Modifiers(List.of(
@@ -62,13 +61,12 @@ public class CRWeaponConfig implements ConfigData {
                     "minecraft:stone_axe"
             ), 7, 0.8, 3, List.of()),
             new Modifiers(List.of(
-                    "minecraft:copper_axe",
+                    "progression_reborn:copper_axe",
                     "minecraft:golden_axe"
             ), 7, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:iron_axe",
-                    "progression_reborn:rose_axe",
-                    "legacies_and_legends:cleaving_battleaxe"
+                    "progression_reborn:rose_axe"
             ), 8, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:diamond_axe"
@@ -79,42 +77,18 @@ public class CRWeaponConfig implements ConfigData {
                     "end_reborn:featherzeal_axe"
             ), 9, 1.2, 3, List.of()),
 
-            // Spears
-            new Modifiers(List.of(
-                    "minecraft:wooden_spear",
-                    "minecraft:stone_spear",
-                    "legacies_and_legends:frosted_spear"
-            ), 2, 1.6, 3, List.of()),
-            new Modifiers(List.of(
-                    "minecraft:copper_spear",
-                    "minecraft:golden_spear"
-            ), 3, 1.4, 3, List.of()),
-            new Modifiers(List.of(
-                    "minecraft:iron_spear",
-                    "progression_reborn:rose_spear"
-            ), 4, 1.2, 3, List.of()),
-            new Modifiers(List.of(
-                    "minecraft:diamond_spear"
-            ), 5, 1.0, 3, List.of()),
-            new Modifiers(List.of(
-                    "minecraft:netherite_spear",
-                    "end_reborn:remnant_spear",
-                    "end_reborn:featherzeal_spear"
-            ), 6, 0.8, 3, List.of()),
-
             // Pickaxes
             new Modifiers(List.of(
                     "minecraft:wooden_pickaxe",
                     "minecraft:stone_pickaxe"
             ), 3, 0.8, 3, List.of()),
             new Modifiers(List.of(
-                    "minecraft:copper_pickaxe",
+                    "progression_reborn:copper_pickaxe",
                     "minecraft:golden_pickaxe"
             ), 4, 0.8, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:iron_pickaxe",
-                    "progression_reborn:rose_pickaxe",
-                    "legacies_and_legends:molten_pickaxe"
+                    "progression_reborn:rose_pickaxe"
             ), 5, 0.8, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:diamond_pickaxe"
@@ -131,13 +105,12 @@ public class CRWeaponConfig implements ConfigData {
                     "minecraft:stone_shovel"
             ), 2, 1, 3, List.of()),
             new Modifiers(List.of(
-                    "minecraft:copper_shovel",
+                    "progression_reborn:copper_shovel",
                     "minecraft:golden_shovel"
             ), 3, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:iron_shovel",
-                    "progression_reborn:rose_shovel",
-                    "legacies_and_legends:prospector_shovel"
+                    "progression_reborn:rose_shovel"
             ), 4, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:diamond_shovel"
@@ -151,11 +124,10 @@ public class CRWeaponConfig implements ConfigData {
             // Hoes
             new Modifiers(List.of(
                     "minecraft:wooden_hoe",
-                    "minecraft:stone_hoe",
-                    "legacies_and_legends:withered_hoe"
+                    "minecraft:stone_hoe"
             ), 1, 2, 3.5, List.of()),
             new Modifiers(List.of(
-                    "minecraft:copper_hoe",
+                    "progression_reborn:copper_hoe",
                     "minecraft:golden_hoe"
             ), 1, 2.5, 3.5, List.of()),
             new Modifiers(List.of(
@@ -181,16 +153,6 @@ public class CRWeaponConfig implements ConfigData {
                     "minecraft:trident"
             ), 9, 1.6, 3.5, List.of()),
 
-            // Boomerang
-            new Modifiers(List.of(
-                    "legacies_and_legends:boomerang"
-            ), 4, 3, 2.5, List.of()),
-
-            // Hook
-            new Modifiers(List.of(
-                    "legacies_and_legends:hook"
-            ), 9, 0.9, 3.5, List.of()),
-
             // Katana
             new Modifiers(List.of(
                     "remnants:katana"
@@ -201,7 +163,7 @@ public class CRWeaponConfig implements ConfigData {
                     "farmersdelight:flint_knife"
             ), 2, 2.8, 2.5, List.of()),
             new Modifiers(List.of(
-                    "farmersdelight:copper_knife",
+                    "farmersknives:copper_knife",
                     "farmersdelight:golden_knife"
             ), 3, 2.8, 2.5, List.of()),
             new Modifiers(List.of(
@@ -211,9 +173,6 @@ public class CRWeaponConfig implements ConfigData {
             new Modifiers(List.of(
                     "farmersdelight:diamond_knife"
             ), 5, 2.8, 2.5, List.of()),
-            new Modifiers(List.of(
-                    "legacies_and_legends:knife"
-            ), 5, 3, 2.5, List.of()),
             new Modifiers(List.of(
                     "farmersdelight:netherite_knife",
                     "farmersknives:remnant_knife",
