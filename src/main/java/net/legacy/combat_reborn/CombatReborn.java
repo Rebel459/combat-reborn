@@ -1,5 +1,7 @@
 package net.legacy.combat_reborn;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -8,7 +10,9 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.legacy.combat_reborn.config.CRArmorConfig;
 import net.legacy.combat_reborn.config.CRConfig;
+import net.legacy.combat_reborn.config.CRWeaponConfig;
 import net.legacy.combat_reborn.entity.PlayerSpawnCallback;
 import net.legacy.combat_reborn.item.ArmorAttributeModifierCallback;
 import net.legacy.combat_reborn.item.ItemAttributeModifierCallback;
@@ -28,19 +32,16 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean isEndRebornLoaded() {
-        return FabricLoader.getInstance().isModLoaded("end_reborn");
-    }
-    public static boolean isEnchantsAndExpeditionsLoaded () {
-        return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
-    }
-    public static boolean isLegaciesAndLegendsLoaded () {
-        return FabricLoader.getInstance().isModLoaded("legacies_and_legends");
-    }
+    public static boolean isEndRebornLoaded = FabricLoader.getInstance().isModLoaded("end_reborn");
+    public static boolean isEnchantsAndExpeditionsLoaded = FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
+    public static boolean isLegaciesAndLegendsLoaded = FabricLoader.getInstance().isModLoaded("legacies_and_legends");
 
 	@Override
 	public void onInitialize() {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
+
+        AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
 
         CRDataComponents.init();
         CRItems.init();
@@ -76,7 +77,7 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (isLegaciesAndLegendsLoaded()) {
+        if (isLegaciesAndLegendsLoaded) {
             if (CRConfig.get.general.quivers.craftable && CRConfig.get.general.integrations.lal_quiver_variants) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         CombatReborn.id("weighted_quiver"), modContainer.get(),

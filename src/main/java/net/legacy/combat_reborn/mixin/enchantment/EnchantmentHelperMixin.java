@@ -24,7 +24,7 @@ public abstract class EnchantmentHelperMixin {
 
     @Inject(method = "getAvailableEnchantmentResults", at = @At(value = "HEAD"), cancellable = true)
     private static void CR$getAvailableEnchantmentResults(int level, ItemStack stack, Stream<Holder<Enchantment>> possibleEnchantments, CallbackInfoReturnable<List<EnchantmentInstance>> cir) {
-        if (CombatReborn.isEnchantsAndExpeditionsLoaded() || !stack.is(ItemTags.AXES) || !CRConfig.get.general.misc.cleaving_enchantment) return;
+        if (CombatReborn.isEnchantsAndExpeditionsLoaded || !stack.is(ItemTags.AXES) || !CRConfig.get.general.misc.cleaving_enchantment) return;
         List<EnchantmentInstance> list = Lists.<EnchantmentInstance>newArrayList();
         boolean bl = stack.is(Items.BOOK);
         possibleEnchantments.filter(holder -> holder.value().isPrimaryItem(stack) || bl).forEach(holder -> {

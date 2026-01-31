@@ -17,7 +17,7 @@ import java.util.function.UnaryOperator;
 public class CRDataComponents {
     public static void init(){
         DefaultItemComponentEvents.MODIFY.register(context -> {
-            if (!CombatReborn.isEnchantsAndExpeditionsLoaded()) {
+            if (!CombatReborn.isEnchantsAndExpeditionsLoaded) {
                 context.modify(Items.SHIELD, builder -> {
                     builder.set(DataComponents.ENCHANTABLE, new Enchantable(10));
                 });
