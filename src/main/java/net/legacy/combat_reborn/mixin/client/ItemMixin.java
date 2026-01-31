@@ -27,15 +27,14 @@ public abstract class ItemMixin {
 
     @Inject(method = "appendHoverText", at = @At("TAIL"))
     private void shieldTooltip(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag tooltipFlag, CallbackInfo ci) {
-        ItemStack stack = ItemStack.class.cast(this);
-        if (!stack.is(CRItemTags.SHIELD) || !CRConfig.get.general.shields.shield_overhaul || !CRConfig.get.general.shields.show_tooltips) return;
+        if (!itemStack.is(CRItemTags.SHIELD) || !CRConfig.get.general.shields.shield_overhaul || !CRConfig.get.general.shields.show_tooltips) return;
         list.add(Component.literal(""));
         list.add(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
 
-        int strength = (int) ShieldHelper.getMaxDamage(stack, false);
-        float parryBonus = ShieldHelper.getParryBonus(stack, false);
-        int enchantedStrength = (int) ShieldHelper.getMaxDamage(stack);
-        float enchantedParryBonus = ShieldHelper.getParryBonus(stack);
+        int strength = (int) ShieldHelper.getMaxDamage(itemStack, false);
+        float parryBonus = ShieldHelper.getParryBonus(itemStack, false);
+        int enchantedStrength = (int) ShieldHelper.getMaxDamage(itemStack);
+        float enchantedParryBonus = ShieldHelper.getParryBonus(itemStack);
         ChatFormatting strengthColor = ChatFormatting.DARK_GREEN;
         ChatFormatting parryBonusColor = ChatFormatting.DARK_GREEN;
 

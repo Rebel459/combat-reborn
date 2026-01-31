@@ -56,7 +56,7 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:leather_boots"),
-                    3, 0, 0,
+                    1, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.FEET
             ),
@@ -119,12 +119,6 @@ public class CRArmorConfig implements ConfigData {
                     2, 3, 1,
                     List.of(),
                     EquipmentSlotGroup.FEET
-            ),
-            new Modifiers(
-                    List.of("minecraft:chainmail_horse_armor"),
-                    12, 3, 1,
-                    List.of(),
-                    EquipmentSlotGroup.BODY
             ),
             new Modifiers(
                     List.of("minecraft:iron_helmet"),

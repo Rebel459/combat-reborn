@@ -146,7 +146,6 @@ public abstract class GuiMixin {
         if (m > 0) {
             int n = i - (j - 1) * k - 10;
             RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             for(int o = 0; o < 10; ++o) {
                 int p = l + o * 8;
                 if (o * 2 + 1 < m) {
@@ -157,7 +156,6 @@ public abstract class GuiMixin {
                     guiGraphics.blitSprite(TOUGHNESS_HALF_SPRITE, p, n, 9, 9);
                 }
             }
-            RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
         }
     }
