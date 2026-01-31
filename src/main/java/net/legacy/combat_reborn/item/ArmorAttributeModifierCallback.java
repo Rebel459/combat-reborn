@@ -65,7 +65,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.ARMOR,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:armor", slot),
+                                attributeId("minecraft:armor", slot),
                                 defense,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -73,7 +73,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.ARMOR_TOUGHNESS,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:armor_toughness", slot),
+                                attributeId("minecraft:armor_toughness", slot),
                                 toughness,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -81,7 +81,7 @@ public class ArmorAttributeModifierCallback {
                 .add(
                         Attributes.KNOCKBACK_RESISTANCE,
                         new AttributeModifier(
-                                attributeIdentifier("minecraft:knockback_resistance", slot),
+                                attributeId("minecraft:knockback_resistance", slot),
                                 knockbackResistance / 10D,
                                 AttributeModifier.Operation.ADD_VALUE),
                         slot
@@ -98,7 +98,7 @@ public class ArmorAttributeModifierCallback {
                 itemAttributes = itemAttributes.withModifierAdded(
                         BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).get(),
                         new AttributeModifier(
-                                attributeIdentifier(attribute, slot),
+                                attributeId(attribute, slot),
                                 value,
                                 operation),
                         slot
@@ -108,7 +108,7 @@ public class ArmorAttributeModifierCallback {
         return itemAttributes;
     }
 
-    private static Identifier attributeIdentifier(String attribute, EquipmentSlotGroup slot) {
+    private static Identifier attributeId(String attribute, EquipmentSlotGroup slot) {
         return Identifier.parse(attribute + "_" + slot.name().toLowerCase());
     }
 }

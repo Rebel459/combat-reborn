@@ -1,6 +1,5 @@
 package net.legacy.combat_reborn.util;
 
-import com.mojang.logging.LogUtils;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.minecraft.core.component.DataComponents;
@@ -18,9 +17,6 @@ public class DamageHelper {
 
     public static float processDamage(LivingEntity livingEntity, float damage, DamageSource damageSource, float defense, float toughness) {
         float damageReduction = calculateDamageReduction(livingEntity, damage, defense, toughness);
-        for (int x = 0; x <= 50; x++) {
-            LogUtils.getLogger().info("Damage: " + x + " | Reduction: " + calculateDamageReduction(livingEntity, x, defense, toughness));
-        }
         ItemStack itemStack = damageSource.getWeaponItem();
         float checkedDamageReduction;
         if (itemStack != null && livingEntity.level() instanceof ServerLevel serverLevel) {
