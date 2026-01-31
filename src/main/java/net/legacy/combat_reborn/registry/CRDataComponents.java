@@ -34,8 +34,8 @@ public class CRDataComponents {
                 Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.get.weapons.sets.stream()
                         .filter(modifier -> modifier.ids.contains("minecraft:trident"))
                         .findFirst();
-                optionalToolsModifier.ifPresent(modifiers -> context.modify(Items.TRIDENT, builder -> {
-                    builder.set(
+                context.modify(Items.TRIDENT, builder -> {
+                    optionalToolsModifier.ifPresent(modifiers -> builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
                             ItemAttributeModifierCallback.createAttributeModifiers(
                                     modifiers.damage - ItemAttributeModifierCallback.DEFAULT_ATTACK_DAMAGE,
@@ -43,10 +43,10 @@ public class CRDataComponents {
                                     modifiers.reach - ItemAttributeModifierCallback.DEFAULT_ATTACK_RANGE,
                                     modifiers.attributes
                             )
-                    );
+                    ));
                     HolderGetter<Item> holderGetter = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.ITEM);
                     builder.set(DataComponents.REPAIRABLE, new Repairable(holderGetter.getOrThrow(CRItemTags.TRIDENT_REPAIR_MATERIALS)));
-                }));
+                });
             }
         });
     }

@@ -27,7 +27,6 @@
     "item.ItemMixin",
     "item.ItemStackMixin",
     "item.ProjectileWeaponItemMixin",
-    "item.TridentItemMixin",
     "menu.AnvilMenuMixin",
     "server.ServerPlayerMixin",
     "util.CombatRulesMixin"
