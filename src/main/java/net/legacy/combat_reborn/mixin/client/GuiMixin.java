@@ -22,7 +22,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -50,16 +49,6 @@ public abstract class GuiMixin {
 
     @Shadow
     protected abstract void renderSlot(GuiGraphics guiGraphics, int i, int j, DeltaTracker deltaTracker, Player player, ItemStack itemStack, int k);
-
-    @Shadow
-    @Final
-    private RandomSource random;
-    @Shadow
-    private int tickCount;
-
-    @Shadow
-    @Nullable
-    protected abstract Player getCameraPlayer();
 
     @Unique
     private static final Identifier HOTBAR_SHIELD_INDICATOR_FULL = CombatReborn.id("hud/hotbar_shield_indicator_full");
@@ -91,34 +80,29 @@ public abstract class GuiMixin {
 
     @Inject(method = "renderHotbarAndDecorations", at = @At(value = "HEAD"))
     private void renderShieldHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
-        Options options = this.minecraft.options;
-        if (options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
-                guiGraphics.nextStratum();
-                Player player = this.minecraft.player;
-                if (!(player instanceof ShieldInfo info)) return;
-                if (!(player instanceof ClientTickInterface fullTicks)) return;
+        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR || this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+        guiGraphics.nextStratum();
+        Player player = this.minecraft.player;
+        if (!(player instanceof ShieldInfo info)) return;
+        if (!(player instanceof ClientTickInterface fullTicks)) return;
 
-                int percentageBlocked = info.getPercentageDamage();
+        int percentageBlocked = info.getPercentageDamage();
 
-                if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0 && fullTicks.getClientTicks() >= ClientTickInterface.maxTicks) return;
+        if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0 && fullTicks.getClientTicks() >= ClientTickInterface.maxTicks) return;
 
-                float f = 1F - percentageBlocked / 100F;
+        float f = 1F - percentageBlocked / 100F;
 
-                int size = 12;
+        int size = 12;
 
-                int j = guiGraphics.guiHeight() - 49; // height
-                int k = guiGraphics.guiWidth() / 2 - size / 2; // width
+        int j = guiGraphics.guiHeight() - 49; // height
+        int k = guiGraphics.guiWidth() / 2 - size / 2; // width
 
-                if (f >= 1F) {
-                    guiGraphics.blitSprite(SHIELD_INDICATOR, HOTBAR_SHIELD_INDICATOR_FULL, k, j, size, size);
-                } else {
-                    int l = (int) (f * size * 1.0625);
-                    guiGraphics.blitSprite(SHIELD_INDICATOR_BACKGROUND, HOTBAR_SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
-                    guiGraphics.blitSprite(SHIELD_INDICATOR, HOTBAR_SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
-                }
-            }
+        if (f >= 1F) {
+            guiGraphics.blitSprite(SHIELD_INDICATOR, HOTBAR_SHIELD_INDICATOR_FULL, k, j, size, size);
+        } else {
+            int l = (int) (f * size * 1.0625);
+            guiGraphics.blitSprite(SHIELD_INDICATOR_BACKGROUND, HOTBAR_SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
+            guiGraphics.blitSprite(SHIELD_INDICATOR, HOTBAR_SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
         }
     }
 

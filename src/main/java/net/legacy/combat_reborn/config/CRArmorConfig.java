@@ -164,13 +164,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("minecraft:golden_chestplate"),
-                    6, 0, 0,
+                    5, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("minecraft:golden_leggings"),
-                    5, 0, 0,
+                    4, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.LEGS
             ),
@@ -185,7 +185,7 @@ public class CRArmorConfig implements ConfigData {
                             "minecraft:golden_horse_armor",
                             "minecraft:golden_nautilus_armor"
                     ),
-                    16, 0, 0,
+                    14, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
@@ -275,13 +275,13 @@ public class CRArmorConfig implements ConfigData {
             ),
             new Modifiers(
                     List.of("progression_reborn:rose_chestplate"),
-                    7, 0, 0,
+                    6, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("progression_reborn:rose_leggings"),
-                    6, 0, 0,
+                    5, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.LEGS
             ),
@@ -296,7 +296,7 @@ public class CRArmorConfig implements ConfigData {
                             "progression_reborn:rose_horse_armor",
                             "progression_reborn:rose_nautilus_armor"
                     ),
-                    20, 0, 0,
+                    18, 0, 0,
                     List.of(),
                     EquipmentSlotGroup.BODY
             ),
