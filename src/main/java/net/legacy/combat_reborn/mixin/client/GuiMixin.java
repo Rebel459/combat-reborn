@@ -58,42 +58,37 @@ public abstract class GuiMixin {
 
     @Inject(method = "renderHotbarAndDecorations", at = @At(value = "HEAD"))
     private void renderShieldHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR) return;
-        Options options = this.minecraft.options;
-        if (options.getCameraType().isFirstPerson()) {
-            if (this.minecraft.gameMode.getPlayerMode() != GameType.SPECTATOR || this.canRenderCrosshairForSpectator(this.minecraft.hitResult)) {
-                Player player = this.minecraft.player;
-                if (!(player instanceof ShieldInfo info)) return;
-                if (!(player instanceof ClientTickInterface fullTicks)) return;
+        if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR || this.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+        Player player = this.minecraft.player;
+        if (!(player instanceof ShieldInfo info)) return;
+        if (!(player instanceof ClientTickInterface fullTicks)) return;
 
-                int percentageBlocked = info.getPercentageDamage();
+        int percentageBlocked = info.getPercentageDamage();
 
-                if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0 && fullTicks.getClientTicks() >= ClientTickInterface.maxTicks) return;
+        if (!player.getUseItem().is(CRItemTags.SHIELD) && percentageBlocked == 0 && fullTicks.getClientTicks() >= ClientTickInterface.maxTicks) return;
 
-                float f = 1F - percentageBlocked / 100F;
+        float f = 1F - percentageBlocked / 100F;
 
-                int size = 12;
+        int size = 12;
 
-                int j = guiGraphics.guiHeight() - 49; // height
-                int k = guiGraphics.guiWidth() / 2 - size / 2; // width
+        int j = guiGraphics.guiHeight() - 49; // height
+        int k = guiGraphics.guiWidth() / 2 - size / 2; // width
 
-                RenderSystem.enableBlend();
+        RenderSystem.enableBlend();
 
-                if (f >= 1F) {
-                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                    guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_FULL, k, j, size, size);
-                } else {
-                    int l = (int) (f * size * 1.0625);
-                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-                    guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
-                    RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                    guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
-                }
-
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.disableBlend();
-            }
+        if (f >= 1F) {
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_FULL, k, j, size, size);
+        } else {
+            int l = (int) (f * size * 1.0625);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_BACKGROUND, k, j, size, size);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            guiGraphics.blitSprite(HOTBAR_SHIELD_INDICATOR_PROGRESS, size, size, 0, 0, k, j, l, size);
         }
+
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
     }
 
     @Inject(method = "renderCrosshair", at = @At(value = "HEAD", target = "Lnet/minecraft/client/Options;attackIndicator()Lnet/minecraft/client/OptionInstance;"))
