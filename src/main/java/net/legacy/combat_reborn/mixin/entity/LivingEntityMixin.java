@@ -147,8 +147,8 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                     target = "Lnet/minecraft/world/entity/LivingEntity;applyItemBlocking(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)F"
             )
     )
-    private float trackShieldDamageBlocked(LivingEntity instance, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
-        float blockedDamage = original.call(instance, serverLevel, damageSource, f);
+    private float trackShieldDamageBlocked(LivingEntity attacker, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
+        float blockedDamage = original.call(attacker, serverLevel, damageSource, f);
         if (blockedDamage > 0 && CRConfig.get.general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
@@ -161,9 +161,8 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                 this.hurtOrBlockedTime = 10;
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
-                    float disableTime = 15F;
-                    if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
-                    stack.getComponents().get(DataComponents.BLOCKS_ATTACKS).disable(serverLevel, entity, disableTime, stack);
+                    float disableDuration = ShieldHelper.getDisableDuration(stack);
+                    ShieldHelper.handleDisabling(serverLevel, entity, attacker, disableDuration, stack);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
                     entity.addTag("should_disable_shield");
                 }

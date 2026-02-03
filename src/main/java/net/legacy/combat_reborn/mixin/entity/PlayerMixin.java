@@ -7,16 +7,19 @@ import net.legacy.combat_reborn.registry.CRDataComponents;
 import net.legacy.combat_reborn.util.QuiverContents;
 import net.legacy.combat_reborn.util.QuiverHelper;
 import net.legacy.combat_reborn.util.QuiverInterface;
+import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.CustomModelData;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -156,12 +159,25 @@ public abstract class PlayerMixin implements QuiverInterface {
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/food/FoodData;addExhaustion(F)V"
             )
-    )    private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
+    )
+    private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
         Player player = Player.class.cast(this);
         if (!CRConfig.get.general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get.general.hunger.hunger_barrier) {
             original.call(foodData, f);
             return;
         }
         original.call(foodData, f / 4);;
+    }
+
+    @WrapOperation(
+            method = "blockUsingItem",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/component/BlocksAttacks;disable(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;FLnet/minecraft/world/item/ItemStack;)V"
+            )
+    )
+    private void handleDisabling(BlocksAttacks blocksAttacks, ServerLevel serverLevel, LivingEntity livingEntity, float f, ItemStack itemStack, Operation<Void> original) {
+        Player player = Player.class.cast(this);
+        ShieldHelper.handleDisabling(serverLevel, player, livingEntity, f, itemStack);
     }
 }
