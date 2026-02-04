@@ -54,13 +54,6 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (!CRConfig.get.general.misc.cleaving_enchantment) {
-            ResourceManagerHelper.registerBuiltinResourcePack(
-                    CombatReborn.id("no_cleaving"), modContainer.get(),
-                    Component.translatable("pack.combat_reborn.no_cleaving"),
-                    ResourcePackActivationType.ALWAYS_ENABLED
-            );
-        }
 
         if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
             isEndRebornLoaded = true;

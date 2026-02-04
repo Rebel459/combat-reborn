@@ -129,9 +129,6 @@ public class CRGeneralConfig implements ConfigData {
     public static class MiscConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
-        public boolean cleaving_enchantment = true;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
         public boolean stackable_stews = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip

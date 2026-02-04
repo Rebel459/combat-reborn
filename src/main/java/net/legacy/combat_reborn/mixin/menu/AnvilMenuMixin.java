@@ -21,7 +21,7 @@ public abstract class AnvilMenuMixin {
         AnvilMenu menu = AnvilMenu.class.cast(this);
         ItemStack input = menu.inputSlots.getItem(0);
         ItemStack output = menu.resultSlots.getItem(0);
-        if (CombatReborn.isEnchantsAndExpeditionsLoaded || !output.is(ItemTags.AXES) || !CRConfig.get.general.misc.cleaving_enchantment) return;
+        if (CombatReborn.isEnchantsAndExpeditionsLoaded || !output.is(ItemTags.AXES) || !CRConfig.get.general.shields.shield_overhaul) return;
         if (output.isEnchanted()) {
             ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(EnchantmentHelper.getEnchantmentsForCrafting(output));
             if (!menu.player.hasInfiniteMaterials()) mutable.removeIf(holder -> (holder.is(CREnchantmentTags.NOT_ON_AXES)));

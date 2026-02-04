@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
-import net.legacy.combat_reborn.tag.CRItemTags;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -104,14 +103,14 @@ public abstract class PlayerMixin {
     @Inject(method = "disableShield", at = @At(value = "HEAD"), cancellable = true)
     private void handleDisabling(CallbackInfo ci) {
         Player player = Player.class.cast(this);
-        float disableTime = 5F;
+        float disableDuration = 5F;
         if (CRConfig.get.general.shields.shield_overhaul) {
-            disableTime -= 2F;
+            disableDuration -= 2F;
         }
         ItemStack stack = this.getWeaponItem();
         int cleaving = CREnchantments.getLevel(stack, CREnchantments.CLEAVING);
         if (cleaving > 0) {
-            disableTime = disableTime + cleaving;
+            disableDuration += cleaving;
         }
         player.addTag("stop_shield_recharge");
         if (CRConfig.get.general.shields.shield_overhaul && cleaving == 1) player.addTag("stop_shield_recharge_1");
@@ -131,12 +130,11 @@ public abstract class PlayerMixin {
         }
         if (shouldContinue) {
             if (player instanceof ShieldInfo shieldInfo) {
-                int percentageToIncrease = ShieldHelper.processDamage(stack, disableTime * 5F);
+                int percentageToIncrease = ShieldHelper.processDamage(stack, disableDuration * 5F);
                 shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) player);
                 if (shieldInfo.getPercentageDamage() >= 100) {
-                    disableTime = 15;
-                    if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
-                    int disableTicks = (int) (disableTime * 20);
+                    disableDuration = ShieldHelper.getDisableDuration(stack);
+                    int disableTicks = (int) (disableDuration * 20);
                     player.getCooldowns().addCooldown(stack.getItem(), disableTicks);
                     shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) player);
                     player.stopUsingItem();
@@ -147,7 +145,7 @@ public abstract class PlayerMixin {
             }
         }
 
-        this.getCooldowns().addCooldown(Items.SHIELD, (int) (disableTime * 20));
+        this.getCooldowns().addCooldown(Items.SHIELD, (int) (disableDuration * 20));
         player.stopUsingItem();
         player.level().broadcastEntityEvent(player, (byte) 30);
 

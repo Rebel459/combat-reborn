@@ -88,4 +88,10 @@ public class ShieldHelper {
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
         return parryWindow - parry * 4;
     }
+
+    public static float getDisableDuration(ItemStack stack) {
+        float disableDuration = 15F;
+        if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableDuration = 10F;
+        return disableDuration;
+    }
 }

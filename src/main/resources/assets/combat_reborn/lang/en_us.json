@@ -29,7 +29,7 @@
 
   "text.autoconfig.combat_reborn/general.option.shields": "Shields",
   "text.autoconfig.combat_reborn/general.option.shields.shield_overhaul": "Shield Overhaul",
-  "text.autoconfig.combat_reborn/general.option.shields.shield_overhaul.@Tooltip": "Whether the Shield overhaul should be enabled, which includes new mechanics such as parrying and a strength meter. Also includes 4 new enchantments - Parry, Endurance, Stagger & Dueling",
+  "text.autoconfig.combat_reborn/general.option.shields.shield_overhaul.@Tooltip": "Whether the Shield overhaul should be enabled, which includes new mechanics such as parrying and a strength meter. Also includes 5 new enchantments - Parry, Endurance, Stagger, Dueling & Cleaving",
   "text.autoconfig.combat_reborn/general.option.shields.display_style": "Display Style",
   "text.autoconfig.combat_reborn/general.option.shields.display_style.@Tooltip": "Whether the Shield Strength overlay should be rendered as a hotbar or crosshair element",
   "text.autoconfig.combat_reborn/general.option.shields.show_tooltips": "Show Tooltips",
@@ -73,8 +73,6 @@
   "text.autoconfig.combat_reborn/general.option.armor.protection.max_percentage.@Tooltip": "The maximum percentage of damage reduction that can be provided by enchantments. 80% is equivalent to vanilla (0-100)",
 
   "text.autoconfig.combat_reborn/general.option.misc": "Miscellaneous",
-  "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment": "Cleaving Enchantment",
-  "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment.@Tooltip": "Whether Cleaving should be enabled as a substitute of Sharpness for Axes. Cleaving increases both attack damage and the shield disable duration",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_stews": "Stackable Stews",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_stews.@Tooltip": "Whether soups & stews should stack to 16",
   "text.autoconfig.combat_reborn/general.option.misc.stackable_potions": "Stackable Potions",

@@ -117,10 +117,9 @@ public abstract class LivingEntityMixin implements ShieldInfo {
                 this.hurtOrBlockedTime = 10;
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
-                    float disableTime = 15F;
-                    if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableTime = 10F;
+                    float disableDuration = ShieldHelper.getDisableDuration(stack);
                     if (stack.getItem() instanceof ShieldItem) {
-                        player.getCooldowns().addCooldown(Items.SHIELD, (int) (disableTime * 20));
+                        player.getCooldowns().addCooldown(Items.SHIELD, (int) (disableDuration * 20));
                         player.stopUsingItem();
                         player.level().broadcastEntityEvent(player, (byte) 30);
                     }
