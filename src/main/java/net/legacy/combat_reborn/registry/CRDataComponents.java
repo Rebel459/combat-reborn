@@ -25,12 +25,12 @@ import java.util.function.UnaryOperator;
 public class CRDataComponents {
     public static void init(){
         DefaultItemComponentEvents.MODIFY.register(context -> {
-            if (!CombatReborn.isEnchantsAndExpeditionsLoaded) {
+            if (!CombatReborn.hasEnchantsAndExpeditions()) {
                 context.modify(Items.SHIELD, builder -> {
                     builder.set(DataComponents.ENCHANTABLE, new Enchantable(10));
                 });
             }
-            if (CombatReborn.isLegaciesAndLegendsLoaded || CombatReborn.isEnchantsAndExpeditionsLoaded) {
+            if (CombatReborn.hasLegaciesAndLegends() || CombatReborn.hasEnchantsAndExpeditions()) {
                 Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.get.weapons.sets.stream()
                         .filter(modifier -> modifier.ids.contains("minecraft:trident"))
                         .findFirst();

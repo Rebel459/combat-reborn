@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,7 @@ import java.util.Optional;
 public class ItemAttributeModifierCallback {
     public static final Identifier BASE_ATTACK_RANGE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_range");
 
-    public static final double DEFAULT_ATTACK_DAMAGE = 1.0; // GENERIC_ATTACK_DAMAGE base value is changed for players!
+    public static final double DEFAULT_ATTACK_DAMAGE = 1.0;
     public static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
     public static final double DEFAULT_ATTACK_RANGE = Attributes.ENTITY_INTERACTION_RANGE.value().getDefaultValue();
 
@@ -49,7 +48,7 @@ public class ItemAttributeModifierCallback {
                     if (optionalToolsModifier.isEmpty()) return;
 
                     int bonus = 0;
-                    if (CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
+                    if (CombatReborn.hasEndReborn() && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
                         bonus = 1;
                     }
 
@@ -64,7 +63,7 @@ public class ItemAttributeModifierCallback {
                 })));
     }
 
-    public static ItemAttributeModifiers createAttributeModifiers(double attackDamage, double attackSpeed, double attackRange, List<Triple<String, Double, AttributeModifier.Operation>> attributes) {
+    public static ItemAttributeModifiers createAttributeModifiers(double attackDamage, double attackSpeed, double attackRange, List<CRConfig.AttributeEntry> attributes) {
         var itemAttributes = ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -92,10 +91,10 @@ public class ItemAttributeModifierCallback {
                         EquipmentSlotGroup.MAINHAND
                 )
                 .build();
-        for (Triple<String, Double, AttributeModifier.Operation> entry : attributes) {
-            String attribute = entry.getLeft();
-            double value = entry.getMiddle();
-            AttributeModifier.Operation operation = entry.getRight();
+        for (CRConfig.AttributeEntry entry : attributes) {
+            String attribute = entry.attribute;
+            double value = entry.value;
+            AttributeModifier.Operation operation = entry.operation;
             if (BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).isEmpty()) {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }

@@ -4,7 +4,6 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import net.legacy.combat_reborn.CombatReborn;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,12 +16,12 @@ public class CRWeaponConfig implements ConfigData {
         public double damage;
         public double speed;
         public double reach;
-        public List<Triple<String, Double, AttributeModifier.Operation>> attributes;
+        public List<CRConfig.AttributeEntry> attributes;
 
         Modifiers() {
             this(List.of("example:example"), 1, 4, 3, List.of());
         }
-        Modifiers(List<String> ids, double damage, double speed, double reach, List<Triple<String, Double, AttributeModifier.Operation>> attributes) {
+        Modifiers(List<String> ids, double damage, double speed, double reach, List<CRConfig.AttributeEntry> attributes) {
             this.ids = ids;
             this.damage = damage;
             this.speed = speed;
@@ -202,7 +201,7 @@ public class CRWeaponConfig implements ConfigData {
                     4,
                     2.4,
                     2.5,
-                    List.of(Triple.of("enderscape:backstab_damage", 4.0, AttributeModifier.Operation.ADD_VALUE))
+                    List.of(new CRConfig.AttributeEntry("enderscape:backstab_damage", 4.0, AttributeModifier.Operation.ADD_VALUE))
             ),
 
             // Knives

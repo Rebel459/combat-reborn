@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 import net.legacy.combat_reborn.CombatReborn;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,13 +18,13 @@ public class CRArmorConfig implements ConfigData {
         public double defense;
         public double toughness;
         public double knockback_resistance;
-        public List<Triple<String, Double, AttributeModifier.Operation>> attributes;
+        public List<CRConfig.AttributeEntry> attributes;
         public EquipmentSlotGroup slot;
 
         Modifiers() {
             this(List.of("example:example"), 6, 1, 1, List.of(), EquipmentSlotGroup.CHEST);
         }
-        Modifiers(List<String> ids, double defense, double toughness, double knockback_resistance, List<Triple<String, Double, AttributeModifier.Operation>> attributes, EquipmentSlotGroup slot) {
+        Modifiers(List<String> ids, double defense, double toughness, double knockback_resistance, List<CRConfig.AttributeEntry> attributes, EquipmentSlotGroup slot) {
             this.ids = ids;
             this.defense = defense;
             this.toughness = toughness;
@@ -303,25 +302,25 @@ public class CRArmorConfig implements ConfigData {
             new Modifiers(
                     List.of("end_reborn:remnant_helmet"),
                     4, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_chestplate"),
                     7, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_leggings"),
                     6, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_boots"),
                     3, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
@@ -330,31 +329,31 @@ public class CRArmorConfig implements ConfigData {
                             "end_reborn:remnant_nautilus_armor"
                     ),
                     20, 5, 1,
-                    List.of(Triple.of("minecraft:explosion_knockback_resistance", 1.0, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 1.0, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_helmet"),
                     4, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_chestplate"),
                     7, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_leggings"),
                     6, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_boots"),
                     3, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
@@ -363,7 +362,7 @@ public class CRArmorConfig implements ConfigData {
                             "end_reborn:featherzeal_nautilus_armor"
                     ),
                     20, 5, 1,
-                    List.of(Triple.of("minecraft:safe_fall_distance", 0.3 * 0.3 * 0.3 * 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3 * 0.3 * 0.3 * 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
@@ -375,46 +374,46 @@ public class CRArmorConfig implements ConfigData {
             new Modifiers(
                     List.of("legacies_and_legends:travelling_strides"),
                     3, 0, 0,
-                    List.of(Triple.of("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("legacies_and_legends:wanderer_boots"),
                     2, 1, 0,
-                    List.of(Triple.of("minecraft:step_height", 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("minecraft:step_height", 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
                     List.of("enderscape:shadoline_helmet"),
                     3, 1, 0,
-                    List.of(Triple.of("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
                     List.of("enderscape:shadoline_chestplate"),
                     5, 1, 0,
-                    List.of(Triple.of("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("enderscape:shadoline_leggings"),
                     4, 1, 0,
-                    List.of(Triple.of("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("enderscape:shadoline_boots"),
                     2, 1, 0,
-                    List.of(Triple.of("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
+                    List.of(new CRConfig.AttributeEntry("enderscape:stealth", 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
                     List.of("enderscape:drift_leggings"),
                     4, 1, 0,
                     List.of(
-                            Triple.of("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
-                            Triple.of("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            Triple.of("minecraft:gravity", -0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new CRConfig.AttributeEntry("minecraft:movement_speed", 0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                            new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new CRConfig.AttributeEntry("minecraft:gravity", -0.3, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ),
                     EquipmentSlotGroup.LEGS
             )

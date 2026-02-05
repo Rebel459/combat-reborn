@@ -1,7 +1,7 @@
 package net.legacy.combat_reborn;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -32,14 +32,20 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean isEndRebornLoaded = false;
-    public static boolean isEnchantsAndExpeditionsLoaded = false;
-    public static boolean isLegaciesAndLegendsLoaded = false;
+    public static boolean hasEndReborn() {
+        return FabricLoader.getInstance().isModLoaded("end_reborn");
+    }
+    public static boolean hasEnchantsAndExpeditions() {
+        return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
+    }
+    public static boolean hasLegaciesAndLegends() {
+        return FabricLoader.getInstance().isModLoaded("legacies_and_legends");
+    }
 
 	@Override
 	public void onInitialize() {
-        AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
-        AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(CRWeaponConfig.class, GsonConfigSerializer::new);
+        AutoConfig.register(CRArmorConfig.class, GsonConfigSerializer::new);
 
         loadResources();
 
@@ -80,8 +86,7 @@ public class CombatReborn implements ModInitializer {
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
         }
-        if (FabricLoader.getInstance().isModLoaded("legacies_and_legends")) {
-            isLegaciesAndLegendsLoaded = true;
+        if (hasLegaciesAndLegends()) {
             if (CRConfig.get.general.quivers.craftable && CRConfig.get.general.integrations.lal_quiver_variants) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         CombatReborn.id("weighted_quiver"), modContainer.get(),
@@ -103,12 +108,6 @@ public class CombatReborn implements ModInitializer {
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
             }
-        }
-        if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
-            isEndRebornLoaded = true;
-        }
-        if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
-            isEnchantsAndExpeditionsLoaded = true;
         }
     }
 

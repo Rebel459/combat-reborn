@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +54,7 @@ public class ArmorAttributeModifierCallback {
                 })));
     }
 
-    public static ItemAttributeModifiers createAttributeModifiers(double defense, double toughness, double knockbackResistance, EquipmentSlotGroup slot, List<Triple<String, Double, AttributeModifier.Operation>> attributes, String itemPath) {
+    public static ItemAttributeModifiers createAttributeModifiers(double defense, double toughness, double knockbackResistance, EquipmentSlotGroup slot, List<CRConfig.AttributeEntry> attributes, String itemPath) {
         var itemAttributes = ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ARMOR,
@@ -83,11 +82,11 @@ public class ArmorAttributeModifierCallback {
                 )
                 .build();
         String burningTime = "minecraft:burning_time";
-        boolean applyEndRebornBurningTime = CombatReborn.isEndRebornLoaded && CRConfig.get.general.integrations.end_reborn_netherite && itemPath.contains("netherite");
-        for (Triple<String, Double, AttributeModifier.Operation> entry : attributes) {
-            String attribute = entry.getLeft();
-            double value = entry.getMiddle();
-            AttributeModifier.Operation operation = entry.getRight();
+        boolean applyEndRebornBurningTime = CombatReborn.hasEndReborn() && CRConfig.get.general.integrations.end_reborn_netherite && itemPath.contains("netherite");
+        for (CRConfig.AttributeEntry entry : attributes) {
+            String attribute = entry.attribute;
+            double value = entry.value;
+            AttributeModifier.Operation operation = entry.operation;
             if (BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).isEmpty()) {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }

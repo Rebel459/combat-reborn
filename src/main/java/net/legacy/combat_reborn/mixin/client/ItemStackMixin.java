@@ -93,7 +93,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "addDetailsToTooltip", at = @At("HEAD"), cancellable = true)
     private void hideQuiverAccessoryTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
-        if (CombatReborn.isLegaciesAndLegendsLoaded && CRConfig.get.general.integrations.lal_quiver_accessories && stack.is(CRItemTags.QUIVER)) {
+        if (CombatReborn.hasLegaciesAndLegends() && CRConfig.get.general.integrations.lal_quiver_accessories && stack.is(CRItemTags.QUIVER)) {
             addQuiverTooltip(consumer, stack);
             ci.cancel();
         }

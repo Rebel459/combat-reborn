@@ -49,7 +49,7 @@ public final class CRItems {
     public static void init() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(entries -> {
             entries.addAfter(Items.CROSSBOW, QUIVER, BLACK_QUIVER, BLUE_QUIVER, BROWN_QUIVER, CYAN_QUIVER, GRAY_QUIVER, GREEN_QUIVER, LIGHT_BLUE_QUIVER, LIGHT_GRAY_QUIVER, LIME_QUIVER, MAGENTA_QUIVER, ORANGE_QUIVER, PINK_QUIVER, PURPLE_QUIVER, RED_QUIVER, YELLOW_QUIVER, WHITE_QUIVER);
-            if (CombatReborn.isLegaciesAndLegendsLoaded) entries.addAfter(QUIVER, WEIGHTED_QUIVER, SAPPHIRE_QUIVER);
+            if (CombatReborn.hasLegaciesAndLegends()) entries.addAfter(QUIVER, WEIGHTED_QUIVER, SAPPHIRE_QUIVER);
         });
     }
 
