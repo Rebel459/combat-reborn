@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +20,9 @@ import java.util.Optional;
 public class ItemAttributeModifierCallback {
     public static final ResourceLocation BASE_ATTACK_RANGE_MODIFIER_ID = ResourceLocation.withDefaultNamespace("base_attack_range");
 
-    private static final double DEFAULT_ATTACK_DAMAGE = 1.0; // GENERIC_ATTACK_DAMAGE base value is changed for players!
-    private static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
-    private static final double DEFAULT_ATTACK_RANGE = Attributes.ENTITY_INTERACTION_RANGE.value().getDefaultValue();
+    public static final double DEFAULT_ATTACK_DAMAGE = 1.0;
+    public static final double DEFAULT_ATTACK_SPEED = Attributes.ATTACK_SPEED.value().getDefaultValue();
+    public static final double DEFAULT_ATTACK_RANGE = Attributes.ENTITY_INTERACTION_RANGE.value().getDefaultValue();
 
     private ItemAttributeModifierCallback() {
     }
@@ -58,7 +57,7 @@ public class ItemAttributeModifierCallback {
                 })));
     }
 
-    public static ItemAttributeModifiers createAttributeModifiers(double attackDamage, double attackSpeed, double attackRange, List<Triple<String, Double, AttributeModifier.Operation>> attributes) {
+    public static ItemAttributeModifiers createAttributeModifiers(double attackDamage, double attackSpeed, double attackRange, List<CRConfig.AttributeEntry> attributes) {
         var itemAttributes = ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -86,10 +85,10 @@ public class ItemAttributeModifierCallback {
                         EquipmentSlotGroup.MAINHAND
                 )
                 .build();
-        for (Triple<String, Double, AttributeModifier.Operation> entry : attributes) {
-            String attribute = entry.getLeft();
-            double value = entry.getMiddle();
-            AttributeModifier.Operation operation = entry.getRight();
+        for (CRConfig.AttributeEntry entry : attributes) {
+            String attribute = entry.attribute;
+            double value = entry.value;
+            AttributeModifier.Operation operation = entry.operation;
             if (BuiltInRegistries.ATTRIBUTE.getHolder(ResourceLocation.parse(attribute)).isEmpty()) {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }

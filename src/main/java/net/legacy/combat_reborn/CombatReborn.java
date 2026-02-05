@@ -1,7 +1,7 @@
 package net.legacy.combat_reborn;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -28,15 +28,19 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean isEndRebornLoaded = false;
-    public static boolean isEnchantsAndExpeditionsLoaded = false;
+    public static boolean hasEndReborn() {
+        return FabricLoader.getInstance().isModLoaded("end_reborn");
+    }
+    public static boolean hasEnchantsAndExpeditions() {
+        return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
+    }
 
 	@Override
 	public void onInitialize() {
         Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(MOD_ID);
-        AutoConfig.register(CRGeneralConfig.class, JanksonConfigSerializer::new);
-        AutoConfig.register(CRArmorConfig.class, JanksonConfigSerializer::new);
-        AutoConfig.register(CRWeaponConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(CRGeneralConfig.class, GsonConfigSerializer::new);
+        AutoConfig.register(CRWeaponConfig.class, GsonConfigSerializer::new);
+        AutoConfig.register(CRArmorConfig.class, GsonConfigSerializer::new);
 
         CREnchantments.init();
         CRSounds.init();
@@ -53,13 +57,6 @@ public class CombatReborn implements ModInitializer {
                     Component.translatable("pack.combat_reborn.no_shield_overhaul"),
                     ResourcePackActivationType.ALWAYS_ENABLED
             );
-        }
-
-        if (FabricLoader.getInstance().isModLoaded("end_reborn")) {
-            isEndRebornLoaded = true;
-        }
-        if (FabricLoader.getInstance().isModLoaded("enchants_and_expeditions")) {
-            isEnchantsAndExpeditionsLoaded = true;
         }
 	}
 
