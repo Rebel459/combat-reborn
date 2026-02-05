@@ -28,9 +28,6 @@ import java.util.Optional;
 
 public class CombatReborn implements ModInitializer {
 
-    public static boolean hasEndReborn() {
-        return FabricLoader.getInstance().isModLoaded("end_reborn");
-    }
     public static boolean hasEnchantsAndExpeditions() {
         return FabricLoader.getInstance().isModLoaded("enchants_and_expeditions");
     }

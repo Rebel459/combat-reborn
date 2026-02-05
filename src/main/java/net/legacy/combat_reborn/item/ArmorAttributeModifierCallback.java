@@ -79,7 +79,7 @@ public class ArmorAttributeModifierCallback {
                         slot
                 )
                 .build();
-        for (List<CRConfig.AttributeEntry> entry : attributes) {
+        for (CRConfig.AttributeEntry entry : attributes) {
             String attribute = entry.attribute;
             double value = entry.value;
             AttributeModifier.Operation operation = entry.operation;
