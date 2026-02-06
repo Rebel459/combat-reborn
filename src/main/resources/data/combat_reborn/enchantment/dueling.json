@@ -16,6 +16,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#minecraft:enchantable/sharp_weapon",
-  "weight": 10
+  "supported_items": "#combat_reborn:enchantable/dueling",
+  "weight": 5
 }

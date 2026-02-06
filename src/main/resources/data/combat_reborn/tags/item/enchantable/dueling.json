@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:swords",
+    {
+      "id": "remnants:katana",
+      "required": false
+    }
+  ]
+}
