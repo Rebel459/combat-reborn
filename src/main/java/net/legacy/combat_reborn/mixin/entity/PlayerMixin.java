@@ -66,6 +66,21 @@ public abstract class PlayerMixin {
 
     @WrapOperation(
             method = "actuallyHurt",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F")
+    )
+    private float handleKnockbackOnly(Player instance, DamageSource damageSource, float v, Operation<Float> original) {
+        Player player = Player.class.cast(this);
+        if (player.getTags().contains("knockback_only")) {
+            original.call(instance, damageSource, Math.min(v - 1F, 0F));
+        }
+        else {
+            original.call(instance, damageSource, v);
+        }
+        return v;
+    }
+
+    @WrapOperation(
+            method = "actuallyHurt",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V")
     )
     private void handleKnockbackOnly(Player instance, float v, Operation<Void> original) {
