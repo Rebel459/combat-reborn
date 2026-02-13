@@ -4,9 +4,7 @@
   "package": "net.rebel459.combat_reborn.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
-  "client": [
-    "client.NeoForgeGuiMixin"
-  ],
+  "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1

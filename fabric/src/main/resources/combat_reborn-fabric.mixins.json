@@ -6,9 +6,7 @@
   "mixins": [
     "integration.legacies_and_legends.QuiverHelperMixin"
   ],
-  "client": [
-    "client.FabricGuiMixin"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

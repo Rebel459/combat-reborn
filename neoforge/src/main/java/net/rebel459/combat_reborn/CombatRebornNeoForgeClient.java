@@ -23,24 +23,5 @@ public class CombatRebornNeoForgeClient {
 
     public CombatRebornNeoForgeClient(IEventBus modEventBus) {
         CombatRebornClient.initClient();
-        NeoForge.EVENT_BUS.addListener(CombatRebornNeoForgeClient::onMouseScroll);
-    }
-
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void onMouseScroll(ScreenEvent.MouseScrolled.Pre event) {
-        if (!(event.getScreen() instanceof InventoryScreen inventoryScreen)) {
-            return;
-        }
-
-        var mouseActions = (ItemSlotMouseAction) new QuiverMouseActions(event.getScreen().getMinecraft());
-
-        double mouseX = event.getMouseX();
-        double mouseY = event.getMouseY();
-
-        Slot hoveredSlot = inventoryScreen.getSlotUnderMouse();
-
-        if (hoveredSlot != null && mouseActions.matches(hoveredSlot)) {
-            event.setCanceled(mouseActions.onMouseScrolled(mouseX, mouseY, hoveredSlot.index, hoveredSlot.getItem()));
-        }
     }
 }
