@@ -5,8 +5,7 @@ base {
 
 dependencies {
     // Fabric API. Split into two to fix runClient
-    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_api}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_api}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api}"
 
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
