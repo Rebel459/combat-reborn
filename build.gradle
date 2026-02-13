@@ -1,86 +1,147 @@
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
-	id 'maven-publish'
+    id 'java'
+    id "xyz.wagyourtail.unimined" version "1.4.2-SNAPSHOT" apply false
 }
 
-version = project.mod_version
-group = project.maven_group
+// Edit in gradle.properties
+group = project_group
+version = "${mod_version}"
 
-base {
-	archivesName = project.archives_base_name
-}
+subprojects {
+    apply plugin: "xyz.wagyourtail.unimined"
+    apply plugin: "java"
+    apply plugin: 'maven-publish'
 
-repositories {
-	maven { url = "https://api.modrinth.com/maven" }
-	maven { url = 'https://maven.parchmentmc.org' }
-	maven { url = "https://maven.shedaniel.me/" }
-    maven { url = "https://maven.ladysnake.org/releases" }
-    flatDir {
-        dirs 'lib'
+    group = rootProject.group
+    version = rootProject.version
+
+    java {
+        withSourcesJar()
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
-}
 
-dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.layered() {
-		officialMojangMappings()
-	}
-
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-		exclude(group: "net.fabricmc.fabric-api")
-	}
-
-    modImplementation("maven.modrinth:modmenu:$modmenu_version")
-
-    modCompileOnly("maven.modrinth:legacies-and-legends:$lal_version")
-    modCompileOnly("maven.modrinth:item-tooltips:$tooltips_version")
-    modCompileOnly("net.legacy.combat_reborn:TrimPatcher-1.0-pre2-mc1.21.11")
-    modCompileOnly("maven.modrinth:frozenlib:$frozenlib_version")
-    modCompileOnly ("net.legacy.combat_reborn:trinkets-3.11.0.1")
-    modCompileOnly("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cardinal_version}")
-    modCompileOnly("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cardinal_version}")
-
-}
-
-fabricApi {
-    configureDataGeneration() {
-        client = true
-        modId = "combat_reborn"
-        createSourceSet = true
+    configurations {
+        modCompileOnly
+        compileOnly.extendsFrom modCompileOnly
+        modApi
+        api.extendsFrom modApi
     }
-}
 
-loom {
-    accessWidenerPath = file("src/main/resources/combat_reborn.accesswidener")
-}
+    // Add your maven repositories here
+    repositories {
+        mavenCentral()
 
-processResources {
-	inputs.property "version", project.version
+        flatDir {
+            dirs 'lib'
+        }
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
-}
+        // First Dark Dev Maven. Can be removed
+        maven {
+            url = "https://maven.firstdark.dev/releases"
+        }
 
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
-}
+        // First Dark Dev Mirror maven. Do not remove.
+        // It's required by this project to pull in dependencies for the modloaders
+        maven {
+            url = "https://mcentral.firstdark.dev/releases"
+        }
 
-java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
+        maven { url = "https://api.modrinth.com/maven" }
+        maven { url = "https://maven.shedaniel.me/" }
+        maven { url = "https://maven.ladysnake.org/releases" }
+    }
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
-}
+    dependencies {
+        modCompileOnly("maven.modrinth:legacies-and-legends:$lal_version")
+        modCompileOnly("maven.modrinth:item-tooltips:$tooltips_version")
+        modCompileOnly("maven.modrinth:trim-patcher:$patcher_version")
+        modCompileOnly("maven.modrinth:frozenlib:$frozenlib_version")
+        modCompileOnly("maven.modrinth:trinkets-continued:$trinkets_version")
+        modCompileOnly("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cardinal_version}")
+        modCompileOnly("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cardinal_version}")
+        // Add global dependencies here
+        // Dependencies added here will be applied to every module (Common/Fabric/Forge/NeoForge etc)
+    }
 
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
-	}
+    jar {
+        manifest {
+            attributes([
+                    'Specification-Title'     : project.name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.version,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.version,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestamp'               : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Built-On-Minecraft'      : minecraft_version
+            ])
+        }
+    }
+
+    /**
+     * ===============================================================================
+     * =       DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING        =
+     * ===============================================================================
+     */
+
+    unimined.minecraft(sourceSets.main, true) {
+        version rootProject.minecraft_version
+
+        mappings {
+            mojmap()
+            devNamespace "mojmap"
+        }
+
+        mods {
+            remap(configurations.modCompileOnly) {
+                catchAWNamespaceAssertion()
+            }
+
+            remap(configurations.modApi)
+
+            // This is basically just a shortcut for `remap(configurations.modImplementation)`.
+            modImplementation {
+                // You can do this if mods have the wrong access widener mapping, but it may break runs.
+                catchAWNamespaceAssertion()
+            }
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release = 21
+    }
+
+    tasks.withType(GenerateModuleMetadata).configureEach {
+        enabled = false
+    }
+
+    clean {
+        delete "$rootDir/artifacts"
+    }
+
+    if (project.name !== 'common') {
+        tasks.register('delDevJar') {
+            doLast {
+                def tree = fileTree('build/libs')
+                tree.include '**/*-dev-shadow.jar'
+                tree.include '**/*-dev.jar'
+                tree.include '**/*-all.jar'
+                tree.include '**/*-slim.jar'
+                tree.each { it.delete() }
+            }
+        }
+        build.finalizedBy delDevJar
+
+        tasks.register('copyAllArtifacts', Copy) {
+            from "$buildDir/libs"
+            into "$rootDir/artifacts"
+            include("*.jar")
+        }
+
+        build.finalizedBy(copyAllArtifacts)
+    }
 }

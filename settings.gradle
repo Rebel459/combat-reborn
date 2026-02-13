@@ -1,10 +1,16 @@
 pluginManagement {
-	repositories {
-		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net/'
-		}
-		mavenCentral()
-		gradlePluginPortal()
-	}
+    repositories {
+        mavenCentral()
+        maven {
+            url = "https://mcentral.firstdark.dev/releases"
+        }
+        gradlePluginPortal() {
+            content {
+                excludeGroup("org.apache.logging.log4j")
+            }
+        }
+    }
 }
+
+rootProject.name = 'combat-reborn'
+include('common', 'fabric', 'neoforge')

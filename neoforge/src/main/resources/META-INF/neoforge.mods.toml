@@ -1,0 +1,46 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="Legacy License"
+issueTrackerURL="https://github.com/Rebel459/combat-reborn/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+displayURL="https://github.com/Rebel459/combat-reborn"
+logoFile="assets/examplemod/icon.png"
+credits="Rebel459"
+authors="${mod_author}"
+description='''
+A comprehensive combat update featuring overhauled shield mechanics, all-new quivers, reworked hunger systems, rebalanced weapon values and so much more.
+'''
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[21.11.0-beta,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.11,26.1)"
+ordering="NONE"
+side="BOTH"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+[[accessTransformers]]
+file="META-INF/accesstransformer-neoforge.cfg"
+
+[[mixins]]
+config = "combat_reborn.mixins.json"
+[[mixins]]
+config = "combat_reborn-neoforge.mixins.json"
+
+[[dependencies.${mod_id}]]
+modId = "unified"
+
+[[dependencies.${mod_id}]]
+modId = "cloth_config"

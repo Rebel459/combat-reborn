@@ -1,0 +1,50 @@
+// Adjust the output jar name here
+base {
+    archivesName = "${mod_id}-common"
+}
+
+dependencies {
+    // Add your dependencies here
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    modCompileOnly ("net.rebel459.combat_reborn:unified-api-fabric-21.11-b1.0")
+}
+
+/**
+ * ===============================================================================
+ * =       DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING        =
+ * ===============================================================================
+ */
+
+unimined.minecraft {
+    fabric {
+        loader fabric_loader
+        accessWidener file("src/main/resources/combat_reborn.accesswidener")
+    }
+
+    defaultRemapJar = false
+}
+
+processResources {
+    def buildProps = project.properties.clone()
+
+    filesMatching(['pack.mcmeta']) {
+        expand buildProps
+    }
+}
+
+sourceSets {
+    withoutFMJ {
+        java {
+        }
+        resources {
+            exclude 'fabric.mod.json'
+        }
+    }
+}
+
+sourcesJar {
+    from sourceSets.withoutFMJ.allSource
+    exclude 'fabric.mod.json'
+}
