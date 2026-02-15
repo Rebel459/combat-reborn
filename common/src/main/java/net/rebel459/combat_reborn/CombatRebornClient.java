@@ -5,7 +5,6 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -21,7 +20,6 @@ import net.rebel459.combat_reborn.client.QuiverMouseActions;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.config.CRGeneralConfig;
 import net.rebel459.combat_reborn.item.QuiverItem;
-import net.rebel459.combat_reborn.mixin.client.ScreenAccessor;
 import net.rebel459.combat_reborn.network.SelectQuiverSlotPacket;
 import net.rebel459.combat_reborn.network.ShieldInfo;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
@@ -62,7 +60,7 @@ public final class CombatRebornClient {
         UnifiedClientHelpers.Tooltips.get().bind(QuiverItem.Tooltip.class, tooltip -> new ClientQuiverTooltip(tooltip.quiver()));
 
         UnifiedClientEvents.AbstractScreen.access(screen -> {
-            screen.addItemSlotMouseAction(new QuiverMouseActions(((ScreenAccessor)((AbstractContainerScreen<?>) screen)).getMinecraft()));
+            screen.addItemSlotMouseAction(new QuiverMouseActions(screen.minecraft));
         });
 
         UnifiedClientEvents.HotbarGui.access(((gui, guiGraphics, deltaTracker) -> {

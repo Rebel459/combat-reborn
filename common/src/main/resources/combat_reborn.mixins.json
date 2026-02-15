@@ -9,8 +9,7 @@
   "client": [
     "client.GuiMixin",
     "client.ItemStackMixin",
-    "client.LocalPlayerMixin",
-    "client.ScreenAccessor"
+    "client.LocalPlayerMixin"
   ],
   "mixins": [
     "block.BlockMixin",
