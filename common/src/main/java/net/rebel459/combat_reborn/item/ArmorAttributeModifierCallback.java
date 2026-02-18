@@ -25,7 +25,7 @@ public class ArmorAttributeModifierCallback {
     public static void init() {
         if (!CRConfig.get.general.modifiers.armor) return;
 
-        UnifiedEvents.ModifyItemComponents.access(
+        UnifiedEvents.ItemComponents.modify(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     return optionalItem.filter(itemRegistryKey -> CRConfig.get.armor.sets.stream()

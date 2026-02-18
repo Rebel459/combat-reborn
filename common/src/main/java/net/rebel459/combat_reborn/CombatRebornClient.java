@@ -5,6 +5,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -57,13 +58,13 @@ public final class CombatRebornClient {
     );
 
     public static void initClient() {
-        UnifiedClientHelpers.Tooltips.get().bind(QuiverItem.Tooltip.class, tooltip -> new ClientQuiverTooltip(tooltip.quiver()));
+        UnifiedClientHelpers.TOOLTIPS.bind(QuiverItem.Tooltip.class, tooltip -> new ClientQuiverTooltip(tooltip.quiver()));
 
-        UnifiedClientEvents.AbstractScreen.access(screen -> {
+        UnifiedClientEvents.Screens.initAbstractContainerScreen(screen -> {
             screen.addItemSlotMouseAction(new QuiverMouseActions(screen.minecraft));
         });
 
-        UnifiedClientEvents.HotbarGui.access(((gui, guiGraphics, deltaTracker) -> {
+        UnifiedClientEvents.Guis.renderHotbar(((gui, guiGraphics, deltaTracker) -> {
             if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR || gui.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
             guiGraphics.nextStratum();
             Player player = gui.minecraft.player;
@@ -90,7 +91,7 @@ public final class CombatRebornClient {
             }
         }));
 
-        UnifiedClientEvents.EndTick.access(client -> {
+        UnifiedClientEvents.Ticks.atEnd(client -> {
             while (QUIVER_KEY.get().consumeClick()) {
                 if (client.player == null) return;
 
@@ -121,7 +122,7 @@ public final class CombatRebornClient {
                 quiverStack.set(CRDataComponents.QUIVER_CONTENTS_SLOT.get(), nextSlot);
 
                 SelectQuiverSlotPacket packet = new SelectQuiverSlotPacket(nextSlot);
-                UnifiedClientHelpers.NetworkPayloads.get().send(packet);
+                UnifiedClientHelpers.NETWORKING.send(packet);
 
                 client.player.playSound(SoundEvents.ARMOR_EQUIP_GENERIC.value(), 0.5F, 1.0F);
             }

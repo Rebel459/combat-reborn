@@ -17,7 +17,7 @@ public interface ShieldInfo {
         this.setPercentageDamage(value);
 
         if (player != null) {
-            UnifiedHelpers.NetworkPayloads.get().send(new Sync(value), player);
+            UnifiedHelpers.NETWORKING.send(new Sync(value), player);
         }
     }
 

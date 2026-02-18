@@ -1,13 +1,13 @@
 // Adjust the output jar name here
 base {
-    archivesName = "${mod_id}-neoforge"
+    archivesName = "${mod_id}"
+    version = "${version}-neoforge"
 }
 
 dependencies {
     // Add your dependencies here
     modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_version}") {}
-
-    modImplementation ("net.rebel459.combat_reborn:unified-api-neoforge-21.11-b1.0")
+    modImplementation("maven.modrinth:unified-api:${unified_version}-neoforge")
 
     // Do not edit or remove
     implementation project(":common")

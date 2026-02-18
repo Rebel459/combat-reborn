@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ModifyItemComponentsCallback {
 
     public static void init(){
-        UnifiedEvents.ModifyItemComponents.access((
+        UnifiedEvents.ItemComponents.modify((
                         item -> true),
                 (builder, item) -> {
                     if (!CombatReborn.hasEnchantsAndExpeditions()) {

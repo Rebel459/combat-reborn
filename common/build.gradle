@@ -1,6 +1,6 @@
 // Adjust the output jar name here
 base {
-    archivesName = "${mod_id}-common"
+    archivesName = "${mod_id}"
 }
 
 dependencies {
@@ -8,7 +8,6 @@ dependencies {
     modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modCompileOnly ("net.rebel459.combat_reborn:unified-api-fabric-21.11-b1.0")
 }
 
 /**

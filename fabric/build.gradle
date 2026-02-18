@@ -1,6 +1,7 @@
 // Adjust the output jar name here
 base {
-    archivesName = "${mod_id}-fabric"
+    archivesName = "${mod_id}"
+    version = "${version}-fabric"
 }
 
 dependencies {
@@ -10,10 +11,10 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+    modImplementation("maven.modrinth:unified-api:${unified_version}-fabric")
 
     modCompileOnly("maven.modrinth:trinkets-continued:$trinkets_version")
     modImplementation("maven.modrinth:modmenu:$modmenu_version")
-    modImplementation ("net.rebel459.combat_reborn:unified-api-fabric-21.11-b1.0")
 
     // Do not remove or edit!
     implementation(project(":common"))

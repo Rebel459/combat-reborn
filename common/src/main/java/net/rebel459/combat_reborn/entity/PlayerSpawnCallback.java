@@ -8,7 +8,7 @@ import net.rebel459.unified.platform.UnifiedEvents;
 
 public class PlayerSpawnCallback {
     public static void init() {
-        UnifiedEvents.PlayerJoin.access((player) -> {
+        UnifiedEvents.Players.onJoin((player) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
             if (player instanceof ShieldInfo shieldInfo && CRConfig.get.general.shields.shield_overhaul) {
                 shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
@@ -20,7 +20,7 @@ public class PlayerSpawnCallback {
                 }
             }
         });
-        UnifiedEvents.PlayerRespawn.access((player) -> {
+        UnifiedEvents.Players.onRespawn((player) -> {
             if (player instanceof ShieldInfo shieldInfo && CRConfig.get.general.shields.shield_overhaul && player instanceof ServerPlayer serverPlayer) {
                 shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
             }

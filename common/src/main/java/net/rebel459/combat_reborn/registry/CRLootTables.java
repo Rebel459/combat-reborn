@@ -45,27 +45,26 @@ public final class CRLootTables {
     public static final ResourceKey<LootTable> DUNGEON_CHEST_INFERNAL = registerLegaciesAndLegends("chests/dungeon/infernal/chest");
 
     public static void init() {
-        var lootTables = UnifiedHelpers.LootTables.get();
             if (CRConfig.get.general.quivers.enable_quivers && CRConfig.get.general.quivers.lootable) {
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.SIMPLE_DUNGEON,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(2))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.JUNGLE_TEMPLE,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.VILLAGE_FLETCHER,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         List.of(
                                 BIRCH_RUINS,
                                 CHERRY_RUINS,
@@ -76,13 +75,13 @@ public final class CRLootTables {
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         UNDERGROUND_CABIN,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(8))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         List.of(
                                 DUNGEON_CHEST_SIMPLE,
                                 DUNGEON_CHEST_ARID,
@@ -93,19 +92,19 @@ public final class CRLootTables {
                                 .add(EmptyLootItem.emptyItem().setWeight(11))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.JUNGLE_TEMPLE,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.JUNGLE_TEMPLE,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
                                 .add(LootItem.lootTableItem(CRItems.QUIVER.get()))
                 );
-                lootTables.addPool(
+                UnifiedHelpers.LOOT_TABLES.addPool(
                         BuiltInLootTables.JUNGLE_TEMPLE,
                         LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                 .add(EmptyLootItem.emptyItem().setWeight(5))
@@ -113,13 +112,13 @@ public final class CRLootTables {
                 );
 
                 if (CRConfig.get.general.integrations.lal_quiver_variants) {
-                    lootTables.addPool(
+                    UnifiedHelpers.LOOT_TABLES.addPool(
                             SPIRE,
                             LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                                     .add(EmptyLootItem.emptyItem().setWeight(11))
                                     .add(LootItem.lootTableItem(CRItems.WEIGHTED_QUIVER.get()))
                     );
-                    lootTables.addPool(
+                    UnifiedHelpers.LOOT_TABLES.addPool(
                             List.of(
                                     DEEP_RUINS,
                                     DEEP_CABIN
@@ -128,7 +127,7 @@ public final class CRLootTables {
                                     .add(EmptyLootItem.emptyItem().setWeight(5))
                                     .add(LootItem.lootTableItem(CRItems.WEIGHTED_QUIVER.get()))
                     );
-                    lootTables.addPool(
+                    UnifiedHelpers.LOOT_TABLES.addPool(
                             List.of(
                                     DUNGEON_CHEST_DEEP,
                                     DUNGEON_CHEST_INFERNAL
