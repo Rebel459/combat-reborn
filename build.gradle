@@ -49,7 +49,6 @@ subprojects {
     }
 
     dependencies {
-        modCompileOnly("maven.modrinth:unified-api:${unified_version}-fabric")
         modCompileOnly("maven.modrinth:legacies-and-legends:$lal_version")
         modCompileOnly("maven.modrinth:item-tooltips:$tooltips_version")
         modCompileOnly("maven.modrinth:trim-patcher:$patcher_version")

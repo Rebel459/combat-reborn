@@ -22,7 +22,7 @@ dependencies {
 unimined.minecraft {
     combineWith(project(":common").sourceSets.withoutFMJ)
 
-    neoForged {
+    neoForge {
         loader neoforge_version
         mixinConfig("combat_reborn.mixins.json", "combat_reborn-neoforge.mixins.json")
         accessTransformer aw2at(file("../common/src/main/resources/combat_reborn.accesswidener"))

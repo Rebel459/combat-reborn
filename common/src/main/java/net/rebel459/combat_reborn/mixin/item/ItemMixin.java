@@ -20,7 +20,7 @@ public abstract class ItemMixin {
     private static void quiver(ItemStack itemStack, Level level, LivingEntity livingEntity, int i, CallbackInfoReturnable<Boolean> cir) {
         if (livingEntity instanceof Player player) {
             ItemStack stack = QuiverHelper.getStack(player);
-            if (stack != null) {
+            if (stack != null && stack.has(CRDataComponents.QUIVER_CONTENTS.get())) {
                 QuiverContents.Mutable mutable = new QuiverContents.Mutable(stack.get(CRDataComponents.QUIVER_CONTENTS.get()));
                 QuiverHelper.updateFullness(stack, mutable);
             }

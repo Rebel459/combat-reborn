@@ -26,23 +26,11 @@ import org.apache.commons.lang3.math.Fraction;
 import java.util.Optional;
 
 public class QuiverItem extends Item {
-    public static final int MAX_SHOWN_GRID_ITEMS_X = 4;
-    public static final int MAX_SHOWN_GRID_ITEMS_Y = 3;
-    public static final int MAX_SHOWN_GRID_ITEMS = 12;
-    public static final int OVERFLOWING_MAX_SHOWN_GRID_ITEMS = 11;
     private static final int FULL_BAR_COLOR = ARGB.colorFromFloat(1.0F, 1.0F, 0.33F, 0.33F);
     private static final int BAR_COLOR = ARGB.colorFromFloat(1.0F, 0.44F, 0.53F, 1.0F);
-    private static final int TICKS_AFTER_FIRST_THROW = 10;
-    private static final int TICKS_BETWEEN_THROWS = 2;
-    private static final int TICKS_MAX_THROW_DURATION = 200;
 
     public QuiverItem(Properties properties) {
         super(properties);
-    }
-
-    public static float getFullnessDisplay(ItemStack itemStack) {
-        QuiverContents quiverContents = itemStack.getOrDefault(CRDataComponents.QUIVER_CONTENTS.get(), QuiverContents.empty(QuiverHelper.getType(itemStack)));
-        return quiverContents.weight().floatValue();
     }
 
     @Override
@@ -235,12 +223,6 @@ public class QuiverItem extends Item {
 
     private static void playInsertFailSound(Entity entity) {
         entity.playSound(SoundEvents.BUNDLE_INSERT_FAIL, 1.0F, 1.0F);
-    }
-
-    private static void playDropContentsSound(Level level, Entity entity) {
-        level.playSound(
-                null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F
-        );
     }
 
     public void broadcastChangesOnContainerMenu(Player player) {
