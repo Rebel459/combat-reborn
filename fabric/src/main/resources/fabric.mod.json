@@ -11,7 +11,7 @@
     "sources": "https://github.com/Rebel459/combat-reborn"
   },
   "license": "Legacy License",
-  "icon": "assets/examplemod/icon.png",
+  "icon": "assets/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -22,6 +22,9 @@
     ],
     "fabric-datagen": [
       "net.rebel459.combat_reborn.datagen.CRDataGenerator"
+    ],
+    "modmenu": [
+      "net.rebel459.combat_reborn.config.CRModMenuIntegration"
     ]
   },
   "mixins": [
@@ -34,6 +37,7 @@
     "fabric": "*",
     "minecraft": ">=1.21.11",
     "java": ">=21",
-    "unified": "*"
+    "unified": "*",
+    "cloth-config": "*"
   }
 }
