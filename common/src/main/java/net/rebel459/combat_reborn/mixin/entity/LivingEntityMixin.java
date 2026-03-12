@@ -2,16 +2,6 @@ package net.rebel459.combat_reborn.mixin.entity;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.rebel459.combat_reborn.CombatReborn;
-import net.rebel459.combat_reborn.config.CRConfig;
-import net.rebel459.combat_reborn.network.ShieldInfo;
-import net.rebel459.combat_reborn.registry.CRDataComponents;
-import net.rebel459.combat_reborn.registry.CREnchantments;
-import net.rebel459.combat_reborn.tag.CRItemTags;
-import net.rebel459.combat_reborn.util.BlockedSourceInterface;
-import net.rebel459.combat_reborn.util.QuiverContents;
-import net.rebel459.combat_reborn.util.QuiverHelper;
-import net.rebel459.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +16,13 @@ import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.rebel459.combat_reborn.CombatReborn;
+import net.rebel459.combat_reborn.config.CRConfig;
+import net.rebel459.combat_reborn.network.ShieldInfo;
+import net.rebel459.combat_reborn.registry.CRDataComponents;
+import net.rebel459.combat_reborn.registry.CREnchantments;
+import net.rebel459.combat_reborn.tag.CRItemTags;
+import net.rebel459.combat_reborn.util.*;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -248,5 +245,11 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), (ServerPlayer) player);
         }
         return value;
+    }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float getDamageAfterArmorAbsorb(LivingEntity livingEntity, DamageSource damageSource, float damage, Operation<Float> original) {
+        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(livingEntity, damageSource, damage);
+        return DamageHelper.getDamageAfterArmorAbsorb(livingEntity, damageSource, damage);
     }
 }

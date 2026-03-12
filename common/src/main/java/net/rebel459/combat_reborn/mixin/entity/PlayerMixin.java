@@ -4,10 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
-import net.rebel459.combat_reborn.util.QuiverContents;
-import net.rebel459.combat_reborn.util.QuiverHelper;
-import net.rebel459.combat_reborn.util.QuiverInterface;
-import net.rebel459.combat_reborn.util.ShieldHelper;
+import net.rebel459.combat_reborn.util.*;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -194,5 +191,11 @@ public abstract class PlayerMixin implements QuiverInterface {
     private void handleDisabling(BlocksAttacks blocksAttacks, ServerLevel serverLevel, LivingEntity livingEntity, float f, ItemStack itemStack, Operation<Void> original) {
         Player player = Player.class.cast(this);
         ShieldHelper.handleDisabling(serverLevel, player, livingEntity, f, itemStack);
+    }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float getDamageAfterArmorAbsorb(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
+        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(player, damageSource, damage);
+        return DamageHelper.getDamageAfterArmorAbsorb(player, damageSource, damage);
     }
 }
