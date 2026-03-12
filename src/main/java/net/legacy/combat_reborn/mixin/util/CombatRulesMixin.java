@@ -13,14 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = CombatRules.class)
 public class CombatRulesMixin {
 
-    @Inject(at = @At(value = "HEAD"), method = "getDamageAfterAbsorb", cancellable = true)
-    private static void getDamageAfterAbsorb(LivingEntity livingEntity, float damage, DamageSource damageSource, float defence, float toughness, CallbackInfoReturnable<Float> cir) {
-        if (!CRConfig.get.general.armor.armor_rebalance) return;
-        cir.setReturnValue(DamageHelper.processDamage(livingEntity, damage, damageSource, defence, toughness));
-    }
-
     @Inject(at = @At(value = "HEAD"), method = "getDamageAfterMagicAbsorb", cancellable = true)
-    private static void getDamageAfterAbsorb(float damage, float protection, CallbackInfoReturnable<Float> cir) {
+    private static void getDamageAfterMagicAbsorb(float damage, float protection, CallbackInfoReturnable<Float> cir) {
         if (!CRConfig.get.general.armor.armor_rebalance) return;
         cir.setReturnValue(DamageHelper.processEnchantedDamage(damage, protection));
     }

@@ -4,6 +4,7 @@ import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.config.CRGeneralConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,6 +15,15 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 public class DamageHelper {
+
+    public static float getDamageAfterArmorAbsorb(LivingEntity entity, DamageSource damageSource, float damage) {
+        if (!damageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
+            entity.hurtArmor(damageSource, damage);
+            damage = processDamage(entity, damage, damageSource, entity.getArmorValue(), (float) entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+        }
+
+        return damage;
+    }
 
     public static float processDamage(LivingEntity livingEntity, float damage, DamageSource damageSource, float defense, float toughness) {
         float damageReduction = calculateDamageReduction(livingEntity, damage, defense, toughness);

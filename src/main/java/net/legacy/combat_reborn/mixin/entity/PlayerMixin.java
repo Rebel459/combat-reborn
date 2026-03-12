@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
+import net.legacy.combat_reborn.util.DamageHelper;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -199,5 +200,11 @@ public abstract class PlayerMixin {
     )
     private void CR$noExhaustionJumping(Player instance, float f, Operation<Void> original) {
         if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, f);
+    }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float getDamageAfterArmorAbsorb(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
+        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(player, damageSource, damage);
+        return DamageHelper.getDamageAfterArmorAbsorb(player, damageSource, damage);
     }
 }

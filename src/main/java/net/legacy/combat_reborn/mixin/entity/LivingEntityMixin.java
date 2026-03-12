@@ -7,6 +7,7 @@ import net.legacy.combat_reborn.config.CRConfig;
 import net.legacy.combat_reborn.network.ShieldInfo;
 import net.legacy.combat_reborn.registry.CREnchantments;
 import net.legacy.combat_reborn.tag.CRItemTags;
+import net.legacy.combat_reborn.util.DamageHelper;
 import net.legacy.combat_reborn.util.ShieldHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -194,5 +195,11 @@ public abstract class LivingEntityMixin implements ShieldInfo {
             if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), serverPlayer);
         }
         return value;
+    }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float getDamageAfterArmorAbsorb(LivingEntity livingEntity, DamageSource damageSource, float damage, Operation<Float> original) {
+        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(livingEntity, damageSource, damage);
+        return DamageHelper.getDamageAfterArmorAbsorb(livingEntity, damageSource, damage);
     }
 }

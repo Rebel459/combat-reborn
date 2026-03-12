@@ -3,3 +3,4 @@ accessWidener v2 named
 accessible field net/minecraft/world/inventory/ItemCombinerMenu inputSlots Lnet/minecraft/world/Container;
 accessible field net/minecraft/world/inventory/ItemCombinerMenu resultSlots Lnet/minecraft/world/inventory/ResultContainer;
 accessible field net/minecraft/world/inventory/ItemCombinerMenu player Lnet/minecraft/world/entity/player/Player;
+accessible method net/minecraft/world/entity/LivingEntity hurtArmor (Lnet/minecraft/world/damagesource/DamageSource;F)V
