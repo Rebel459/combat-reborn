@@ -95,13 +95,13 @@ public class CRGeneralConfig implements ConfigData {
         public static class FormulaConfig {
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            public float middle_points = 20F;
+            public float middle_points = 30F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
             public float middle_percentage = 60F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
-            public float max_points = 100;
+            public float max_points = 80F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
             public float max_percentage = 80F;
