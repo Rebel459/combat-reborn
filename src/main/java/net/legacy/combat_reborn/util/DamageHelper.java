@@ -40,20 +40,14 @@ public class DamageHelper {
     }
 
     public static float calculateDamageReduction(LivingEntity entity, float damage, float defense, float toughness) {
-        float damageReduction = damageReductionFormula(defense);
-        if (CRConfig.get.general.armor.toughness.toughness_type != CRGeneralConfig.ToughnessMechanics.NONE) {
-            float toughnessToUse = toughness;
-            float damageReductionRemaining = CRConfig.get.general.armor.formula.max_percentage / 100 - damageReduction;
-            if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DURABILITY) {
-                toughnessToUse = getDurabilityToughness(entity, toughnessToUse);
-            } else if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DAMAGE) {
-                float damageMultiplier = Math.max(Math.min(damage / 50, 1), 0);
-                toughnessToUse = toughness * damageMultiplier;
-            }
-            float damageToReduce = damageReductionRemaining * damageReductionFormula(toughnessToUse * Math.max(CRConfig.get.general.armor.toughness.multiplier, 0F), true);
-            damageReduction += damageToReduce;
+        float toughnessToUse = 0F;
+        if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DURABILITY) {
+            toughnessToUse = getDurabilityToughness(entity, toughness);
+        } else if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DAMAGE) {
+            float damageMultiplier = Math.max(Math.min(damage / 50, 1), 0);
+            toughnessToUse = toughness * damageMultiplier;
         }
-        return damageReduction;
+        return damageReductionFormula(defense + toughnessToUse * Math.max(CRConfig.get.general.armor.toughness.multiplier, 0F));
     }
 
     public static float getDurabilityToughness(LivingEntity entity, float toughness) {
@@ -85,16 +79,8 @@ public class DamageHelper {
     }
 
     public static float damageReductionFormula(float points) {
-        return damageReductionFormula(points, false);
-    }
-    public static float damageReductionFormula(float points, boolean adjusted) {
         float maxPercentage = Math.min(Math.max(CRConfig.get.general.armor.formula.max_percentage, 0), 100);
         float middlePercentage = Math.min(Math.max(CRConfig.get.general.armor.formula.middle_percentage, 0), maxPercentage);
-        if (adjusted && maxPercentage > 0F) {
-            float adjustmentMultiplier = 100 / maxPercentage;
-            maxPercentage = Math.min(maxPercentage * adjustmentMultiplier, 100F);
-            middlePercentage = Math.min(maxPercentage, middlePercentage * adjustmentMultiplier);
-        }
         return damageReductionFormula(points, Math.max(CRConfig.get.general.armor.formula.middle_points, 0), middlePercentage, Math.max(CRConfig.get.general.armor.formula.max_points, 0), maxPercentage, Math.min(Math.max(CRConfig.get.general.armor.formula.gradient, 0), 2), Math.max(CRConfig.get.general.armor.formula.multiplier, 0)) / 100F;
     }
     private static float damageReductionFormula(float points, float middlePoints, float middlePercentage, float maxPoints, float maxPercentage, float gradient, float multiplier) {
