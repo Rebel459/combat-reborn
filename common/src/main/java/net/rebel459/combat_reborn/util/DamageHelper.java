@@ -2,9 +2,7 @@ package net.rebel459.combat_reborn.util;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
