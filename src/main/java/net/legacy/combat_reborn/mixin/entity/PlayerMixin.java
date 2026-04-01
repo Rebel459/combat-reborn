@@ -70,14 +70,12 @@ public abstract class PlayerMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F")
     )
     private float handleKnockbackOnly(Player instance, DamageSource damageSource, float v, Operation<Float> original) {
-        Player player = Player.class.cast(this);
-        if (player.getTags().contains("knockback_only")) {
-            original.call(instance, damageSource, Math.min(v - 1F, 0F));
+        if (instance.getTags().contains("knockback_only")) {
+            return original.call(instance, damageSource, Math.min(v - 1F, 0F));
         }
         else {
-            original.call(instance, damageSource, v);
+            return original.call(instance, damageSource, v);
         }
-        return v;
     }
 
     @WrapOperation(
@@ -85,10 +83,9 @@ public abstract class PlayerMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V")
     )
     private void handleKnockbackOnly(Player instance, float v, Operation<Void> original) {
-        Player player = Player.class.cast(this);
-        if (player.getTags().contains("knockback_only")) {
-            player.removeTag("knockback_only");
-            original.call(instance, Math.min(player.getMaxHealth(), v + 1F));
+        if (instance.getTags().contains("knockback_only")) {
+            instance.removeTag("knockback_only");
+            original.call(instance, Math.min(instance.getMaxHealth(), v + 1F));
         }
         else {
             original.call(instance, v);
@@ -200,11 +197,5 @@ public abstract class PlayerMixin {
     )
     private void CR$noExhaustionJumping(Player instance, float f, Operation<Void> original) {
         if (!CRConfig.get.general.hunger.hunger_rework) original.call(instance, f);
-    }
-
-    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float getDamageAfterArmorAbsorb(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
-        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(player, damageSource, damage);
-        return DamageHelper.getDamageAfterArmorAbsorb(player, damageSource, damage);
     }
 }

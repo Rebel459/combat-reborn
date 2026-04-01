@@ -196,10 +196,4 @@ public abstract class LivingEntityMixin implements ShieldInfo {
         }
         return value;
     }
-
-    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float getDamageAfterArmorAbsorb(LivingEntity livingEntity, DamageSource damageSource, float damage, Operation<Float> original) {
-        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(livingEntity, damageSource, damage);
-        return DamageHelper.getDamageAfterArmorAbsorb(livingEntity, damageSource, damage);
-    }
 }
