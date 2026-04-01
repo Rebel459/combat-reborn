@@ -139,29 +139,26 @@ public abstract class PlayerMixin implements QuiverInterface {
             method = "actuallyHurt",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F")
     )
-    private float handleKnockbackOnly(Player instance, DamageSource damageSource, float v, Operation<Float> original) {
-        Player player = Player.class.cast(this);
+    private float handleKnockbackOnly(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
         if (player.getTags().contains("knockback_only")) {
-            original.call(instance, damageSource, Math.min(v - 1F, 0F));
+            return original.call(player, damageSource, Math.min(damage - 1F, 0F));
         }
         else {
-            original.call(instance, damageSource, v);
+            return original.call(player, damageSource, damage);
         }
-        return v;
     }
 
     @WrapOperation(
             method = "actuallyHurt",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V")
     )
-    private void handleKnockbackOnly(Player instance, float v, Operation<Void> original) {
-        Player player = Player.class.cast(this);
+    private void handleKnockbackOnly(Player player, float damage, Operation<Void> original) {
         if (player.getTags().contains("knockback_only")) {
             player.removeTag("knockback_only");
-            original.call(instance, Math.min(player.getMaxHealth(), v + 1F));
+            original.call(player, Math.min(player.getMaxHealth(), damage + 1F));
         }
         else {
-            original.call(instance, v);
+            original.call(player, damage);
         }
     }
 
@@ -191,11 +188,5 @@ public abstract class PlayerMixin implements QuiverInterface {
     private void handleDisabling(BlocksAttacks blocksAttacks, ServerLevel serverLevel, LivingEntity livingEntity, float f, ItemStack itemStack, Operation<Void> original) {
         Player player = Player.class.cast(this);
         ShieldHelper.handleDisabling(serverLevel, player, livingEntity, f, itemStack);
-    }
-
-    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float getDamageAfterArmorAbsorb(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
-        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(player, damageSource, damage);
-        return DamageHelper.getDamageAfterArmorAbsorb(player, damageSource, damage);
     }
 }

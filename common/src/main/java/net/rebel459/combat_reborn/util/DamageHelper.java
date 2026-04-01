@@ -17,21 +17,12 @@ import net.rebel459.combat_reborn.config.CRGeneralConfig;
 
 public class DamageHelper {
 
-    public static float getDamageAfterArmorAbsorb(LivingEntity entity, DamageSource damageSource, float damage) {
-        if (!damageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
-            entity.hurtArmor(damageSource, damage);
-            damage = processDamage(entity, damage, damageSource, entity.getArmorValue(), (float) entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-        }
-
-        return damage;
-    }
-
-    public static float processDamage(LivingEntity livingEntity, float damage, DamageSource damageSource, float defense, float toughness) {
-        float damageReduction = calculateDamageReduction(livingEntity, damage, defense, toughness);
-        ItemStack itemStack = damageSource.getWeaponItem();
+    public static float processDamage(LivingEntity entity, float damage, DamageSource source, float defense, float toughness) {
+        float damageReduction = calculateDamageReduction(entity, damage, defense, toughness);
+        ItemStack itemStack = source.getWeaponItem();
         float checkedDamageReduction;
-        if (itemStack != null && livingEntity.level() instanceof ServerLevel serverLevel) {
-            checkedDamageReduction = Mth.clamp(EnchantmentHelper.modifyArmorEffectiveness(serverLevel, itemStack, livingEntity, damageSource, damageReduction), 0.0F, 1.0F);
+        if (itemStack != null && entity.level() instanceof ServerLevel serverLevel) {
+            checkedDamageReduction = Mth.clamp(EnchantmentHelper.modifyArmorEffectiveness(serverLevel, itemStack, entity, source, damageReduction), 0.0F, 1.0F);
         } else {
             checkedDamageReduction = damageReduction;
         }
@@ -45,7 +36,7 @@ public class DamageHelper {
         if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DURABILITY) {
             toughnessToUse = getDurabilityToughness(entity, toughness);
         } else if (CRConfig.get.general.armor.toughness.toughness_type == CRGeneralConfig.ToughnessMechanics.DAMAGE) {
-            float damageMultiplier = Math.max(Math.min(damage / 50, 1), 0);
+            float damageMultiplier = Math.clamp(damage / 50, 0, 1);
             toughnessToUse = toughness * damageMultiplier;
         }
         return damageReductionFormula(defense + toughnessToUse * Math.max(CRConfig.get.general.armor.toughness.multiplier, 0F));
@@ -64,7 +55,7 @@ public class DamageHelper {
                             float durabilityLost = stack.getDamageValue();
                             float maxDurability = stack.getMaxDamage();
                             float percentDamaged = durabilityLost / maxDurability;
-                            durabilityToughness -= Math.min(Math.max(attributeToughness * percentDamaged, 0F), attributeToughness);
+                            durabilityToughness -= Math.clamp(attributeToughness * percentDamaged, 0F, attributeToughness);
                             break;
                         }
                     }
@@ -80,8 +71,8 @@ public class DamageHelper {
     }
 
     public static float damageReductionFormula(float points) {
-        float maxPercentage = Math.min(Math.max(CRConfig.get.general.armor.formula.max_percentage, 0), 100);
-        float middlePercentage = Math.min(Math.max(CRConfig.get.general.armor.formula.middle_percentage, 0), maxPercentage);
+        float maxPercentage = Math.clamp(CRConfig.get.general.armor.formula.max_percentage, 0, 100);
+        float middlePercentage = Math.clamp(CRConfig.get.general.armor.formula.middle_percentage, 0, maxPercentage);
         return damageReductionFormula(points, Math.max(CRConfig.get.general.armor.formula.middle_points, 0), middlePercentage, Math.max(CRConfig.get.general.armor.formula.max_points, 0), maxPercentage, Math.min(Math.max(CRConfig.get.general.armor.formula.gradient, 0), 2), Math.max(CRConfig.get.general.armor.formula.multiplier, 0)) / 100F;
     }
     private static float damageReductionFormula(float points, float middlePoints, float middlePercentage, float maxPoints, float maxPercentage, float gradient, float multiplier) {

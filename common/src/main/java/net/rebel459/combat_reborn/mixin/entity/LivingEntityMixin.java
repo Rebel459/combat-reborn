@@ -235,7 +235,12 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         }
     }
 
-    @ModifyVariable(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "HEAD"), index = 3, argsOnly = true)
+    @ModifyVariable(
+            method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z",
+            at = @At(value = "HEAD"),
+            index = 3,
+            argsOnly = true
+    )
     private float activeShieldRecovery(float value) {
         if (CRConfig.get.general.shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
             float restoration = value / 2;
@@ -245,11 +250,5 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), (ServerPlayer) player);
         }
         return value;
-    }
-
-    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float getDamageAfterArmorAbsorb(LivingEntity livingEntity, DamageSource damageSource, float damage, Operation<Float> original) {
-        if (!CRConfig.get.general.armor.armor_rebalance) return original.call(livingEntity, damageSource, damage);
-        return DamageHelper.getDamageAfterArmorAbsorb(livingEntity, damageSource, damage);
     }
 }
