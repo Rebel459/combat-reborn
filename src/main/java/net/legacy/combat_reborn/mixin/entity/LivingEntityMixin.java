@@ -107,14 +107,13 @@ public abstract class LivingEntityMixin implements ShieldInfo {
     private void trackShieldDamageBlocked(ServerPlayer player, ResourceLocation resourceLocation, int i, Operation<Void> original) {
         float blockedDamage = i / 10F;
         if (blockedDamage > 0 && CRConfig.get.general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
-            LivingEntity entity = LivingEntity.class.cast(this);
-            ItemStack stack = entity.getUseItem();
-            if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
+            ItemStack stack = player.getUseItem();
+            if (stack.is(CRItemTags.SHIELD) && player instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, blockedDamage);
                 if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
                 if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
-                if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
-                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
+                if (player.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
+                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), player);
                 this.hurtOrBlockedTime = 10;
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
@@ -124,8 +123,8 @@ public abstract class LivingEntityMixin implements ShieldInfo {
                         player.stopUsingItem();
                         player.level().broadcastEntityEvent(player, (byte) 30);
                     }
-                    shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
-                    entity.addTag("should_disable_shield");
+                    shieldInfo.setPercentageDamageAndSync(0, player);
+                    player.addTag("should_disable_shield");
                 }
             }
         }

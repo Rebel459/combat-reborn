@@ -144,12 +144,12 @@ public abstract class PlayerMixin {
         if (shouldContinue) {
             if (player instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, disableDuration * 5F);
-                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) player);
+                if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), serverPlayer);
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     disableDuration = ShieldHelper.getDisableDuration(stack);
                     int disableTicks = (int) (disableDuration * 20);
                     player.getCooldowns().addCooldown(stack.getItem(), disableTicks);
-                    shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) player);
+                    if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
                     player.stopUsingItem();
                     player.level().broadcastEntityEvent(player, (byte) 30);
                     ci.cancel();
