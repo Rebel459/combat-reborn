@@ -74,28 +74,29 @@ public class ShieldHelper {
         if (CRConfig.get.general.shields.shield_overhaul) {
             if (attacked instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, duration * 5F);
-                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) attacked);
+                if (attacked instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), serverPlayer);
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     onDisable(serverLevel, attacked, attacker, duration, stack, true);
                     float disableDuration = ShieldHelper.getDisableDuration(stack);
                     int disableTicks = (int) (disableDuration * 20);
-                    Player player = (Player) attacked;
-                    player.getCooldowns().addCooldown(stack, disableTicks);
-                    player.stopUsingItem();
+                    if (attacked instanceof Player player) {
+                        player.getCooldowns().addCooldown(stack, disableTicks);
+                        player.stopUsingItem();
+                    }
                     blocksAttacks.disableSound()
                             .ifPresent(
                                     holder -> serverLevel.playSound(
                                             null,
-                                            player.getX(),
-                                            player.getY(),
-                                            player.getZ(),
+                                            attacked.getX(),
+                                            attacked.getY(),
+                                            attacked.getZ(),
                                             holder,
-                                            player.getSoundSource(),
+                                            attacked.getSoundSource(),
                                             0.8F,
                                             0.8F + serverLevel.random.nextFloat() * 0.4F
                                     )
                             );
-                    shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) attacked);
+                    if (attacked instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
                     shouldContinue = false;
                 }
             }

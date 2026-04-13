@@ -154,13 +154,13 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                 if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) percentageToIncrease /= 2;
                 if (damageSource.getWeaponItem() != null && damageSource.getWeaponItem().is(ItemTags.AXES)) percentageToIncrease *= 2;
                 if (entity.getTicksUsingItem() <= ShieldHelper.getParryWindow(stack) && ShieldHelper.canBeParried(damageSource)) percentageToIncrease = (int) (percentageToIncrease / ShieldHelper.getParryBonus(stack));
-                shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), (ServerPlayer) entity);
+                if (entity instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), serverPlayer);
                 this.hurtOrBlockedTime = 10;
                 this.recoveryDelay = 100;
                 if (shieldInfo.getPercentageDamage() >= 100) {
                     float disableDuration = ShieldHelper.getDisableDuration(stack);
                     ShieldHelper.handleDisabling(serverLevel, entity, attacker, disableDuration, stack);
-                    shieldInfo.setPercentageDamageAndSync(0, (ServerPlayer) entity);
+                    if (entity instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
                     entity.addTag("should_disable_shield");
                 }
             }
@@ -247,7 +247,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             ItemStack stack = player.getWeaponItem();
             int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);
             restoration = restoration * (1 + dueling / 3F);
-            shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), (ServerPlayer) player);
+            if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), serverPlayer);
         }
         return value;
     }
