@@ -1,7 +1,7 @@
 package net.rebel459.combat_reborn.datagen;
 
 import com.ibm.icu.impl.Pair;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.rebel459.combat_reborn.registry.CRItems;
 import net.minecraft.core.HolderLookup;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 public final class CRRecipeProvider extends FabricRecipeProvider {
 
-    public CRRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+    public CRRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
 

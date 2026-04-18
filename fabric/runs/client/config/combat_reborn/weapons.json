@@ -1,0 +1,428 @@
+{
+  "sets": [
+    {
+      "ids": [
+        "minecraft:wooden_sword",
+        "minecraft:stone_sword",
+        "legacies_and_legends:verdant_sword"
+      ],
+      "damage": 4.0,
+      "speed": 2.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_sword",
+        "minecraft:golden_sword"
+      ],
+      "damage": 5.0,
+      "speed": 2.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_sword",
+        "progression_reborn:rose_sword"
+      ],
+      "damage": 6.0,
+      "speed": 2.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_sword"
+      ],
+      "damage": 7.0,
+      "speed": 2.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_sword",
+        "end_reborn:remnant_sword",
+        "end_reborn:featherzeal_sword"
+      ],
+      "damage": 8.0,
+      "speed": 2.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:wooden_axe",
+        "minecraft:stone_axe"
+      ],
+      "damage": 7.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_axe",
+        "minecraft:golden_axe"
+      ],
+      "damage": 7.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_axe",
+        "progression_reborn:rose_axe",
+        "legacies_and_legends:cleaving_battleaxe"
+      ],
+      "damage": 8.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_axe"
+      ],
+      "damage": 8.0,
+      "speed": 1.2,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_axe",
+        "end_reborn:remnant_axe",
+        "end_reborn:featherzeal_axe"
+      ],
+      "damage": 9.0,
+      "speed": 1.2,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:wooden_spear",
+        "minecraft:stone_spear",
+        "legacies_and_legends:frosted_spear"
+      ],
+      "damage": 2.0,
+      "speed": 1.6,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_spear",
+        "minecraft:golden_spear"
+      ],
+      "damage": 3.0,
+      "speed": 1.4,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_spear",
+        "progression_reborn:rose_spear"
+      ],
+      "damage": 4.0,
+      "speed": 1.2,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_spear"
+      ],
+      "damage": 5.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_spear",
+        "end_reborn:remnant_spear",
+        "end_reborn:featherzeal_spear"
+      ],
+      "damage": 6.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:wooden_pickaxe",
+        "minecraft:stone_pickaxe"
+      ],
+      "damage": 3.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_pickaxe",
+        "minecraft:golden_pickaxe"
+      ],
+      "damage": 4.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_pickaxe",
+        "progression_reborn:rose_pickaxe",
+        "legacies_and_legends:molten_pickaxe"
+      ],
+      "damage": 5.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_pickaxe"
+      ],
+      "damage": 6.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_pickaxe",
+        "end_reborn:remnant_pickaxe",
+        "end_reborn:featherzeal_pickaxe"
+      ],
+      "damage": 7.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:wooden_shovel",
+        "minecraft:stone_shovel"
+      ],
+      "damage": 2.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_shovel",
+        "minecraft:golden_shovel"
+      ],
+      "damage": 3.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_shovel",
+        "progression_reborn:rose_shovel",
+        "legacies_and_legends:prospector_shovel"
+      ],
+      "damage": 4.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_shovel"
+      ],
+      "damage": 5.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_shovel",
+        "end_reborn:remnant_shovel",
+        "end_reborn:featherzeal_shovel"
+      ],
+      "damage": 6.0,
+      "speed": 1.0,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:wooden_hoe",
+        "minecraft:stone_hoe",
+        "legacies_and_legends:withered_hoe"
+      ],
+      "damage": 1.0,
+      "speed": 2.0,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:copper_hoe",
+        "minecraft:golden_hoe"
+      ],
+      "damage": 1.0,
+      "speed": 2.5,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:iron_hoe",
+        "progression_reborn:rose_hoe"
+      ],
+      "damage": 1.0,
+      "speed": 3.0,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:diamond_hoe"
+      ],
+      "damage": 1.0,
+      "speed": 3.5,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:netherite_hoe",
+        "end_reborn:remnant_hoe",
+        "end_reborn:featherzeal_hoe"
+      ],
+      "damage": 1.0,
+      "speed": 4.0,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:mace"
+      ],
+      "damage": 6.0,
+      "speed": 0.8,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "minecraft:trident"
+      ],
+      "damage": 9.0,
+      "speed": 1.6,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "legacies_and_legends:boomerang"
+      ],
+      "damage": 4.0,
+      "speed": 3.0,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "legacies_and_legends:hook"
+      ],
+      "damage": 9.0,
+      "speed": 0.8,
+      "reach": 3.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "remnants:katana"
+      ],
+      "damage": 6.0,
+      "speed": 2.4,
+      "reach": 3.0,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "enderscape:dagger"
+      ],
+      "damage": 4.0,
+      "speed": 2.4,
+      "reach": 2.5,
+      "attributes": [
+        {
+          "attribute": "enderscape:backstab_damage",
+          "value": 4.0,
+          "operation": "ADD_VALUE"
+        }
+      ]
+    },
+    {
+      "ids": [
+        "farmersdelight:flint_knife"
+      ],
+      "damage": 2.0,
+      "speed": 2.8,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "farmersdelight:copper_knife",
+        "farmersdelight:golden_knife"
+      ],
+      "damage": 3.0,
+      "speed": 2.8,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "farmersdelight:iron_knife",
+        "farmersknives:rose_knife"
+      ],
+      "damage": 4.0,
+      "speed": 2.8,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "farmersdelight:diamond_knife"
+      ],
+      "damage": 5.0,
+      "speed": 2.8,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "legacies_and_legends:knife"
+      ],
+      "damage": 5.0,
+      "speed": 3.0,
+      "reach": 2.5,
+      "attributes": []
+    },
+    {
+      "ids": [
+        "farmersdelight:netherite_knife",
+        "farmersknives:remnant_knife",
+        "farmersknives:featherzeal_knife"
+      ],
+      "damage": 6.0,
+      "speed": 2.8,
+      "reach": 2.5,
+      "attributes": []
+    }
+  ]
+}

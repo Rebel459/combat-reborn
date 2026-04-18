@@ -8,7 +8,7 @@ import net.rebel459.unified.platform.UnifiedHelpers;
 public class CRCreativeInventory {
 
     public static void init() {
-        UnifiedHelpers.CREATIVE_ENTRIES.addAfter(
+        UnifiedHelpers.CREATIVE_ENTRIES.insertAfter(
                 CreativeModeTabs.COMBAT,
                 Items.CROSSBOW,
                 CRItems.QUIVER.get(),
@@ -29,7 +29,7 @@ public class CRCreativeInventory {
                 CRItems.YELLOW_QUIVER.get(),
                 CRItems.WHITE_QUIVER.get()
         );
-        if (CombatReborn.hasLegaciesAndLegends()) UnifiedHelpers.CREATIVE_ENTRIES.addAfter(
+        if (CombatReborn.hasLegaciesAndLegends()) UnifiedHelpers.CREATIVE_ENTRIES.insertAfter(
                 CreativeModeTabs.COMBAT,
                 CRItems.QUIVER.get(),
                 CRItems.WEIGHTED_QUIVER.get(),

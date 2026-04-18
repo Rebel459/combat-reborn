@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "combat_reborn:quiver"
+  },
+  "max_uses": 1.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 20.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 15.0
+}

@@ -13,7 +13,6 @@ public class CombatRebornNeoForge {
 
     public CombatRebornNeoForge(IEventBus modEventBus) {
         NeoForgeUnifiedRegistries.registerBus(CombatReborn.MOD_ID, modEventBus);
-        AutoConfig.register(CRGeneralConfig.class, GsonConfigSerializer::new);
         CombatReborn.initRegistries();
         modEventBus.addListener(CombatRebornNeoForge::commonSetup);
     }

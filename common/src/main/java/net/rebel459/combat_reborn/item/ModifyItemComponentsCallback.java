@@ -3,6 +3,7 @@ package net.rebel459.combat_reborn.item;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantable;
@@ -18,16 +19,15 @@ import java.util.Optional;
 public class ModifyItemComponentsCallback {
 
     public static void init(){
-        UnifiedEvents.ItemComponents.modify((
-                        item -> true),
-                (builder, item) -> {
+        UnifiedEvents.DefaultDataComponents.modify(
+                (item, builder, provider) -> {
                     if (!CombatReborn.hasEnchantsAndExpeditions()) {
                         if (item.getDefaultInstance().is(Items.SHIELD)) {
                             builder.set(DataComponents.ENCHANTABLE, new Enchantable(10));
                         }
                     }
                     if (CombatReborn.hasLegaciesAndLegends() || CombatReborn.hasEnchantsAndExpeditions()) {
-                        Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.get.weapons.sets.stream()
+                        Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.getWeapons().sets.stream()
                                 .filter(modifier -> modifier.ids.contains("minecraft:trident"))
                                 .findFirst();
                         if (item.getDefaultInstance().is(Items.TRIDENT)) {
@@ -40,7 +40,7 @@ public class ModifyItemComponentsCallback {
                                             modifiers.attributes
                                     )
                             ));
-                            HolderGetter<Item> holderGetter = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.ITEM);
+                            HolderGetter<Item> holderGetter = provider.lookup(Registries.ITEM).get();
                             builder.set(DataComponents.REPAIRABLE, new Repairable(holderGetter.getOrThrow(CRItemTags.TRIDENT_REPAIR_MATERIALS)));
                         }
                     }

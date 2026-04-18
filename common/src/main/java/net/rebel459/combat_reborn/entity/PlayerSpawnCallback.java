@@ -10,22 +10,22 @@ public class PlayerSpawnCallback {
     public static void init() {
         UnifiedEvents.Players.onJoin((player) -> {
             if (!(player instanceof ServerPlayer serverPlayer)) return;
-            if (player instanceof ShieldInfo shieldInfo && CRConfig.get.general.shields.shield_overhaul) {
+            if (player instanceof ShieldInfo shieldInfo && CRConfig.getGeneral().shields.shield_overhaul) {
                 shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
             }
-            if (CRConfig.get.general.hunger.hunger_rework) {
+            if (CRConfig.getGeneral().hunger.hunger_rework) {
                 int playTime = serverPlayer.getStats().getValue(Stats.CUSTOM.get(Stats.PLAY_TIME));
                 if (playTime < 1) {
                     player.getFoodData().setSaturation(20F);
                 }
             }
         });
-        UnifiedEvents.Players.onRespawn((player) -> {
-            if (player instanceof ShieldInfo shieldInfo && CRConfig.get.general.shields.shield_overhaul && player instanceof ServerPlayer serverPlayer) {
-                shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
+        UnifiedEvents.Players.onRespawn((oldPlayer, newPlayer) -> {
+            if (newPlayer instanceof ShieldInfo shieldInfo && CRConfig.getGeneral().shields.shield_overhaul) {
+                shieldInfo.setPercentageDamageAndSync(0, newPlayer);
             }
-            if (CRConfig.get.general.hunger.hunger_rework) {
-                player.getFoodData().setSaturation(20F);
+            if (CRConfig.getGeneral().hunger.hunger_rework) {
+                newPlayer.getFoodData().setSaturation(20F);
             }
         });
     }

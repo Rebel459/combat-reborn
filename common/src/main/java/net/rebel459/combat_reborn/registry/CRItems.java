@@ -10,6 +10,7 @@ import net.rebel459.combat_reborn.item.QuiverItem;
 import net.rebel459.combat_reborn.util.QuiverContents;
 import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.rebel459.unified.platform.UnifiedRegistries;
+import net.rebel459.unified.util.SuppliedItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,40 +24,40 @@ public final class CRItems {
 
     public static List<Supplier<Item>> QUIVERS = new ArrayList<>();
 
-    public static final Supplier<QuiverItem> QUIVER = registerQuiver("quiver");
-    public static final Supplier<QuiverItem> BLACK_QUIVER = registerQuiver("black_quiver");
-    public static final Supplier<QuiverItem> BLUE_QUIVER = registerQuiver("blue_quiver");
-    public static final Supplier<QuiverItem> BROWN_QUIVER = registerQuiver("brown_quiver");
-    public static final Supplier<QuiverItem> CYAN_QUIVER = registerQuiver("cyan_quiver");
-    public static final Supplier<QuiverItem> GRAY_QUIVER = registerQuiver("gray_quiver");
-    public static final Supplier<QuiverItem> GREEN_QUIVER = registerQuiver("green_quiver");
-    public static final Supplier<QuiverItem> LIGHT_BLUE_QUIVER = registerQuiver("light_blue_quiver");
-    public static final Supplier<QuiverItem> LIGHT_GRAY_QUIVER = registerQuiver("light_gray_quiver");
-    public static final Supplier<QuiverItem> LIME_QUIVER = registerQuiver("lime_quiver");
-    public static final Supplier<QuiverItem> MAGENTA_QUIVER = registerQuiver("magenta_quiver");
-    public static final Supplier<QuiverItem> ORANGE_QUIVER = registerQuiver("orange_quiver");
-    public static final Supplier<QuiverItem> PINK_QUIVER = registerQuiver("pink_quiver");
-    public static final Supplier<QuiverItem> PURPLE_QUIVER = registerQuiver("purple_quiver");
-    public static final Supplier<QuiverItem> RED_QUIVER = registerQuiver("red_quiver");
-    public static final Supplier<QuiverItem> YELLOW_QUIVER = registerQuiver("yellow_quiver");
-    public static final Supplier<QuiverItem> WHITE_QUIVER = registerQuiver("white_quiver");
+    public static final SuppliedItem QUIVER = registerQuiver("quiver");
+    public static final SuppliedItem BLACK_QUIVER = registerQuiver("black_quiver");
+    public static final SuppliedItem BLUE_QUIVER = registerQuiver("blue_quiver");
+    public static final SuppliedItem BROWN_QUIVER = registerQuiver("brown_quiver");
+    public static final SuppliedItem CYAN_QUIVER = registerQuiver("cyan_quiver");
+    public static final SuppliedItem GRAY_QUIVER = registerQuiver("gray_quiver");
+    public static final SuppliedItem GREEN_QUIVER = registerQuiver("green_quiver");
+    public static final SuppliedItem LIGHT_BLUE_QUIVER = registerQuiver("light_blue_quiver");
+    public static final SuppliedItem LIGHT_GRAY_QUIVER = registerQuiver("light_gray_quiver");
+    public static final SuppliedItem LIME_QUIVER = registerQuiver("lime_quiver");
+    public static final SuppliedItem MAGENTA_QUIVER = registerQuiver("magenta_quiver");
+    public static final SuppliedItem ORANGE_QUIVER = registerQuiver("orange_quiver");
+    public static final SuppliedItem PINK_QUIVER = registerQuiver("pink_quiver");
+    public static final SuppliedItem PURPLE_QUIVER = registerQuiver("purple_quiver");
+    public static final SuppliedItem RED_QUIVER = registerQuiver("red_quiver");
+    public static final SuppliedItem YELLOW_QUIVER = registerQuiver("yellow_quiver");
+    public static final SuppliedItem WHITE_QUIVER = registerQuiver("white_quiver");
 
-    public static final Supplier<QuiverItem> WEIGHTED_QUIVER = registerQuiver("weighted_quiver", QuiverHelper.WEIGHTED_QUIVER, Rarity.UNCOMMON);
+    public static final SuppliedItem WEIGHTED_QUIVER = registerQuiver("weighted_quiver", QuiverHelper.WEIGHTED_QUIVER, Rarity.UNCOMMON);
 
-    public static final Supplier<QuiverItem> SAPPHIRE_QUIVER = registerQuiver("sapphire_quiver", QuiverHelper.SAPPHIRE_QUIVER, Rarity.RARE);
+    public static final SuppliedItem SAPPHIRE_QUIVER = registerQuiver("sapphire_quiver", QuiverHelper.SAPPHIRE_QUIVER, Rarity.RARE);
 
     public static void init() {}
 
-    private static @NotNull Supplier register(String name, @NotNull Function<Item.Properties, Item> function, Supplier<Item.@NotNull Properties> properties, boolean isQuiver) {
+    private static @NotNull SuppliedItem register(String name, @NotNull Function<Item.Properties, Item> function, Supplier<Item.@NotNull Properties> properties, boolean isQuiver) {
         var item = ITEMS.register(name, function, properties);
         if (isQuiver) QUIVERS.add(item);
         return item;
     }
 
-    private static Supplier<QuiverItem> registerQuiver(String name) {
+    private static SuppliedItem registerQuiver(String name) {
         return registerQuiver(name, QuiverHelper.QUIVER, Rarity.UNCOMMON);
     }
-    private static Supplier<QuiverItem> registerQuiver(String name, String type, Rarity rarity) {
+    private static SuppliedItem registerQuiver(String name, String type, Rarity rarity) {
         return register(
                 name,
                 QuiverItem::new,

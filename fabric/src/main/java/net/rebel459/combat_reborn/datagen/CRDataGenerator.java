@@ -10,7 +10,6 @@ public final class CRDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
 		final FabricDataGenerator.Pack pack = dataGenerator.createPack();
 
-		pack.addProvider(CRModelProvider::new);
 		pack.addProvider(CRItemTagProvider::new);
 		pack.addProvider(CRRecipeProvider::new);
 

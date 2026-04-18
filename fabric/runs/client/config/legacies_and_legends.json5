@@ -1,0 +1,107 @@
+{
+	"structures": {
+		"dungeon_overhaul": true,
+		"swamp_hut_variants": true,
+		"buried_treasure_rework": true,
+		"new_structures": true
+	},
+	"loot": {
+		"enchanted_beetroot": true,
+		"metal_chunk": true,
+		"trident_shard": true,
+		"wooden_buckets": true,
+		"glow_stick": true,
+		"new_music_discs": true,
+		"boomerang": true,
+		"hook": true,
+		"knife": true,
+		"lore_books": true,
+		"improved_loot": true
+	},
+	"magic": {
+		"sapphire": true,
+		"wands": true,
+		"jeweling": true,
+		"meteors": true
+	},
+	"artifacts": {
+		"reinforced_chestplate": true,
+		"travelling_strides": true,
+		"wanderer_boots": true,
+		"verdant_sword": true,
+		"cleaving_battleaxe": true,
+		"molten_pickaxe": true,
+		"prospector_shovel": true,
+		"withered_hoe": true,
+		"frosted_spear": true,
+		"tablet_of_recall": true,
+		"tablet_of_haste": true,
+		"tablet_of_instability": true,
+		"tablet_of_warping": true,
+		"tablet_of_channeling": true,
+		"tablet_of_deafening": true,
+		"tablet_of_revealing": true
+	},
+	"accessories": {
+		"slot": {
+			"enabled": true,
+			"offset_x": 0,
+			"offset_y": 0,
+			"use_equip": true
+		},
+		"amulet_of_absorption": true,
+		"amulet_of_obsidian": true,
+		"amulet_of_deflection": true,
+		"ring_of_evasion": true,
+		"ring_of_striking": true,
+		"ring_of_hunting": true,
+		"ring_of_construction": true,
+		"ring_of_archery": true,
+		"ring_of_excavation": true,
+		"ring_of_restoration": true,
+		"necklace_of_purity": true,
+		"necklace_of_leaping": true,
+		"necklace_of_protection": true,
+		"necklace_of_regeneration": true,
+		"necklace_of_resilience": true,
+		"necklace_of_bartering": true,
+		"necklace_of_isolation": true,
+		"totem_of_resurrection": true,
+		"totem_of_teleportation": true
+	},
+	"enchantments": {
+		"tangled": true,
+		"freeze": true,
+		"featherweight": true,
+		"shadowstep": true,
+		"rejuvenate": true,
+		"decay": true
+	},
+	"music": {
+		"snowy_music": true,
+		"savanna_music": true,
+		"dark_forest_music": true,
+		"structure_music_min": 300,
+		"structure_music_max": 600,
+		"stronghold_music": true,
+		"ancient_city_music": true,
+		"main_end_island_music": true,
+		"end_portal_music": true,
+		"music_and_melody": true
+	},
+	"misc": {
+		"stackable_saddles": true,
+		"improved_turtle_shell": true,
+		"echo_shard_trim": true,
+		"wandering_trader_trades": true,
+		"no_creeper_discs": false
+	},
+	"integrations": {
+		"bloom": true,
+		"wilder_wild": true,
+		"trailier_tales": true,
+		"farmers_delight": true,
+		"enderscape": true,
+		"variants_and_ventures": true
+	}
+}

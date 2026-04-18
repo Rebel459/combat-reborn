@@ -209,7 +209,7 @@ public class QuiverItem extends Item {
         QuiverContents quiverContents = itemEntity.getItem().get(CRDataComponents.QUIVER_CONTENTS.get());
         if (quiverContents != null) {
             itemEntity.getItem().set(CRDataComponents.QUIVER_CONTENTS.get(), QuiverContents.empty(QuiverHelper.getType(itemEntity.getItem())));
-            ItemUtils.onContainerDestroyed(itemEntity, quiverContents.itemsCopy());
+            ItemUtils.onContainerDestroyed(itemEntity, quiverContents.itemCopyStream());
         }
     }
 

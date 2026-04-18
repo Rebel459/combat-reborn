@@ -1,16 +1,16 @@
 package net.rebel459.combat_reborn.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.rebel459.combat_reborn.registry.CRItems;
 import net.rebel459.combat_reborn.tag.CRItemTags;
 import net.minecraft.core.HolderLookup;
 
 import java.util.concurrent.CompletableFuture;
 
-public final class CRItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public final class CRItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
-	public CRItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+	public CRItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
 		super(output, registries);
 	}
 

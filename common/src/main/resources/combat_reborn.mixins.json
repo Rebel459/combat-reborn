@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "net.rebel459.combat_reborn.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "plugin": "net.rebel459.combat_reborn.mixin.CRMixinPlugin",
   "injectors": {
     "defaultRequire": 1
@@ -19,11 +19,11 @@
     "entity.PlayerMixin",
     "entity.SnowballMixin",
     "food.FoodDataMixin",
+    "integration.legacies_and_legends.QuiverHelperMixin",
     "item.BlocksAttacksMixin",
     "item.BowItemMixin",
     "item.BundleContentsMixin",
     "item.ItemMixin",
-    "item.ItemStackMixin",
     "item.ProjectileWeaponItemMixin",
     "menu.AnvilMenuMixin",
     "server.ServerPlayerMixin",

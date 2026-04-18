@@ -23,20 +23,20 @@ public class ArmorAttributeModifierCallback {
     private ArmorAttributeModifierCallback() {}
 
     public static void init() {
-        if (!CRConfig.get.general.modifiers.armor) return;
+        if (!CRConfig.getGeneral().modifiers.armor) return;
 
-        UnifiedEvents.ItemComponents.modify(
+        UnifiedEvents.DefaultDataComponents.modifyWithFilter(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
-                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.armor.sets.stream()
+                    return optionalItem.filter(itemRegistryKey -> CRConfig.getArmor().sets.stream()
                                     .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
                             .isPresent();
                 },
-                (builder, item) -> {
+                (item, builder, provider) -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     if (optionalItem.isEmpty()) return;
 
-                    Optional<CRArmorConfig.Modifiers> optionalArmorModifier = CRConfig.get.armor.sets.stream()
+                    Optional<CRArmorConfig.Modifiers> optionalArmorModifier = CRConfig.getArmor().sets.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
                     if (optionalArmorModifier.isEmpty()) return;
@@ -82,7 +82,7 @@ public class ArmorAttributeModifierCallback {
                 )
                 .build();
         String burningTime = "minecraft:burning_time";
-        boolean applyEndRebornBurningTime = CombatReborn.hasEndReborn() && CRConfig.get.general.integrations.end_reborn_netherite && itemPath.contains("netherite");
+        boolean applyEndRebornBurningTime = CombatReborn.hasEndReborn() && CRConfig.getGeneral().integrations.end_reborn_netherite && itemPath.contains("netherite");
         for (CRConfig.AttributeEntry entry : attributes) {
             String attribute = entry.attribute;
             double value = entry.value;

@@ -26,7 +26,7 @@ public class ShieldHelper {
         boolean stagger = CREnchantments.getLevel(stack, CREnchantments.STAGGER) > 0;
         float f = 0F;
         if (attacker instanceof Player player) {
-            player.addTag("knockback_only");
+            if (player instanceof CombatBooleanInterface booleans) booleans.setKnockbackOnly(true);
             f = 1F;
         }
         if (stagger) {
@@ -60,7 +60,7 @@ public class ShieldHelper {
         BlocksAttacks blocksAttacks = stack.get(DataComponents.BLOCKS_ATTACKS);
         boolean shouldContinue = true;
         if (blocksAttacks == null) return;
-        if (!attacked.getTags().contains("should_disable_shield")) {
+        if (!(attacked instanceof CombatBooleanInterface booleans && booleans.shouldDisableShield())) {
             int level = CREnchantments.getLevel(stack, CREnchantments.PARRY);
             if (level > 0) {
                 if (new Random().nextInt(1, 5) <= level && attacked.getTicksUsingItem() < ShieldHelper.getParryWindow(stack)) {
@@ -69,9 +69,9 @@ public class ShieldHelper {
             }
         }
         else {
-            attacked.removeTag("should_disable_shield");
+            booleans.setShouldDisableShield(false);
         }
-        if (CRConfig.get.general.shields.shield_overhaul) {
+        if (CRConfig.getGeneral().shields.shield_overhaul) {
             if (attacked instanceof ShieldInfo shieldInfo) {
                 int percentageToIncrease = ShieldHelper.processDamage(stack, duration * 5F);
                 if (attacked instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(Math.max(shieldInfo.getPercentageDamage() + percentageToIncrease, 0), serverPlayer);
@@ -93,7 +93,7 @@ public class ShieldHelper {
                                             holder,
                                             attacked.getSoundSource(),
                                             0.8F,
-                                            0.8F + serverLevel.random.nextFloat() * 0.4F
+                                            0.8F + serverLevel.getRandom().nextFloat() * 0.4F
                                     )
                             );
                     if (attacked instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
@@ -122,7 +122,7 @@ public class ShieldHelper {
     }
     public static float getMaxDamage(ItemStack stack, boolean includeEnchantments) {
         float maxDamage = ShieldInfo.defaultMaxBlockDamage;
-        if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage -= 12;
+        if (CRConfig.getGeneral().integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) maxDamage -= 12;
         int endurance = CREnchantments.getLevel(stack, CREnchantments.ENDURANCE);
         if (!includeEnchantments) endurance = 0;
         maxDamage = maxDamage * (1 + endurance / 3F);
@@ -134,7 +134,7 @@ public class ShieldHelper {
     }
     public static float getParryBonus(ItemStack stack, boolean includeEnchantments) {
         float base = 1.25F;
-        if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) base += 0.5F;
+        if (CRConfig.getGeneral().integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) base += 0.5F;
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
         if (!includeEnchantments) parry = 0;
         return base + parry * 0.25F;
@@ -142,14 +142,14 @@ public class ShieldHelper {
 
     public static int getParryWindow(ItemStack stack) {
         int parryWindow = ShieldInfo.parryWindow;
-        if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) parryWindow -= 4;
+        if (CRConfig.getGeneral().integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) parryWindow -= 4;
         int parry = CREnchantments.getLevel(stack, CREnchantments.PARRY);
         return parryWindow - parry * 4;
     }
 
     public static float getDisableDuration(ItemStack stack) {
         float disableDuration = 15F;
-        if (CRConfig.get.general.integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableDuration = 10F;
+        if (CRConfig.getGeneral().integrations.enderscape_rubble_shields && stack.is(CRItemTags.RUBBLE_SHIELD)) disableDuration = 10F;
         return disableDuration;
     }
 }

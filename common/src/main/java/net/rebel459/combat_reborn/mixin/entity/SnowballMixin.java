@@ -5,6 +5,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.Snowball;
+import net.rebel459.combat_reborn.util.CombatBooleanInterface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -20,10 +21,10 @@ public abstract class SnowballMixin {
             )
     )
     private void cancelConsumption(Entity entity, DamageSource damageSource, float f) {
-        if (!CRConfig.get.general.misc.knockback_throwables) return;
+        if (!CRConfig.getGeneral().misc.knockback_throwables) return;
         f = 0F;
         if (entity instanceof Player player) {
-            player.addTag("knockback_only");
+            if (player instanceof CombatBooleanInterface booleans) booleans.setKnockbackOnly(true);
             f = 1F;
         }
         entity.hurt(damageSource, f);

@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInterface {
+public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInterface, CombatBooleanInterface {
 
     @Unique
     private DamageSource lastBlockedSource;
@@ -51,6 +51,42 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Override
     public void setLastBlockedSource(DamageSource source) {
         this.lastBlockedSource = source;
+    }
+
+    @Unique
+    private boolean shouldDisableShield;
+
+    @Unique
+    private boolean hiddenQuiver;
+
+    @Unique
+    private boolean knockbackOnly;
+
+    @Override
+    public boolean shouldDisableShield() {
+        return this.shouldDisableShield;
+    }
+    @Override
+    public void setShouldDisableShield(boolean shouldDisableShield) {
+        this.shouldDisableShield = shouldDisableShield;
+    }
+
+    @Override
+    public boolean getHiddenQuiver() {
+        return this.hiddenQuiver;
+    }
+    @Override
+    public void setHiddenQuiver(boolean hiddenQuiver) {
+        this.hiddenQuiver = hiddenQuiver;
+    }
+
+    @Override
+    public boolean getKnockbackOnly() {
+        return this.knockbackOnly;
+    }
+    @Override
+    public void setKnockbackOnly(boolean knockbackOnly) {
+        this.knockbackOnly = knockbackOnly;
     }
 
     @WrapOperation(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;applyItemBlocking(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
@@ -116,21 +152,22 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(at = @At("HEAD"), method = "tick")
     private void handleCrossbowQuiverModel(CallbackInfo ci) {
         LivingEntity livingEntity = LivingEntity.class.cast(this);
-        if (!(livingEntity instanceof Player player)) return;
+        if (!(livingEntity instanceof Player player) || !(player instanceof CombatBooleanInterface booleans)) return;
         if (player.getWeaponItem().has(DataComponents.CHARGED_PROJECTILES) && !player.getWeaponItem().get(DataComponents.CHARGED_PROJECTILES).isEmpty()) {
             ItemStack stack = QuiverHelper.getStack(player);
             if (stack != null) {
                 player.addTag("hidden_quiver");
+                booleans.setHiddenQuiver(true);
                 stack.applyComponents(DataComponentPatch.builder()
                         .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of("hidden"), List.of()))
                         .build()
                 );
             }
         }
-        else if (player.getTags().contains("hidden_quiver")) {
+        else if (booleans.getHiddenQuiver()) {
             ItemStack stack = QuiverHelper.getStack(player);
             if (stack != null) {
-                player.removeTag("hidden_quiver");
+                booleans.setHiddenQuiver(false);
                 QuiverContents.Mutable mutable = new QuiverContents.Mutable(stack.get(CRDataComponents.QUIVER_CONTENTS.get()));
                 QuiverHelper.updateFullness(stack, mutable);
             }
@@ -146,7 +183,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     )
     private float trackShieldDamageBlocked(LivingEntity attacker, ServerLevel serverLevel, DamageSource damageSource, float f, Operation<Float> original) {
         float blockedDamage = original.call(attacker, serverLevel, damageSource, f);
-        if (blockedDamage > 0 && CRConfig.get.general.shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
+        if (blockedDamage > 0 && CRConfig.getGeneral().shields.shield_overhaul && this.hurtOrBlockedTime == 0) {
             LivingEntity entity = LivingEntity.class.cast(this);
             ItemStack stack = entity.getUseItem();
             if (stack.is(CRItemTags.SHIELD) && entity instanceof ShieldInfo shieldInfo) {
@@ -161,7 +198,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
                     float disableDuration = ShieldHelper.getDisableDuration(stack);
                     ShieldHelper.handleDisabling(serverLevel, entity, attacker, disableDuration, stack);
                     if (entity instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync(0, serverPlayer);
-                    entity.addTag("should_disable_shield");
+                    if (entity instanceof CombatBooleanInterface booleans) booleans.setShouldDisableShield(true);
                 }
             }
         }
@@ -171,7 +208,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void passiveShieldRecovery(CallbackInfo ci) {
         LivingEntity entity = LivingEntity.class.cast(this);
-        if (!(entity instanceof ServerPlayer player) || !CRConfig.get.general.shields.shield_overhaul) return;
+        if (!(entity instanceof ServerPlayer player) || !CRConfig.getGeneral().shields.shield_overhaul) return;
         this.localTick++;
         if (localTick >= 5) {
             if (this.recoveryDelay == 0) {
@@ -206,7 +243,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
     @Inject(method = "getSecondsToDisableBlocking", at = @At(value = "TAIL"), cancellable = true)
     private void cleaving(CallbackInfoReturnable<Float> cir) {
         float disableTime = cir.getReturnValue();
-        if (CRConfig.get.general.shields.shield_overhaul) {
+        if (CRConfig.getGeneral().shields.shield_overhaul) {
             if (disableTime >= 3F) disableTime -= 2F;
         }
         if (disableTime <= 0) return;
@@ -215,7 +252,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         if (level > 0) {
             disableTime = disableTime + level;
         }
-        if (CRConfig.get.general.shields.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
+        if (CRConfig.getGeneral().shields.shield_overhaul) this.recoveryDelay = (int) Math.min(this.recoveryDelay + disableTime * 20, 100 + disableTime * 20);
         cir.setReturnValue(disableTime);
     }
 
@@ -229,7 +266,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         BlocksAttacks blocksAttacks = stack.get(DataComponents.BLOCKS_ATTACKS);
         if (blocksAttacks != null) {
             int i = stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
-            if (i >= CRConfig.get.general.shields.block_delay) {
+            if (i >= CRConfig.getGeneral().shields.block_delay) {
                 cir.setReturnValue(stack);
             }
         }
@@ -242,7 +279,7 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             argsOnly = true
     )
     private float activeShieldRecovery(float value) {
-        if (CRConfig.get.general.shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
+        if (CRConfig.getGeneral().shields.shield_overhaul && this.damageSource.getEntity() instanceof Player player && player instanceof ShieldInfo shieldInfo && shieldInfo.getPercentageDamage() > 0 && this.hurtOrBlockedTime == 0) {
             float restoration = value / 2;
             ItemStack stack = player.getWeaponItem();
             int dueling = CREnchantments.getLevel(stack, CREnchantments.DUELING);

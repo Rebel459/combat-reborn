@@ -1,10 +1,10 @@
 package net.rebel459.combat_reborn.client;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
 import net.rebel459.combat_reborn.util.QuiverContents;
 import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -88,20 +88,20 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font font, int i, int j, int k, int l, GuiGraphics guiGraphics) {
+	public void extractImage(Font font, int i, int j, int k, int l, GuiGraphicsExtractor graphics) {
 		if (this.contents.isEmpty()) {
-			this.renderEmptyBundleTooltip(font, i, j, k, l, guiGraphics);
+			this.renderEmptyBundleTooltip(font, i, j, k, l, graphics);
 		} else {
-			this.renderBundleWithItemsTooltip(font, i, j, k, l, guiGraphics);
+			this.renderBundleWithItemsTooltip(font, i, j, k, l, graphics);
 		}
 	}
 
-	private void renderEmptyBundleTooltip(Font font, int i, int j, int k, int l, GuiGraphics guiGraphics) {
-		drawEmptyBundleDescriptionText(i + this.getContentXOffset(k), j, font, guiGraphics);
-		this.drawProgressbar(i + this.getContentXOffset(k), j + getEmptyBundleDescriptionTextHeight(font) + 4, font, guiGraphics);
+	private void renderEmptyBundleTooltip(Font font, int i, int j, int k, int l, GuiGraphicsExtractor graphics) {
+		drawEmptyBundleDescriptionText(i + this.getContentXOffset(k), j, font, graphics);
+		this.drawProgressbar(i + this.getContentXOffset(k), j + getEmptyBundleDescriptionTextHeight(font) + 4, font, graphics);
 	}
 
-	private void renderBundleWithItemsTooltip(Font font, int i, int j, int k, int l, GuiGraphics guiGraphics) {
+	private void renderBundleWithItemsTooltip(Font font, int i, int j, int k, int l, GuiGraphicsExtractor graphics) {
 		boolean bl = this.contents.size() > 12;
 		List<ItemStack> list = this.getShownItems(this.contents.getNumberOfItemsToShow());
 		int m = i + this.getContentXOffset(k) + 96;
@@ -113,16 +113,16 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
 				int r = m - q * 24;
 				int s = n - p * 24;
 				if (shouldRenderSurplusText(bl, q, p)) {
-					renderCount(r, s, this.getAmountOfHiddenItems(list), font, guiGraphics);
+					renderCount(r, s, this.getAmountOfHiddenItems(list), font, graphics);
 				} else if (shouldRenderItemSlot(list, o)) {
-					this.renderSlot(o, r, s, list, o, font, guiGraphics);
+					this.renderSlot(o, r, s, list, o, font, graphics);
 					o++;
 				}
 			}
 		}
 
-		this.drawSelectedItemTooltip(font, guiGraphics, i, j, k);
-		this.drawProgressbar(i + this.getContentXOffset(k), j + this.itemGridHeight() + 4, font, guiGraphics);
+		this.drawSelectedItemTooltip(font, graphics, i, j, k);
+		this.drawProgressbar(i + this.getContentXOffset(k), j + this.itemGridHeight() + 4, font, graphics);
 	}
 
 	private List<ItemStack> getShownItems(int i) {
@@ -142,28 +142,28 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
 		return this.contents.itemCopyStream().skip(list.size()).mapToInt(ItemStack::getCount).sum();
 	}
 
-	private void renderSlot(int i, int j, int k, List<ItemStack> list, int l, Font font, GuiGraphics guiGraphics) {
+	private void renderSlot(int i, int j, int k, List<ItemStack> list, int l, Font font, GuiGraphicsExtractor graphics) {
 		int m = list.size() - i;
 		boolean bl = m == Math.max(0, this.quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT.get()));
 		ItemStack itemStack = (ItemStack)list.get(m);
 		if (bl) {
-			guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_BACK_SPRITE, j, k, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_BACK_SPRITE, j, k, 24, 24);
 		} else {
-			guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_BACKGROUND_SPRITE, j, k, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_BACKGROUND_SPRITE, j, k, 24, 24);
 		}
 
-		guiGraphics.renderItem(itemStack, j + 4, k + 4, l);
-		guiGraphics.renderItemDecorations(font, itemStack, j + 4, k + 4);
+		graphics.item(itemStack, j + 4, k + 4, l);
+		graphics.itemDecorations(font, itemStack, j + 4, k + 4);
 		if (bl) {
-			guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_SPRITE, j, k, 24, 24);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_HIGHLIGHT_FRONT_SPRITE, j, k, 24, 24);
 		}
 	}
 
-	private static void renderCount(int i, int j, int k, Font font, GuiGraphics guiGraphics) {
-		guiGraphics.drawCenteredString(font, "+" + k, i + 12, j + 10, -1);
+	private static void renderCount(int i, int j, int k, Font font, GuiGraphicsExtractor graphics) {
+		graphics.centeredText(font, "+" + k, i + 12, j + 10, -1);
 	}
 
-    private void drawSelectedItemTooltip(Font font, GuiGraphics guiGraphics, int x, int y, int width) {
+    private void drawSelectedItemTooltip(Font font, GuiGraphicsExtractor graphics, int x, int y, int width) {
         Integer rawSlot = this.quiverStack.get(CRDataComponents.QUIVER_CONTENTS_SLOT.get());
         int selectedSlot = (rawSlot != null) ? rawSlot : QuiverContents.NO_SELECTED_ITEM_INDEX;
 
@@ -174,7 +174,7 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
             int tooltipX = x + width / 2 - 12;
             int tooltipY = y - 15;
 
-            guiGraphics.renderTooltip(
+			graphics.tooltip(
                     font,
                     List.of(ClientTooltipComponent.create(name.getVisualOrderText())),
                     tooltipX - nameWidth / 2,
@@ -185,17 +185,17 @@ public class ClientQuiverTooltip implements ClientTooltipComponent {
         }
     }
 
-	private void drawProgressbar(int i, int j, Font font, GuiGraphics guiGraphics) {
-		guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getProgressBarTexture(), i + 1, j, this.getProgressBarFill(), 13);
-		guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PROGRESSBAR_BORDER_SPRITE, i, j, 96, 13);
+	private void drawProgressbar(int i, int j, Font font, GuiGraphicsExtractor graphics) {
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.getProgressBarTexture(), i + 1, j, this.getProgressBarFill(), 13);
+		graphics.blitSprite(RenderPipelines.GUI_TEXTURED, PROGRESSBAR_BORDER_SPRITE, i, j, 96, 13);
 		Component component = this.getProgressBarFillText();
 		if (component != null) {
-			guiGraphics.drawCenteredString(font, component, i + 48, j + 3, -1);
+			graphics.centeredText(font, component, i + 48, j + 3, -1);
 		}
 	}
 
-	private static void drawEmptyBundleDescriptionText(int i, int j, Font font, GuiGraphics guiGraphics) {
-		guiGraphics.drawWordWrap(font, QUIVER_EMPTY_DESCRIPTION, i, j, 96, -5592406);
+	private static void drawEmptyBundleDescriptionText(int i, int j, Font font, GuiGraphicsExtractor graphics) {
+		graphics.textWithWordWrap(font, QUIVER_EMPTY_DESCRIPTION, i, j, 96, -5592406);
 	}
 
 	private static int getEmptyBundleDescriptionTextHeight(Font font) {

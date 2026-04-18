@@ -1,0 +1,57 @@
+{
+  "modifiers": {
+    "weapons": true,
+    "armor": true
+  },
+  "shields": {
+    "shield_overhaul": true,
+    "display_style": "HOTBAR",
+    "show_tooltips": true,
+    "block_delay": 0
+  },
+  "quivers": {
+    "enable_quivers": true,
+    "show_tooltips": true,
+    "lootable": true,
+    "tradable": true,
+    "craftable": false,
+    "ranged_tweaks": true
+  },
+  "hunger": {
+    "hunger_rework": true,
+    "hunger_barrier": 6
+  },
+  "armor": {
+    "armor_rebalance": true,
+    "toughness": {
+      "toughness_type": "DURABILITY",
+      "toughness_overlay": true,
+      "multiplier": 0.5
+    },
+    "formula": {
+      "middle_points": 30.0,
+      "middle_percentage": 60.0,
+      "max_points": 80.0,
+      "max_percentage": 80.0,
+      "gradient": 1.0,
+      "multiplier": 1.0
+    },
+    "protection": {
+      "multiplier": 1.0,
+      "max_percentage": 80.0
+    }
+  },
+  "misc": {
+    "cleaving_enchantment": true,
+    "stackable_stews": true,
+    "stackable_potions": true,
+    "damage_interruptions": true,
+    "knockback_throwables": true
+  },
+  "integrations": {
+    "lal_quiver_variants": true,
+    "lal_quiver_accessories": true,
+    "enderscape_rubble_shields": true,
+    "end_reborn_netherite": true
+  }
+}

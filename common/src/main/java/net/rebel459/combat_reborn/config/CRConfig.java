@@ -1,16 +1,18 @@
 package net.rebel459.combat_reborn.config;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import net.rebel459.combat_reborn.config.CRArmorConfig;
-import net.rebel459.combat_reborn.config.CRGeneralConfig;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 public class CRConfig {
 
-    public static class get {
-        public static CRArmorConfig armor = AutoConfig.getConfigHolder(CRArmorConfig.class).getConfig();
-        public static CRGeneralConfig general = AutoConfig.getConfigHolder(CRGeneralConfig.class).getConfig();
-        public static CRWeaponConfig weapons = AutoConfig.getConfigHolder(CRWeaponConfig.class).getConfig();
+    public static CRArmorConfig getArmor() {
+        return AutoConfig.getConfigHolder(CRArmorConfig.class).getConfig();
+    }
+    public static CRGeneralConfig getGeneral() {
+        return AutoConfig.getConfigHolder(CRGeneralConfig.class).getConfig();
+    }
+    public static CRWeaponConfig getWeapons() {
+        return AutoConfig.getConfigHolder(CRWeaponConfig.class).getConfig();
     }
 
     public static class AttributeEntry {

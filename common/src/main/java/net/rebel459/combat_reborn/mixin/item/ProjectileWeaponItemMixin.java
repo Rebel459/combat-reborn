@@ -65,11 +65,14 @@ public abstract class ProjectileWeaponItemMixin {
                     float k = h + i * (float)((j + 1) / 2) * g;
                     i = -i;
                     int l = j;
-                    Projectile.spawnProjectile(item.createProjectile(level, shooter, weapon, itemStack, isCrit), level, itemStack, (projectile) -> {
-                        if (item instanceof BowItem bowItem) bowItem.shootProjectile(shooter, projectile, l, velocity * power, inaccuracy / accuracy, k, target);
-                        else if (item instanceof CrossbowItem crossbowItem) crossbowItem.shootProjectile(shooter, projectile, l, velocity * power, inaccuracy / accuracy, k, target);
+                    if (item instanceof BowItem bowItem) Projectile.spawnProjectile(bowItem.createProjectile(level, shooter, weapon, itemStack, isCrit), level, itemStack, (projectile) -> {
+                        bowItem.shootProjectile(shooter, projectile, l, velocity * power, inaccuracy / accuracy, k, target);
+                        weapon.hurtAndBreak(bowItem.getDurabilityUse(itemStack), shooter, hand);
                     });
-                    weapon.hurtAndBreak(item.getDurabilityUse(itemStack), shooter, hand);
+                    else if (item instanceof CrossbowItem crossbowItem) Projectile.spawnProjectile(crossbowItem.createProjectile(level, shooter, weapon, itemStack, isCrit), level, itemStack, (projectile) -> {
+                        crossbowItem.shootProjectile(shooter, projectile, l, velocity * power, inaccuracy / accuracy, k, target);
+                        weapon.hurtAndBreak(crossbowItem.getDurabilityUse(itemStack), shooter, hand);
+                    });
                     if (weapon.isEmpty()) {
                         break;
                     }

@@ -1,6 +1,7 @@
 package net.rebel459.combat_reborn;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
@@ -31,6 +32,7 @@ import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.rebel459.unified.platform.client.UnifiedClientEvents;
 import net.rebel459.unified.platform.client.UnifiedClientHelpers;
 import net.rebel459.unified.platform.client.UnifiedClientRegistries;
+import net.rebel459.unified.util.EventType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Supplier;
@@ -42,10 +44,10 @@ public final class CombatRebornClient {
     private static final Identifier HOTBAR_SHIELD_INDICATOR_PROGRESS = CombatReborn.id("hud/hotbar_shield_indicator_progress");
 
     private static final RenderPipeline SHIELD_INDICATOR = RenderPipelines.register(
-            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator").withBlend(BlendFunction.TRANSLUCENT).build()
+            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator").withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT)).build()
     );
     private static final RenderPipeline SHIELD_INDICATOR_BACKGROUND = RenderPipelines.register(
-            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator_background").withBlend(BlendFunction.OVERLAY).build()
+            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET).withLocation("pipeline/shield_indicator_background").withColorTargetState(new ColorTargetState(BlendFunction.OVERLAY)).build()
     );
 
     public static UnifiedClientRegistries.KeyMappings KEY_MAPPINGS = UnifiedClientRegistries.KeyMappings.create(CombatReborn.MOD_ID);
@@ -65,7 +67,7 @@ public final class CombatRebornClient {
         });
 
         UnifiedClientEvents.Guis.renderHotbar(((gui, guiGraphics, deltaTracker) -> {
-            if (!CRConfig.get.general.shields.shield_overhaul || CRConfig.get.general.shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR || gui.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+            if (!CRConfig.getGeneral().shields.shield_overhaul || CRConfig.getGeneral().shields.display_style != CRGeneralConfig.ShieldDisplay.HOTBAR || gui.minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
             guiGraphics.nextStratum();
             Player player = gui.minecraft.player;
             if (!(player instanceof ShieldInfo info)) return;
@@ -91,7 +93,7 @@ public final class CombatRebornClient {
             }
         }));
 
-        UnifiedClientEvents.Ticks.atEnd(client -> {
+        UnifiedClientEvents.Instance.onTick(EventType.POST, client -> {
             while (QUIVER_KEY.get().consumeClick()) {
                 if (client.player == null) return;
 

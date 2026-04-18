@@ -1,12 +1,12 @@
 package net.rebel459.combat_reborn.client;
 
+import net.minecraft.world.inventory.ContainerInput;
 import net.rebel459.combat_reborn.item.QuiverItem;
 import net.rebel459.combat_reborn.network.SelectQuiverItemPacket;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.ScrollWheelHandler;
 import net.minecraft.client.gui.ItemSlotMouseAction;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector2i;
@@ -49,8 +49,8 @@ public class QuiverMouseActions implements ItemSlotMouseAction {
 	public void onStopHovering(Slot slot) {}
 
 	@Override
-	public void onSlotClicked(Slot slot, ClickType clickType) {
-		if (clickType == ClickType.QUICK_MOVE || clickType == ClickType.SWAP) {
+	public void onSlotClicked(Slot slot, ContainerInput input) {
+		if (input == ContainerInput.QUICK_MOVE || input == ContainerInput.SWAP) {
 			this.unselectedQuiverItem(slot.getItem(), slot.index);
 		}
 	}

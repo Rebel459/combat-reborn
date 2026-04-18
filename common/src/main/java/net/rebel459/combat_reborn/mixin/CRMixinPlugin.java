@@ -1,5 +1,9 @@
 package net.rebel459.combat_reborn.mixin;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.rebel459.combat_reborn.config.CRGeneralConfig;
+import net.rebel459.unified.platform.UnifiedPlatform;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.tree.ClassNode;
@@ -11,8 +15,18 @@ import java.util.Set;
 
 public final class CRMixinPlugin implements IMixinConfigPlugin {
 
+    private boolean registeredConfig = false;
+
+    private boolean hasLegaciesAndLegends;
+
     @Override
-    public void onLoad(String mixinPackage) {}
+    public void onLoad(String mixinPackage) {
+        if (!registeredConfig) {
+            AutoConfig.register(CRGeneralConfig.class, GsonConfigSerializer::new);
+            registeredConfig = true;
+        }
+        this.hasLegaciesAndLegends = UnifiedPlatform.get().isModLoaded("legacies_and_legends");
+    }
 
     @Override
     @Nullable
@@ -22,6 +36,9 @@ public final class CRMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, @NotNull String mixinClassName) {
+
+        if (mixinClassName.contains("integration.legacies_and_legends.")) return this.hasLegaciesAndLegends;
+
         return true;
     }
 

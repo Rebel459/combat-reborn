@@ -19,7 +19,7 @@ public abstract class BlocksAttacksMixin implements BlockedSourceInterface {
 
     @Inject(method = "onBlocked", at = @At(value = "HEAD"))
     private void handleParrying(ServerLevel serverLevel, LivingEntity attacked, CallbackInfo ci) {
-        if (!CRConfig.get.general.shields.shield_overhaul || !(attacked instanceof BlockedSourceInterface blocked)) return;
+        if (!CRConfig.getGeneral().shields.shield_overhaul || !(attacked instanceof BlockedSourceInterface blocked)) return;
         DamageSource damageSource = blocked.getLastBlockedSource();
         ItemStack stack = attacked.getUseItem();
         int useTicks = attacked.getTicksUsingItem();

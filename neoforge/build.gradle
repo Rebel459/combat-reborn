@@ -1,47 +1,71 @@
-// Adjust the output jar name here
-base {
-    archivesName = "${mod_id}"
-    version = "${version}-neoforge"
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
 }
 
 dependencies {
-    // Add your dependencies here
-    modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_version}") {}
-    modImplementation("maven.modrinth:unified-api:${unified_version}-neoforge")
+    api("me.shedaniel.cloth:cloth-config-neoforge:$cloth_version")
+    api("maven.modrinth:unified-api:$unified_version-neoforge")
 
-    // Do not edit or remove
-    implementation project(":common")
+    compileOnly("maven.modrinth:legacies-and-legends:$lal_version-neoforge")
+    compileOnly("maven.modrinth:item-tooltips:$tooltips_version-neoforge")
+    compileOnly("maven.modrinth:trim-patcher:$patcher_version-neoforge")
+    compileOnly("maven.modrinth:lithostitched:$lithostitched_version-neoforge-$minecraft_version")
 }
 
-/**
- * ===============================================================================
- * =       DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING        =
- * ===============================================================================
- */
-
-unimined.minecraft {
-    combineWith(project(":common").sourceSets.withoutFMJ)
-
-    neoForge {
-        loader neoforge_version
-        mixinConfig("combat_reborn.mixins.json", "combat_reborn-neoforge.mixins.json")
-        accessTransformer aw2at(file("../common/src/main/resources/combat_reborn.accesswidener"))
-        accessTransformer file('src/main/resources/META-INF/accesstransformer-neoforge.cfg')
+neoForge {
+    version = neoforge_version
+    // Automatically enable neoforge AccessTransformers if the file exists
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
+    runs {
+        configureEach {
+            systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+        }
+        client {
+            client()
+            gameDirectory = this.mkdir(this.file("runs/client"))
+        }
+        data {
+            clientData()
+            gameDirectory = this.mkdir(this.file("runs/data"))
+            // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+        server {
+            server()
+            this.file("runs/server").createParentDirectories()
+            gameDirectory = this.mkdir(this.file("runs/server"))
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
     }
 }
 
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-processResources {
-    from project(":common").sourceSets.main.resources
-    def buildProps = project.properties.clone()
-
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand buildProps
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
     }
 }
-
-compileTestJava.enabled = false
-
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName, it.getTaskName(null, 'jarJar')].each { variant ->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
+            }
+        }
+    }
 }

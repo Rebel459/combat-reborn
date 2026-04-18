@@ -29,26 +29,26 @@ public class ItemAttributeModifierCallback {
     }
 
     public static void init() {
-        if (!CRConfig.get.general.modifiers.weapons) return;
+        if (!CRConfig.getGeneral().modifiers.weapons) return;
 
-        UnifiedEvents.ItemComponents.modify(
+        UnifiedEvents.DefaultDataComponents.modifyWithFilter(
                 item -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
-                    return optionalItem.filter(itemRegistryKey -> CRConfig.get.weapons.sets.stream()
+                    return optionalItem.filter(itemRegistryKey -> CRConfig.getWeapons().sets.stream()
                                     .anyMatch(modifier -> modifier.ids.contains(itemRegistryKey.identifier().toString())))
                             .isPresent();
                 },
-                (builder, item) -> {
+                (item, builder, provider) -> {
                     Optional<ResourceKey<Item>> optionalItem = BuiltInRegistries.ITEM.getResourceKey(item);
                     if (optionalItem.isEmpty()) return;
 
-                    Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.get.weapons.sets.stream()
+                    Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.getWeapons().sets.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
                     if (optionalToolsModifier.isEmpty()) return;
 
                     int bonus = 0;
-                    if (CombatReborn.hasEndReborn() && CRConfig.get.general.integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
+                    if (CombatReborn.hasEndReborn() && CRConfig.getGeneral().integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
                         bonus = 1;
                     }
 

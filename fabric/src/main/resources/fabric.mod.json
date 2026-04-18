@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "id": "${mod_id}",
-  "version": "${version}",
+  "version": "${mod_version}-fabric",
   "name": "${mod_name}",
-  "description": "A comprehensive combat update featuring overhauled shield mechanics, all-new quivers, reworked hunger systems, rebalanced weapon values and so much more.",
+  "description": "${mod_description}",
   "authors": [
     "${mod_author}"
   ],
   "contact": {
     "sources": "https://github.com/Rebel459/combat-reborn"
   },
-  "license": "Legacy License",
+  "license": "${license}",
   "icon": "assets/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -31,12 +31,12 @@
     "combat_reborn.mixins.json",
     "combat_reborn-fabric.mixins.json"
   ],
-  "accessWidener": "combat_reborn.accesswidener",
+  "accessWidener": "combat_reborn.classtweaker",
   "depends": {
     "fabricloader": ">=0.18",
-    "fabric": "*",
-    "minecraft": "1.21.11",
-    "java": ">=21",
+    "fabric-api": "*",
+    "minecraft": "${fabric_minecraft_version}",
+    "java": ">=25",
     "unified": "*",
     "cloth-config": "*"
   }

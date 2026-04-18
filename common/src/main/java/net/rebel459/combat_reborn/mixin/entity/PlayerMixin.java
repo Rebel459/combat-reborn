@@ -115,13 +115,13 @@ public abstract class PlayerMixin implements QuiverInterface {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void CR$addHurtExhaustion(ServerLevel serverLevel, DamageSource damageSource, float f, CallbackInfo ci) {
-        if (!CRConfig.get.general.hunger.hunger_rework) return;
+        if (!CRConfig.getGeneral().hunger.hunger_rework) return;
         Player player = Player.class.cast(this);
         Difficulty difficulty = serverLevel.getDifficulty();
         float multiplier = 0.75F;
         if (difficulty == Difficulty.EASY) multiplier = 0.5F;
         if (difficulty == Difficulty.HARD) multiplier = 1F;
-        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.get.general.hunger.hunger_barrier;
+        float aboveBarrier = player.getFoodData().getFoodLevel() - CRConfig.getGeneral().hunger.hunger_barrier;
         float exhaustion = Math.max(f - aboveBarrier, 0F);
         this.causeFoodExhaustion(exhaustion * multiplier);
         this.getFoodData().setSaturation(Math.max(this.getFoodData().getSaturationLevel() - f / 2, 0));
@@ -129,7 +129,7 @@ public abstract class PlayerMixin implements QuiverInterface {
 
     @Inject(method = "actuallyHurt", at = @At(value = "TAIL"))
     private void cancelConsumption(ServerLevel level, DamageSource damageSource, float amount, CallbackInfo info) {
-        if (!CRConfig.get.general.misc.damage_interruptions || damageSource.getEntity() == null) return;
+        if (!CRConfig.getGeneral().misc.damage_interruptions || damageSource.getEntity() == null) return;
         Player player = Player.class.cast(this);
         ItemStack stack = player.getUseItem();
         if (stack.getComponents().has(DataComponents.FOOD) || stack.getComponents().has(DataComponents.CONSUMABLE)) player.stopUsingItem();
@@ -140,12 +140,10 @@ public abstract class PlayerMixin implements QuiverInterface {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F")
     )
     private float handleKnockbackOnly(Player player, DamageSource damageSource, float damage, Operation<Float> original) {
-        if (player.getTags().contains("knockback_only")) {
-            return original.call(player, damageSource, Math.min(damage - 1F, 0F));
+        if (player instanceof CombatBooleanInterface booleans && booleans.getKnockbackOnly()) {
+            damage = Math.max(damage - 1F, 0F);
         }
-        else {
-            return original.call(player, damageSource, damage);
-        }
+        return original.call(player, damageSource, damage);
     }
 
     @WrapOperation(
@@ -153,13 +151,11 @@ public abstract class PlayerMixin implements QuiverInterface {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V")
     )
     private void handleKnockbackOnly(Player player, float damage, Operation<Void> original) {
-        if (player.getTags().contains("knockback_only")) {
-            player.removeTag("knockback_only");
-            original.call(player, Math.min(player.getMaxHealth(), damage + 1F));
+        if (player instanceof CombatBooleanInterface booleans && booleans.getKnockbackOnly()) {
+            damage = Math.min(player.getMaxHealth(), damage + 1F);
+            booleans.setKnockbackOnly(false);
         }
-        else {
-            original.call(player, damage);
-        }
+        original.call(player, damage);
     }
 
     @WrapOperation(
@@ -171,7 +167,7 @@ public abstract class PlayerMixin implements QuiverInterface {
     )
     private void reduceExhaustionWhenHealing(FoodData foodData, float f, Operation<Void> original) {
         Player player = Player.class.cast(this);
-        if (!CRConfig.get.general.hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.get.general.hunger.hunger_barrier) {
+        if (!CRConfig.getGeneral().hunger.hunger_rework || player.getHealth() >= player.getMaxHealth() || foodData.getFoodLevel() <= CRConfig.getGeneral().hunger.hunger_barrier) {
             original.call(foodData, f);
             return;
         }

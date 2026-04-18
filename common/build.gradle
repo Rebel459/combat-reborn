@@ -1,50 +1,64 @@
-// Adjust the output jar name here
-base {
-    archivesName = "${mod_id}"
+plugins {
+    id 'multiloader-common'
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    neoFormVersion = neo_form_version
+    // Automatically enable AccessTransformers if the file exists
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
 }
 
 dependencies {
-    // Add your dependencies here
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    modCompileOnly("maven.modrinth:unified-api:${unified_version}-fabric")
+    compileOnly "org.spongepowered:mixin:0.8.5"
+    compileOnly "io.github.llamalad7:mixinextras-common:0.3.5"
+    annotationProcessor "io.github.llamalad7:mixinextras-common:0.3.5"
+    implementation "org.ow2.asm:asm:9.9.1"
+    implementation "org.ow2.asm:asm-tree:9.9.1"
+
+    compileOnly("me.shedaniel.cloth:cloth-config-neoforge:$cloth_version")
+    compileOnly("maven.modrinth:unified-api:$unified_version-fabric")
+
+    compileOnly("maven.modrinth:legacies-and-legends:$lal_version-fabric")
+    compileOnly("maven.modrinth:item-tooltips:$tooltips_version-fabric")
+    compileOnly("maven.modrinth:trim-patcher:$patcher_version-fabric")
+    compileOnly("maven.modrinth:lithostitched:$lithostitched_version-fabric-$minecraft_version")
 }
 
-/**
- * ===============================================================================
- * =       DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING        =
- * ===============================================================================
- */
-
-unimined.minecraft {
-    fabric {
-        loader fabric_loader
-        accessWidener file("src/main/resources/combat_reborn.accesswidener")
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
     }
-
-    defaultRemapJar = false
-}
-
-processResources {
-    def buildProps = project.properties.clone()
-
-    filesMatching(['pack.mcmeta']) {
-        expand buildProps
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
     }
 }
 
-sourceSets {
-    withoutFMJ {
-        java {
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+}
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'common')
         }
-        resources {
-            exclude 'fabric.mod.json'
-        }
     }
 }
-
-sourcesJar {
-    from sourceSets.withoutFMJ.allSource
-    exclude 'fabric.mod.json'
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'common')
+            }
+        }
+    }
 }

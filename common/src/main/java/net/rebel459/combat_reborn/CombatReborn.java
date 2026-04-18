@@ -21,18 +21,19 @@ import net.rebel459.combat_reborn.sound.CRSounds;
 import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.rebel459.unified.platform.UnifiedEvents;
 import net.rebel459.unified.platform.UnifiedHelpers;
-import net.rebel459.unified.util.PackInfo;
+import net.rebel459.unified.platform.UnifiedPlatform;
+import net.rebel459.unified.util.PackType;
 
 public class CombatReborn {
 
     public static boolean hasEndReborn() {
-        return UnifiedHelpers.PLATFORM.isModLoaded("end_reborn");
+        return UnifiedPlatform.get().isModLoaded("end_reborn");
     }
     public static boolean hasEnchantsAndExpeditions() {
-        return UnifiedHelpers.PLATFORM.isModLoaded("enchants_and_expeditions");
+        return UnifiedPlatform.get().isModLoaded("enchants_and_expeditions");
     }
     public static boolean hasLegaciesAndLegends() {
-        return UnifiedHelpers.PLATFORM.isModLoaded("legacies_and_legends");
+        return UnifiedPlatform.get().isModLoaded("legacies_and_legends");
     }
     
     public static void initRegistries() {
@@ -60,43 +61,46 @@ public class CombatReborn {
 	}
 
     public static void loadResources() {
-        if (!CRConfig.get.general.shields.shield_overhaul) {
-            UnifiedHelpers.PACKS.add(CombatReborn.id("no_shield_overhaul"), PackInfo.REQUIRED_DATA);
+        if (!CRConfig.getGeneral().shields.shield_overhaul) {
+            UnifiedHelpers.PACKS.add(CombatReborn.id("no_shield_overhaul"), PackType.REQUIRED_DATA);
         }
-        if (!CRConfig.get.general.misc.cleaving_enchantment) {
-            UnifiedHelpers.PACKS.add(CombatReborn.id("no_cleaving"), PackInfo.REQUIRED_DATA);
+        if (!CRConfig.getGeneral().misc.cleaving_enchantment) {
+            UnifiedHelpers.PACKS.add(CombatReborn.id("no_cleaving"), PackType.REQUIRED_DATA);
         }
-        if (CRConfig.get.general.quivers.craftable) {
-            UnifiedHelpers.PACKS.add(CombatReborn.id("craftable_quivers"), PackInfo.REQUIRED_DATA);
+        if (CRConfig.getGeneral().quivers.craftable) {
+            UnifiedHelpers.PACKS.add(CombatReborn.id("craftable_quivers"), PackType.REQUIRED_DATA);
+        }
+        if (CRConfig.getGeneral().quivers.tradable) {
+            UnifiedHelpers.PACKS.add(CombatReborn.id("tradable_quivers"), PackType.REQUIRED_DATA);
         }
         if (hasLegaciesAndLegends()) {
-            if (CRConfig.get.general.quivers.craftable && CRConfig.get.general.integrations.lal_quiver_variants) {
-                UnifiedHelpers.PACKS.add(CombatReborn.id("weighted_quiver"), PackInfo.REQUIRED_DATA);
+            if (CRConfig.getGeneral().quivers.craftable && CRConfig.getGeneral().integrations.lal_quiver_variants) {
+                UnifiedHelpers.PACKS.add(CombatReborn.id("weighted_quiver"), PackType.REQUIRED_DATA);
             }
-            if (CRConfig.get.general.quivers.enable_quivers && CRConfig.get.general.integrations.lal_quiver_variants) {
-                UnifiedHelpers.PACKS.add(CombatReborn.id("sapphire_quiver"), PackInfo.REQUIRED_DATA);
+            if (CRConfig.getGeneral().quivers.enable_quivers && CRConfig.getGeneral().integrations.lal_quiver_variants) {
+                UnifiedHelpers.PACKS.add(CombatReborn.id("sapphire_quiver"), PackType.REQUIRED_DATA);
             }
-            if (CRConfig.get.general.integrations.lal_quiver_accessories) {
-                UnifiedHelpers.PACKS.add(CombatReborn.id("quiver_accessories"), PackInfo.REQUIRED_DATA);
+            if (CRConfig.getGeneral().integrations.lal_quiver_accessories) {
+                UnifiedHelpers.PACKS.add(CombatReborn.id("quiver_accessories"), PackType.REQUIRED_DATA);
             }
         }
     }
 
     public static void registerPayloads() {
 
-        UnifiedHelpers.NETWORKING.registerPlayS2C(ShieldInfo.Sync.TYPE, ShieldInfo.Sync.CODEC, (payload, context) -> {
+        UnifiedHelpers.NETWORKING.registerPlayToClient(ShieldInfo.Sync.TYPE, ShieldInfo.Sync.CODEC, (payload, context) -> {
             if (context instanceof ShieldInfo shieldInfo) {
                 shieldInfo.setPercentageDamage(payload.percentageDamage());
             }
         });
-        UnifiedHelpers.NETWORKING.registerPlayC2S(ShieldInfo.Request.TYPE, ShieldInfo.Request.CODEC, (payload, context) -> {
+        UnifiedHelpers.NETWORKING.registerPlayToServer(ShieldInfo.Request.TYPE, ShieldInfo.Request.CODEC, (payload, context) -> {
             if (context instanceof ShieldInfo shieldInfo) {
                 int current = shieldInfo.getPercentageDamage();
                 UnifiedHelpers.NETWORKING.send(new ShieldInfo.Sync(current), context);
             }
         });
 
-        UnifiedHelpers.NETWORKING.registerPlayC2S(SelectQuiverItemPacket.TYPE, SelectQuiverItemPacket.CODEC, (payload, context) -> {
+        UnifiedHelpers.NETWORKING.registerPlayToServer(SelectQuiverItemPacket.TYPE, SelectQuiverItemPacket.CODEC, (payload, context) -> {
             int slotId = payload.slotId();
             int selectedSlot = payload.selectedSlot();
 
@@ -108,7 +112,7 @@ public class CombatReborn {
             });
         });
 
-        UnifiedHelpers.NETWORKING.registerPlayC2S(SelectQuiverSlotPacket.TYPE, SelectQuiverSlotPacket.CODEC, (payload, context) -> {
+        UnifiedHelpers.NETWORKING.registerPlayToServer(SelectQuiverSlotPacket.TYPE, SelectQuiverSlotPacket.CODEC, (payload, context) -> {
             int slot = payload.slot();
 
             context.level().getServer().execute(() -> {

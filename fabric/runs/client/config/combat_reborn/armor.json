@@ -1,0 +1,714 @@
+{
+  "sets": [
+    {
+      "ids": [
+        "minecraft:leather_helmet"
+      ],
+      "defense": 1.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:leather_chestplate"
+      ],
+      "defense": 3.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:leather_leggings"
+      ],
+      "defense": 3.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:leather_boots"
+      ],
+      "defense": 1.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:leather_horse_armor"
+      ],
+      "defense": 8.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:copper_helmet"
+      ],
+      "defense": 2.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:copper_chestplate"
+      ],
+      "defense": 4.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:copper_leggings"
+      ],
+      "defense": 3.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:copper_boots"
+      ],
+      "defense": 1.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:copper_horse_armor",
+        "minecraft:copper_nautilus_armor"
+      ],
+      "defense": 10.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:chainmail_helmet"
+      ],
+      "defense": 2.0,
+      "toughness": 3.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:chainmail_chestplate"
+      ],
+      "defense": 4.0,
+      "toughness": 3.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:chainmail_leggings"
+      ],
+      "defense": 4.0,
+      "toughness": 3.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:chainmail_boots"
+      ],
+      "defense": 2.0,
+      "toughness": 3.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:iron_helmet"
+      ],
+      "defense": 3.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:iron_chestplate"
+      ],
+      "defense": 6.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:iron_leggings"
+      ],
+      "defense": 5.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:iron_boots"
+      ],
+      "defense": 2.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:iron_horse_armor",
+        "minecraft:iron_nautilus_armor"
+      ],
+      "defense": 16.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:golden_helmet"
+      ],
+      "defense": 3.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:golden_chestplate"
+      ],
+      "defense": 5.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:golden_leggings"
+      ],
+      "defense": 4.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:golden_boots"
+      ],
+      "defense": 2.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:golden_horse_armor",
+        "minecraft:golden_nautilus_armor"
+      ],
+      "defense": 14.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:diamond_helmet"
+      ],
+      "defense": 4.0,
+      "toughness": 4.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:diamond_chestplate"
+      ],
+      "defense": 7.0,
+      "toughness": 4.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:diamond_leggings"
+      ],
+      "defense": 6.0,
+      "toughness": 4.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:diamond_boots"
+      ],
+      "defense": 3.0,
+      "toughness": 4.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:diamond_horse_armor",
+        "minecraft:diamond_nautilus_armor"
+      ],
+      "defense": 20.0,
+      "toughness": 4.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:netherite_helmet"
+      ],
+      "defense": 4.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:netherite_chestplate"
+      ],
+      "defense": 7.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "minecraft:netherite_leggings"
+      ],
+      "defense": 6.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "minecraft:netherite_boots"
+      ],
+      "defense": 3.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "minecraft:netherite_horse_armor",
+        "minecraft:netherite_nautilus_armor"
+      ],
+      "defense": 20.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "minecraft:turtle_helmet"
+      ],
+      "defense": 3.0,
+      "toughness": 2.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "minecraft:wolf_armor"
+      ],
+      "defense": 20.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "progression_reborn:rose_helmet"
+      ],
+      "defense": 4.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "progression_reborn:rose_chestplate"
+      ],
+      "defense": 6.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "progression_reborn:rose_leggings"
+      ],
+      "defense": 5.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "progression_reborn:rose_boots"
+      ],
+      "defense": 3.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "progression_reborn:rose_horse_armor",
+        "progression_reborn:rose_nautilus_armor"
+      ],
+      "defense": 18.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "end_reborn:remnant_helmet"
+      ],
+      "defense": 4.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:explosion_knockback_resistance",
+          "value": 0.25,
+          "operation": "ADD_VALUE"
+        }
+      ],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "end_reborn:remnant_chestplate"
+      ],
+      "defense": 7.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:explosion_knockback_resistance",
+          "value": 0.25,
+          "operation": "ADD_VALUE"
+        }
+      ],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "end_reborn:remnant_leggings"
+      ],
+      "defense": 6.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:explosion_knockback_resistance",
+          "value": 0.25,
+          "operation": "ADD_VALUE"
+        }
+      ],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "end_reborn:remnant_boots"
+      ],
+      "defense": 3.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:explosion_knockback_resistance",
+          "value": 0.25,
+          "operation": "ADD_VALUE"
+        }
+      ],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "end_reborn:remnant_horse_armor",
+        "end_reborn:remnant_nautilus_armor"
+      ],
+      "defense": 20.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:explosion_knockback_resistance",
+          "value": 1.0,
+          "operation": "ADD_VALUE"
+        }
+      ],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "end_reborn:featherzeal_helmet"
+      ],
+      "defense": 4.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.3,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        }
+      ],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "end_reborn:featherzeal_chestplate"
+      ],
+      "defense": 7.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.3,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        }
+      ],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "end_reborn:featherzeal_leggings"
+      ],
+      "defense": 6.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.3,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        }
+      ],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "end_reborn:featherzeal_boots"
+      ],
+      "defense": 3.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.3,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        }
+      ],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "end_reborn:featherzeal_horse_armor",
+        "end_reborn:featherzeal_nautilus_armor"
+      ],
+      "defense": 20.0,
+      "toughness": 5.0,
+      "knockback_resistance": 1.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.0081,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        }
+      ],
+      "slot": "BODY"
+    },
+    {
+      "ids": [
+        "legacies_and_legends:reinforced_chestplate"
+      ],
+      "defense": 7.0,
+      "toughness": 1.0,
+      "knockback_resistance": 5.0,
+      "attributes": [],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "legacies_and_legends:travelling_strides"
+      ],
+      "defense": 3.0,
+      "toughness": 0.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:movement_speed",
+          "value": 0.2,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "legacies_and_legends:wanderer_boots"
+      ],
+      "defense": 2.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:step_height",
+          "value": 1.0,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "enderscape:shadoline_helmet"
+      ],
+      "defense": 3.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "enderscape:stealth",
+          "value": 0.15,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "HEAD"
+    },
+    {
+      "ids": [
+        "enderscape:shadoline_chestplate"
+      ],
+      "defense": 5.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "enderscape:stealth",
+          "value": 0.15,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "CHEST"
+    },
+    {
+      "ids": [
+        "enderscape:shadoline_leggings"
+      ],
+      "defense": 4.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "enderscape:stealth",
+          "value": 0.15,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "LEGS"
+    },
+    {
+      "ids": [
+        "enderscape:shadoline_boots"
+      ],
+      "defense": 2.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "enderscape:stealth",
+          "value": 0.15,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "FEET"
+    },
+    {
+      "ids": [
+        "enderscape:drift_leggings"
+      ],
+      "defense": 4.0,
+      "toughness": 1.0,
+      "knockback_resistance": 0.0,
+      "attributes": [
+        {
+          "attribute": "minecraft:movement_speed",
+          "value": 0.2,
+          "operation": "ADD_MULTIPLIED_TOTAL"
+        },
+        {
+          "attribute": "minecraft:safe_fall_distance",
+          "value": 0.3,
+          "operation": "ADD_MULTIPLIED_BASE"
+        },
+        {
+          "attribute": "minecraft:gravity",
+          "value": -0.3,
+          "operation": "ADD_MULTIPLIED_BASE"
+        }
+      ],
+      "slot": "LEGS"
+    }
+  ]
+}

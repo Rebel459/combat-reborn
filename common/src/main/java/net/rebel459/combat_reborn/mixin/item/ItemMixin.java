@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ItemMixin {
 
     @Inject(at = @At("HEAD"), method = "releaseUsing")
-    private static void quiver(ItemStack itemStack, Level level, LivingEntity livingEntity, int i, CallbackInfoReturnable<Boolean> cir) {
+    private void quiver(ItemStack itemStack, Level level, LivingEntity livingEntity, int i, CallbackInfoReturnable<Boolean> cir) {
         if (livingEntity instanceof Player player) {
             ItemStack stack = QuiverHelper.getStack(player);
             if (stack != null && stack.has(CRDataComponents.QUIVER_CONTENTS.get())) {

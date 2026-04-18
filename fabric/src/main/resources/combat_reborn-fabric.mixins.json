@@ -1,11 +1,9 @@
 {
   "required": true,
   "package": "net.rebel459.combat_reborn.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "plugin": "net.rebel459.combat_reborn.mixin.CRMixinPluginFabric",
-  "mixins": [
-    "integration.legacies_and_legends.QuiverHelperMixin"
-  ],
+  "compatibilityLevel": "JAVA_25",
+  "plugin": "net.rebel459.combat_reborn.mixin.CRMixinPlugin",
+  "mixins": [],
   "client": [],
   "injectors": {
     "defaultRequire": 1

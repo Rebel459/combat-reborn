@@ -2,9 +2,8 @@ package net.rebel459.combat_reborn.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import net.rebel459.combat_reborn.CombatReborn;
-import net.rebel459.combat_reborn.config.CRConfig;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.rebel459.combat_reborn.CombatReborn;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,9 +66,11 @@ public class CRWeaponConfig implements ConfigData {
             ), 7, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:iron_axe",
-                    "progression_reborn:rose_axe",
-                    "legacies_and_legends:cleaving_battleaxe"
+                    "progression_reborn:rose_axe"
             ), 8, 1, 3, List.of()),
+            new Modifiers(List.of(
+                    "legacies_and_legends:cleaving_battleaxe"
+            ), 8, 1, 3, List.of(new CRConfig.AttributeEntry("minecraft:attack_knockback", 1.0, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "minecraft:diamond_axe"
             ), 8, 1.2, 3, List.of()),
