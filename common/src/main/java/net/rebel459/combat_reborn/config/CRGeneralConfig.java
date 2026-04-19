@@ -41,9 +41,6 @@ public class CRGeneralConfig implements ConfigData {
     public ArmorConfig armor = new ArmorConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public TooltipConfig tooltips = new TooltipConfig();
-
-    @ConfigEntry.Gui.CollapsibleObject
     public MiscConfig misc = new MiscConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -166,16 +163,10 @@ public class CRGeneralConfig implements ConfigData {
         }
     }
 
-    public static class TooltipConfig {
+    public static class MiscConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public CriticalTooltip critical_tooltip = CriticalTooltip.SHIFT;
-        @ConfigEntry.Category("config")
-        @ConfigEntry.Gui.Tooltip
-        public boolean decimal_attack_damage = true;
-    }
-
-    public static class MiscConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean cleaving_enchantment = true;
