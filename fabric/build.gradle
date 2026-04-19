@@ -15,10 +15,10 @@ dependencies {
     }
     api("maven.modrinth:unified-api:$unified_version-fabric")
 
-    implementation("maven.modrinth:legacies-and-legends:$lal_version-fabric")
-    implementation("maven.modrinth:item-tooltips:$tooltips_version-fabric")
-    implementation("maven.modrinth:trim-patcher:$patcher_version-fabric")
-    implementation("maven.modrinth:lithostitched:$lithostitched_version-fabric-$minecraft_version")
+    compileOnly("maven.modrinth:legacies-and-legends:$lal_version-fabric")
+    compileOnly("maven.modrinth:item-tooltips:$tooltips_version-fabric")
+    compileOnly("maven.modrinth:trim-patcher:$patcher_version-fabric")
+    compileOnly("maven.modrinth:lithostitched:$lithostitched_version-fabric-$minecraft_version")
 }
 
 fabricApi {

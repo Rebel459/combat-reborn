@@ -13,6 +13,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.rebel459.combat_reborn.CombatReborn;
 import net.rebel459.combat_reborn.config.CRArmorConfig;
 import net.rebel459.combat_reborn.config.CRConfig;
+import net.rebel459.combat_reborn.config.CRWeaponConfig;
 import net.rebel459.unified.platform.UnifiedEvents;
 
 import java.util.List;
@@ -40,6 +41,13 @@ public class ArmorAttributeModifierCallback {
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
                     if (optionalArmorModifier.isEmpty()) return;
+
+                    if (CombatReborn.hasEndReborn() && CRConfig.getGeneral().integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
+                        Optional<CRArmorConfig.Modifiers> optionalEndRebornModifier = CRConfig.getArmor().sets.stream()
+                                .filter(modifier -> modifier.ids.contains(Identifier.fromNamespaceAndPath("end_reborn", optionalItem.get().identifier().getPath()).toString()))
+                                .findFirst();
+                        if (optionalEndRebornModifier.isPresent()) optionalArmorModifier = optionalEndRebornModifier;
+                    }
 
                     builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
@@ -81,8 +89,6 @@ public class ArmorAttributeModifierCallback {
                         slot
                 )
                 .build();
-        String burningTime = "minecraft:burning_time";
-        boolean applyEndRebornBurningTime = CombatReborn.hasEndReborn() && CRConfig.getGeneral().integrations.end_reborn_netherite && itemPath.contains("netherite");
         for (CRConfig.AttributeEntry entry : attributes) {
             String attribute = entry.attribute;
             double value = entry.value;
@@ -91,7 +97,6 @@ public class ArmorAttributeModifierCallback {
                 LogUtils.getLogger().warn("Ignoring invalid attribute: " + attribute);
             }
             else {
-                if (attribute.equals(burningTime)) applyEndRebornBurningTime = false;
                 itemAttributes = itemAttributes.withModifierAdded(
                         BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(attribute)).get(),
                         new AttributeModifier(
@@ -101,17 +106,6 @@ public class ArmorAttributeModifierCallback {
                         slot
                 );
             }
-        }
-        if (applyEndRebornBurningTime) {
-            itemAttributes = itemAttributes.withModifierAdded(
-                    BuiltInRegistries.ATTRIBUTE.get(Identifier.parse(burningTime)).get(),
-                    new AttributeModifier(
-                            attributeId(burningTime, slot),
-                            -0.2,
-                            AttributeModifier.Operation.ADD_MULTIPLIED_BASE
-                    ),
-                    slot
-            );
         }
         return itemAttributes;
     }

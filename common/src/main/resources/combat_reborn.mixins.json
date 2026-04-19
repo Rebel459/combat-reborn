@@ -8,6 +8,9 @@
   },
   "client": [
     "client.GuiMixin",
+    "client.integration.item_tooltips.ClientAttributeHelperMixin",
+    "client.ItemAttributeModifiersDisplayDefaultMixin",
+    "client.ItemAttributeModifiersMixin",
     "client.ItemStackMixin",
     "client.LocalPlayerMixin"
   ],
@@ -24,6 +27,7 @@
     "item.BowItemMixin",
     "item.BundleContentsMixin",
     "item.ItemMixin",
+    "item.KineticWeaponMixin",
     "item.ProjectileWeaponItemMixin",
     "menu.AnvilMenuMixin",
     "server.ServerPlayerMixin",

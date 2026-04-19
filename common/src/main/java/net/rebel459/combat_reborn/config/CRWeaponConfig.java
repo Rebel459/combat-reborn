@@ -51,9 +51,14 @@ public class CRWeaponConfig implements ConfigData {
             ), 7, 2, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:netherite_sword",
-                    "end_reborn:remnant_sword",
-                    "end_reborn:featherzeal_sword"
+                    "end_reborn:remnant_sword"
             ), 8, 2, 3, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_sword"
+            ), 7, 2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_sword"
+            ), 7, 2.2, 3, List.of()),
 
             // Axes
             new Modifiers(List.of(
@@ -76,9 +81,14 @@ public class CRWeaponConfig implements ConfigData {
             ), 8, 1.2, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:netherite_axe",
-                    "end_reborn:remnant_axe",
-                    "end_reborn:featherzeal_axe"
+                    "end_reborn:remnant_axe"
             ), 9, 1.2, 3, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_axe"
+            ), 8, 1.2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_axe"
+            ), 8, 1.4, 3, List.of()),
 
             // Spears
             new Modifiers(List.of(
@@ -99,9 +109,14 @@ public class CRWeaponConfig implements ConfigData {
             ), 5, 1.0, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:netherite_spear",
-                    "end_reborn:remnant_spear",
-                    "end_reborn:featherzeal_spear"
+                    "end_reborn:remnant_spear"
             ), 6, 0.8, 3, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_spear"
+            ), 5, 1.0, 3, List.of((new CRConfig.AttributeEntry("combat_reborn:charge_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE)))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_spear"
+            ), 5, 1.2, 3, List.of()),
 
             // Pickaxes
             new Modifiers(List.of(
@@ -122,9 +137,14 @@ public class CRWeaponConfig implements ConfigData {
             ), 6, 0.8, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:netherite_pickaxe",
-                    "end_reborn:remnant_pickaxe",
-                    "end_reborn:featherzeal_pickaxe"
+                    "end_reborn:remnant_pickaxe"
             ), 7, 0.8, 3, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_pickaxe"
+            ), 6, 0.8, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_pickaxe"
+            ), 6, 1.0, 3, List.of()),
 
             // Shovels
             new Modifiers(List.of(
@@ -145,9 +165,14 @@ public class CRWeaponConfig implements ConfigData {
             ), 5, 1, 3, List.of()),
             new Modifiers(List.of(
                     "minecraft:netherite_shovel",
-                    "end_reborn:remnant_shovel",
-                    "end_reborn:featherzeal_shovel"
+                    "end_reborn:remnant_shovel"
             ), 6, 1, 3, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_shovel"
+            ), 5, 1, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_shovel"
+            ), 5, 1.2, 3, List.of()),
 
             // Hoes
             new Modifiers(List.of(
@@ -169,6 +194,7 @@ public class CRWeaponConfig implements ConfigData {
             new Modifiers(List.of(
                     "minecraft:netherite_hoe",
                     "end_reborn:remnant_hoe",
+                    "end_reborn:netherite_hoe",
                     "end_reborn:featherzeal_hoe"
             ), 1, 4, 3.5, List.of()),
 
@@ -202,7 +228,7 @@ public class CRWeaponConfig implements ConfigData {
                     List.of("enderscape:dagger"),
                     4,
                     2.4,
-                    2.5,
+                    3,
                     List.of(new CRConfig.AttributeEntry("enderscape:backstab_damage", 4.0, AttributeModifier.Operation.ADD_VALUE))
             ),
 
@@ -216,18 +242,23 @@ public class CRWeaponConfig implements ConfigData {
             ), 3, 2.8, 2.5, List.of()),
             new Modifiers(List.of(
                     "farmersdelight:iron_knife",
-                    "farmersknives:rose_knife"
+                    "progression_reborn:rose_knife"
             ), 4, 2.8, 2.5, List.of()),
             new Modifiers(List.of(
                     "farmersdelight:diamond_knife"
             ), 5, 2.8, 2.5, List.of()),
             new Modifiers(List.of(
                     "legacies_and_legends:knife"
-            ), 5, 3, 2.5, List.of()),
+            ), 5, 3, 2.5, List.of(new CRConfig.AttributeEntry("enderscape:backstab_damage", 2.0, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "farmersdelight:netherite_knife",
-                    "farmersknives:remnant_knife",
-                    "farmersknives:featherzeal_knife"
-            ), 6, 2.8, 2.5, List.of())
+                    "end_reborn:remnant_knife"
+            ), 6, 2.8, 2.5, List.of()),
+            new Modifiers(List.of(
+                    "end_reborn:netherite_knife"
+            ), 5, 2.8, 2.5, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            new Modifiers(List.of(
+                    "end_reborn:featherzeal_knife"
+            ), 5, 3.2, 2.5, List.of())
     );
 }

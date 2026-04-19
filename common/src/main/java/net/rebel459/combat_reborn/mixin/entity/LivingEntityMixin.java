@@ -10,6 +10,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.rebel459.combat_reborn.CombatReborn;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.network.ShieldInfo;
+import net.rebel459.combat_reborn.registry.CRAttributes;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
 import net.rebel459.combat_reborn.registry.CREnchantments;
 import net.rebel459.combat_reborn.tag.CRItemTags;
@@ -287,5 +289,10 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
             if (player instanceof ServerPlayer serverPlayer) shieldInfo.setPercentageDamageAndSync((int) Math.max(shieldInfo.getPercentageDamage() - restoration, 0), serverPlayer);
         }
         return value;
+    }
+
+    @Inject(method = "createLivingAttributes", at = @At(value = "TAIL"), cancellable = true)
+    private static void addCRAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+        cir.setReturnValue(cir.getReturnValue().add(CRAttributes.CHARGE_ATTACK_BOOST));
     }
 }

@@ -1,6 +1,7 @@
 package net.rebel459.combat_reborn.item;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.rebel459.combat_reborn.CombatReborn;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.config.CRWeaponConfig;
@@ -45,17 +46,21 @@ public class ItemAttributeModifierCallback {
                     Optional<CRWeaponConfig.Modifiers> optionalToolsModifier = CRConfig.getWeapons().sets.stream()
                             .filter(modifier -> modifier.ids.contains(optionalItem.get().identifier().toString()))
                             .findFirst();
-                    if (optionalToolsModifier.isEmpty()) return;
+                    if (optionalToolsModifier.isEmpty()) {
+                        return;
+                    }
 
-                    int bonus = 0;
                     if (CombatReborn.hasEndReborn() && CRConfig.getGeneral().integrations.end_reborn_netherite && optionalItem.get().identifier().getPath().contains("netherite")) {
-                        bonus = 1;
+                        Optional<CRWeaponConfig.Modifiers> optionalEndRebornModifier = CRConfig.getWeapons().sets.stream()
+                                .filter(modifier -> modifier.ids.contains(Identifier.fromNamespaceAndPath("end_reborn", optionalItem.get().identifier().getPath()).toString()))
+                                .findFirst();
+                        if (optionalEndRebornModifier.isPresent()) optionalToolsModifier = optionalEndRebornModifier;
                     }
 
                     builder.set(
                             DataComponents.ATTRIBUTE_MODIFIERS,
                             createAttributeModifiers(
-                                    optionalToolsModifier.get().damage - DEFAULT_ATTACK_DAMAGE + bonus,
+                                    optionalToolsModifier.get().damage - DEFAULT_ATTACK_DAMAGE,
                                     optionalToolsModifier.get().speed - DEFAULT_ATTACK_SPEED,
                                     optionalToolsModifier.get().reach - DEFAULT_ATTACK_RANGE,
                                     optionalToolsModifier.get().attributes

@@ -2,7 +2,9 @@ package net.rebel459.combat_reborn.mixin.entity;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.rebel459.combat_reborn.config.CRConfig;
+import net.rebel459.combat_reborn.registry.CRAttributes;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
 import net.rebel459.combat_reborn.util.*;
 import net.minecraft.core.component.DataComponentPatch;
@@ -23,7 +25,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -184,5 +188,20 @@ public abstract class PlayerMixin implements QuiverInterface {
     private void handleDisabling(BlocksAttacks blocksAttacks, ServerLevel serverLevel, LivingEntity livingEntity, float f, ItemStack itemStack, Operation<Void> original) {
         Player player = Player.class.cast(this);
         ShieldHelper.handleDisabling(serverLevel, player, livingEntity, f, itemStack);
+    }
+
+    @ModifyConstant(
+            method = "attack",
+            constant = @Constant(floatValue = 1.5F)
+    )
+    private float modifyCritMultiplier(float original) {
+        Player player = Player.class.cast(this);
+        if (!player.getAttributes().hasAttribute(CRAttributes.CRITICAL_DAMAGE_BOOST)) return original;
+        else return (float) Player.class.cast(this).getAttributeValue(CRAttributes.CRITICAL_DAMAGE_BOOST);
+    }
+
+    @Inject(method = "createAttributes", at = @At(value = "TAIL"), cancellable = true)
+    private static void addCRAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+        cir.setReturnValue(cir.getReturnValue().add(CRAttributes.CRITICAL_DAMAGE_BOOST));
     }
 }

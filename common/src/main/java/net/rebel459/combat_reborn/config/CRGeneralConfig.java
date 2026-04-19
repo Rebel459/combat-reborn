@@ -19,6 +19,12 @@ public class CRGeneralConfig implements ConfigData {
         NONE
     }
 
+    public enum CriticalTooltip {
+        NONE,
+        ALWAYS,
+        SHIFT
+    }
+
     @ConfigEntry.Gui.CollapsibleObject
     public ModifiersConfig modifiers = new ModifiersConfig();
 
@@ -33,6 +39,9 @@ public class CRGeneralConfig implements ConfigData {
 
     @ConfigEntry.Gui.CollapsibleObject
     public ArmorConfig armor = new ArmorConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public TooltipConfig tooltips = new TooltipConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
     public MiscConfig misc = new MiscConfig();
@@ -90,6 +99,9 @@ public class CRGeneralConfig implements ConfigData {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean hunger_rework = true;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean hunger_overflow = true;
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max=20L)
@@ -152,6 +164,15 @@ public class CRGeneralConfig implements ConfigData {
             @ConfigEntry.Gui.Tooltip
             public float max_percentage = 80F;
         }
+    }
+
+    public static class TooltipConfig {
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public CriticalTooltip critical_tooltip = CriticalTooltip.SHIFT;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean decimal_attack_damage = true;
     }
 
     public static class MiscConfig {

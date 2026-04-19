@@ -34,6 +34,8 @@
   "tooltip.combat_reborn.quiver.speed": "Draw Speed",
   "tooltip.combat_reborn.quiver.power": "Range",
 
+  "tooltip.combat_reborn.attribute.critical_damage": "Critical Damage",
+
   "enchantment.combat_reborn.cleaving": "Cleaving",
   "enchantment.combat_reborn.cleaving.desc": "Increases both damage dealt and the duration for which shields are disabled",
   "enchantment.combat_reborn.parry": "Parry",
@@ -44,6 +46,9 @@
   "enchantment.combat_reborn.stagger.desc": "Parrying an attack damages and applies both weakness and slowness to the attacker",
   "enchantment.combat_reborn.dueling": "Dueling",
   "enchantment.combat_reborn.dueling.desc": "Increases shield strength recovery provided when attacking",
+
+  "attribute.combat_reborn.critical_damage_boost": "Critical Damage Boost",
+  "attribute.combat_reborn.charge_damage_boost": "Charge Damage Boost",
 
   "subtitles.item.shield.parry": "Shield parries",
 
@@ -92,6 +97,8 @@
   "text.autoconfig.combat_reborn/general.option.hunger": "Hunger",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_rework": "Hunger Rework",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_rework.@Tooltip": "Whether Combat Reborn's reworked saturation, hunger and exhaustion systems should be used",
+  "text.autoconfig.combat_reborn/general.option.hunger.hunger_overflow": "Hunger Overflow",
+  "text.autoconfig.combat_reborn/general.option.hunger.hunger_overflow.@Tooltip": "Whether excess hunger restored should be converted into saturation",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_barrier": "Hunger Barrier",
   "text.autoconfig.combat_reborn/general.option.hunger.hunger_barrier.@Tooltip": "The amount of points required to be considered low on hunger. Defaults to 6, like vanilla",
 
@@ -124,6 +131,12 @@
   "text.autoconfig.combat_reborn/general.option.armor.protection.max_percentage": "Max Percentage",
   "text.autoconfig.combat_reborn/general.option.armor.protection.max_percentage.@Tooltip": "The maximum percentage of damage reduction that can be provided by enchantments. 80% is equivalent to vanilla (0-100)",
 
+  "text.autoconfig.combat_reborn/general.option.tooltips": "Tooltips",
+  "text.autoconfig.combat_reborn/general.option.tooltips.critical_tooltip": "Critical Tooltip",
+  "text.autoconfig.combat_reborn/general.option.tooltips.critical_tooltip.@Tooltip": "How critical damage should be displayed in item tooltips. One of either SHIFT (default), ALWAYS or NONE",
+  "text.autoconfig.combat_reborn/general.option.tooltips.decimal_attack_damage": "Decimal Attack Damage",
+  "text.autoconfig.combat_reborn/general.option.tooltips.decimal_attack_damage.@Tooltip": "Whether attack damage tooltips should expand to one decimal place when applicable",
+
   "text.autoconfig.combat_reborn/general.option.misc": "Miscellaneous",
   "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment": "Cleaving Enchantment",
   "text.autoconfig.combat_reborn/general.option.misc.cleaving_enchantment.@Tooltip": "Whether Cleaving should be enabled as a substitute of Sharpness for Axes. Cleaving increases both attack damage and the shield disable duration",
@@ -144,5 +157,5 @@
   "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields": "Enderscape Rubble Shields",
   "text.autoconfig.combat_reborn/general.option.integrations.enderscape_rubble_shields.@Tooltip": "Whether Enderscape's Rubble Shields should have custom balancing",
   "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite": "End Reborn",
-  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite.@Tooltip": "Whether Netherite armor & tool attributes should be automatically adjusted when End Reborn is installed"
+  "text.autoconfig.combat_reborn/general.option.integrations.end_reborn_netherite.@Tooltip": "Whether entry paths containing 'netherite' should be overriden by entries with the `end_reborn` namespace when End Reborn is installed"
 }

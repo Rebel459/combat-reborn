@@ -18,6 +18,7 @@ public final class CRMixinPlugin implements IMixinConfigPlugin {
     private boolean registeredConfig = false;
 
     private boolean hasLegaciesAndLegends;
+    private boolean hasItemTooltips;
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -26,6 +27,7 @@ public final class CRMixinPlugin implements IMixinConfigPlugin {
             registeredConfig = true;
         }
         this.hasLegaciesAndLegends = UnifiedPlatform.get().isModLoaded("legacies_and_legends");
+        this.hasItemTooltips = UnifiedPlatform.get().isModLoaded("item_tooltips");
     }
 
     @Override
@@ -38,6 +40,7 @@ public final class CRMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, @NotNull String mixinClassName) {
 
         if (mixinClassName.contains("integration.legacies_and_legends.")) return this.hasLegaciesAndLegends;
+        if (mixinClassName.contains("integration.item_tooltips.")) return this.hasItemTooltips;
 
         return true;
     }

@@ -255,6 +255,39 @@ public class CRArmorConfig implements ConfigData {
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
+                    List.of("end_reborn:netherite_helmet"),
+                    4, 5, 1,
+                    List.of(new CRConfig.AttributeEntry("end_reborn:burning_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.HEAD
+            ),
+            new Modifiers(
+                    List.of("end_reborn:netherite_chestplate"),
+                    7, 5, 1,
+                    List.of(new CRConfig.AttributeEntry("end_reborn:burning_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.CHEST
+            ),
+            new Modifiers(
+                    List.of("end_reborn:netherite_leggings"),
+                    6, 5, 1,
+                    List.of(new CRConfig.AttributeEntry("end_reborn:burning_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.LEGS
+            ),
+            new Modifiers(
+                    List.of("end_reborn:netherite_boots"),
+                    3, 5, 1,
+                    List.of(new CRConfig.AttributeEntry("end_reborn:burning_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.FEET
+            ),
+            new Modifiers(
+                    List.of(
+                            "end_reborn:netherite_horse_armor",
+                            "end_reborn:netherite_nautilus_armor"
+                    ),
+                    20, 5, 1,
+                    List.of(new CRConfig.AttributeEntry("end_reborn:burning_resistance", 4, AttributeModifier.Operation.ADD_VALUE)),
+                    EquipmentSlotGroup.BODY
+            ),
+            new Modifiers(
                     List.of("minecraft:turtle_helmet"),
                     3, 2, 0,
                     List.of(),
@@ -302,25 +335,25 @@ public class CRArmorConfig implements ConfigData {
             new Modifiers(
                     List.of("end_reborn:remnant_helmet"),
                     4, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:magic_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_chestplate"),
                     7, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:magic_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_leggings"),
                     6, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:magic_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("end_reborn:remnant_boots"),
                     3, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 0.25, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:magic_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
@@ -329,31 +362,31 @@ public class CRArmorConfig implements ConfigData {
                             "end_reborn:remnant_nautilus_armor"
                     ),
                     20, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:explosion_knockback_resistance", 1.0, AttributeModifier.Operation.ADD_VALUE)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:magic_resistance", 4, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_helmet"),
                     4, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:fall_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.HEAD
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_chestplate"),
                     7, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:fall_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.CHEST
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_leggings"),
                     6, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:fall_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.LEGS
             ),
             new Modifiers(
                     List.of("end_reborn:featherzeal_boots"),
                     3, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:fall_resistance", 1, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.FEET
             ),
             new Modifiers(
@@ -362,7 +395,7 @@ public class CRArmorConfig implements ConfigData {
                             "end_reborn:featherzeal_nautilus_armor"
                     ),
                     20, 5, 1,
-                    List.of(new CRConfig.AttributeEntry("minecraft:safe_fall_distance", 0.3 * 0.3 * 0.3 * 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)),
+                    List.of(new CRConfig.AttributeEntry("end_reborn:fall_resistance", 4, AttributeModifier.Operation.ADD_VALUE)),
                     EquipmentSlotGroup.BODY
             ),
             new Modifiers(

@@ -2,9 +2,12 @@ package net.rebel459.combat_reborn;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.behavior.SpearAttack;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.rebel459.combat_reborn.config.CRArmorConfig;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.config.CRWeaponConfig;
@@ -37,6 +40,7 @@ public class CombatReborn {
     }
     
     public static void initRegistries() {
+        CRAttributes.init();
         CRDataComponents.init();
         CRItems.init();
         CRSounds.init();

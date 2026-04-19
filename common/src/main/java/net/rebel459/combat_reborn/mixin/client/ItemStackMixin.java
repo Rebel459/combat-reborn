@@ -1,18 +1,18 @@
 package net.rebel459.combat_reborn.mixin.client;
 
-import net.rebel459.combat_reborn.CombatReborn;
-import net.rebel459.combat_reborn.config.CRConfig;
-import net.rebel459.combat_reborn.tag.CRItemTags;
-import net.rebel459.combat_reborn.util.QuiverHelper;
-import net.rebel459.combat_reborn.util.ShieldHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.rebel459.combat_reborn.config.CRConfig;
+import net.rebel459.combat_reborn.tag.CRItemTags;
+import net.rebel459.combat_reborn.util.AttributeTooltipInterface;
+import net.rebel459.combat_reborn.util.QuiverHelper;
+import net.rebel459.combat_reborn.util.ShieldHelper;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -31,7 +31,7 @@ public abstract class ItemStackMixin {
     Component prefix = Component.literal(" ");
 
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
-    private void shieldTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
+    private void shieldTooltip(Item.TooltipContext context, TooltipDisplay display, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
         if (!stack.is(CRItemTags.SHIELD) || !CRConfig.getGeneral().shields.shield_overhaul || !CRConfig.getGeneral().shields.show_tooltips) return;
         consumer.accept(Component.literal(""));
@@ -77,18 +77,19 @@ public abstract class ItemStackMixin {
     }
 
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
-    private void quiverTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
+    private void quiverTooltip(Item.TooltipContext context, TooltipDisplay display, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
         if (!stack.is(CRItemTags.QUIVER) || !CRConfig.getGeneral().quivers.show_tooltips) return;
         addQuiverTooltip(consumer, stack);
     }
 
-    @Inject(method = "addDetailsToTooltip", at = @At("HEAD"), cancellable = true)
-    private void hideQuiverAccessoryTooltip(Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
-        ItemStack stack = ItemStack.class.cast(this);
-        if (CombatReborn.hasLegaciesAndLegends() && CRConfig.getGeneral().integrations.lal_quiver_accessories && stack.is(CRItemTags.QUIVER)) {
-            addQuiverTooltip(consumer, stack);
-            ci.cancel();
-        }
+    @Inject(method = "addAttributeTooltips", at = @At("HEAD"))
+    private void beginAttributeTooltip(Consumer<Component> consumer, TooltipDisplay display, @Nullable Player player, CallbackInfo ci) {
+        AttributeTooltipInterface.setStack(ItemStack.class.cast(this));
+    }
+
+    @Inject(method = "addAttributeTooltips", at = @At("TAIL"))
+    private void endAttributeTooltip(Consumer<Component> consumer, TooltipDisplay display, @Nullable Player player, CallbackInfo ci) {
+        AttributeTooltipInterface.clear();
     }
 }

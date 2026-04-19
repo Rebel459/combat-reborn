@@ -20,3 +20,4 @@ accessible method net/minecraft/world/item/ProjectileWeaponItem getDurabilityUse
 accessible method net/minecraft/world/item/CrossbowItem createProjectile (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/projectile/Projectile;
 accessible method net/minecraft/world/item/CrossbowItem shootProjectile (Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/projectile/Projectile;IFFFLnet/minecraft/world/entity/LivingEntity;)V
 accessible method net/minecraft/world/item/CrossbowItem getDurabilityUse (Lnet/minecraft/world/item/ItemStack;)I
+accessible method net/minecraft/world/entity/ai/attributes/Attribute <init> (Ljava/lang/String;D)V
