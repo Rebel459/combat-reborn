@@ -15,7 +15,7 @@ import java.util.Set;
 
 public final class CRMixinPlugin implements IMixinConfigPlugin {
 
-    private boolean registeredConfig = false;
+    private static boolean registeredConfig = false;
 
     private boolean hasLegaciesAndLegends;
     private boolean hasItemTooltips;
