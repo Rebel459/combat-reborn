@@ -48,11 +48,11 @@ public class ItemAttributeModifiersDisplayDefaultMixin {
 
     @Inject(method = "apply", at = @At(value = "TAIL"))
     private void addCriticalDamageTooltip(Consumer<Component> consumer, @Nullable Player player, Holder<Attribute> attribute, AttributeModifier modifier, CallbackInfo ci) {
-        if (CRConfig.getGeneral().misc.critical_tooltip == CRGeneralConfig.CriticalTooltip.NONE) return;
+        if (CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.NONE) return;
         ItemAttributeModifiers itemModifiers = AttributeTooltipInterface.get();
         ItemStack stack = AttributeTooltipInterface.getStack();
         if (player == null || itemModifiers == null || !attribute.is(Attributes.ATTACK_DAMAGE)) return;
-        if (!ClientHelper.hasKeyDown() && CRConfig.getGeneral().misc.critical_tooltip == CRGeneralConfig.CriticalTooltip.SHIFT) return;
+        if (!ClientHelper.hasKeyDown() && CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.SHIFT) return;
         if (stack != null && (!(stack.has(DataComponents.WEAPON) || stack.has(DataComponents.TOOL)) || stack.has(DataComponents.KINETIC_WEAPON))) return;
 
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(itemModifiers.modifiers());
@@ -73,7 +73,7 @@ public class ItemAttributeModifiersDisplayDefaultMixin {
         }
 
         ChatFormatting formatting = ChatFormatting.GOLD;
-        if (CRConfig.getGeneral().misc.critical_tooltip == CRGeneralConfig.CriticalTooltip.ALWAYS) formatting = ChatFormatting.DARK_GREEN;
+        if (CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.ALWAYS) formatting = ChatFormatting.DARK_GREEN;
 
         consumer.accept(
                 Component.literal(" ")

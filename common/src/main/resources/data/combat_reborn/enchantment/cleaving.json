@@ -4,16 +4,16 @@
     "translate": "enchantment.combat_reborn.cleaving"
   },
   "effects": {
-    "minecraft:damage": [
+    "minecraft:attributes": [
       {
-        "effect": {
-          "type": "minecraft:add",
-          "value": {
-            "type": "minecraft:linear",
-            "base": 1.0,
-            "per_level_above_first": 1.0
-          }
-        }
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.2,
+          "per_level_above_first": 0.1
+        },
+        "attribute": "combat_reborn:critical_damage_boost",
+        "id": "combat_reborn:enchantment.cleaving",
+        "operation": "add_value"
       }
     ]
   },

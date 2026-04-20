@@ -64,17 +64,29 @@ public class DamageHelper {
     }
 
     public static float processEnchantedDamage(float damage, float protection) {
-        float h = Mth.clamp(protection * Math.max(CRConfig.getGeneral().armor.protection.multiplier, 0), 0.0F, Math.min(Math.max(CRConfig.getGeneral().armor.protection.max_percentage, 0), 100) / 4);
+        float h = Mth.clamp(protection * Math.max(CRConfig.getGeneral().armor.protection.multiplier, 0), 0.0F, Math.clamp(CRConfig.getGeneral().armor.protection.max_percentage, 0, 100) / 4);
         return damage * (1.0F - h / 25.0F);
     }
 
     public static float damageReductionFormula(float points) {
         float maxPercentage = Math.clamp(CRConfig.getGeneral().armor.formula.max_percentage, 0, 100);
         float middlePercentage = Math.clamp(CRConfig.getGeneral().armor.formula.middle_percentage, 0, maxPercentage);
-        return damageReductionFormula(points, Math.max(CRConfig.getGeneral().armor.formula.middle_points, 0), middlePercentage, Math.max(CRConfig.getGeneral().armor.formula.max_points, 0), maxPercentage, Math.min(Math.max(CRConfig.getGeneral().armor.formula.gradient, 0), 2), Math.max(CRConfig.getGeneral().armor.formula.multiplier, 0)) / 100F;
+        return damageReductionFormula(points, Math.max(CRConfig.getGeneral().armor.formula.middle_points, 0), middlePercentage, Math.max(CRConfig.getGeneral().armor.formula.max_points, 0), maxPercentage, Math.clamp(CRConfig.getGeneral().armor.formula.gradient, 0, 2), Math.max(CRConfig.getGeneral().armor.formula.multiplier, 0), CRConfig.getGeneral().armor.formula.linear) / 100F;
     }
-    private static float damageReductionFormula(float points, float middlePoints, float middlePercentage, float maxPoints, float maxPercentage, float gradient, float multiplier) {
+    private static float damageReductionFormula(float points, float middlePoints, float middlePercentage, float maxPoints, float maxPercentage, float gradient, float multiplier, boolean linear) {
         if (points <= 0) return 0F;
+
+        if (linear) {
+            if (points <= middlePoints) {
+                return middlePercentage * (points / middlePoints);
+            }
+
+            float excessMax = maxPoints - middlePoints;
+            if (excessMax <= 0F) return maxPercentage;
+
+            float t = (points - middlePoints) / excessMax;
+            return middlePercentage + (maxPercentage - middlePercentage) * Math.clamp(t, 0F, 1F);
+        }
 
         gradient = 1 + (gradient - 1) / 2;
 

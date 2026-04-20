@@ -41,6 +41,9 @@ public class CRGeneralConfig implements ConfigData {
     public ArmorConfig armor = new ArmorConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
+    public TooltipConfig tooltips = new TooltipConfig();
+
+    @ConfigEntry.Gui.CollapsibleObject
     public MiscConfig misc = new MiscConfig();
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -144,6 +147,9 @@ public class CRGeneralConfig implements ConfigData {
             public float max_percentage = 80F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
+            public boolean linear = true;
+            @ConfigEntry.Category("config")
+            @ConfigEntry.Gui.Tooltip
             public float gradient = 1F;
             @ConfigEntry.Category("config")
             @ConfigEntry.Gui.Tooltip
@@ -163,10 +169,16 @@ public class CRGeneralConfig implements ConfigData {
         }
     }
 
-    public static class MiscConfig {
+    public static class TooltipConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public CriticalTooltip critical_tooltip = CriticalTooltip.SHIFT;
+        @ConfigEntry.Category("config")
+        @ConfigEntry.Gui.Tooltip
+        public boolean merge_attributes = true;
+    }
+
+    public static class MiscConfig {
         @ConfigEntry.Category("config")
         @ConfigEntry.Gui.Tooltip
         public boolean cleaving_enchantment = true;

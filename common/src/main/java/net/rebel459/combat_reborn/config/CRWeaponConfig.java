@@ -64,31 +64,34 @@ public class CRWeaponConfig implements ConfigData {
             new Modifiers(List.of(
                     "minecraft:wooden_axe",
                     "minecraft:stone_axe"
-            ), 7, 0.8, 3, List.of()),
+            ), 7, 0.8, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "minecraft:copper_axe",
                     "minecraft:golden_axe"
-            ), 7, 1, 3, List.of()),
+            ), 7, 1, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "minecraft:iron_axe",
                     "progression_reborn:rose_axe"
-            ), 8, 1, 3, List.of()),
+            ), 8, 1, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "legacies_and_legends:cleaving_battleaxe"
-            ), 8, 1, 3, List.of(new CRConfig.AttributeEntry("minecraft:attack_knockback", 1.0, AttributeModifier.Operation.ADD_VALUE))),
+            ), 8, 1, 3, List.of(
+                    new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE),
+                    new CRConfig.AttributeEntry("minecraft:attack_knockback", 1.0, AttributeModifier.Operation.ADD_VALUE)
+            )),
             new Modifiers(List.of(
                     "minecraft:diamond_axe"
-            ), 8, 1.2, 3, List.of()),
+            ), 8, 1.2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "minecraft:netherite_axe",
                     "end_reborn:remnant_axe"
-            ), 9, 1.2, 3, List.of()),
+            ), 9, 1.2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "end_reborn:netherite_axe"
-            ), 8, 1.2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.2, AttributeModifier.Operation.ADD_VALUE))),
+            ), 8, 1.2, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.3, AttributeModifier.Operation.ADD_VALUE))),
             new Modifiers(List.of(
                     "end_reborn:featherzeal_axe"
-            ), 8, 1.4, 3, List.of()),
+            ), 8, 1.4, 3, List.of(new CRConfig.AttributeEntry("combat_reborn:critical_damage_boost", 0.1, AttributeModifier.Operation.ADD_VALUE))),
 
             // Spears
             new Modifiers(List.of(

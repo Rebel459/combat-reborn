@@ -74,10 +74,6 @@ public class QuiverHelper {
 
     public static void postProjectileEvent(Player player) {}
 
-    public static boolean shouldRender(Player player) {
-        return true;
-    }
-
     public static void updateFullness(ItemStack stack, QuiverContents.Mutable mutable) {
         double percentage = mutable.weight().doubleValue();
         String model = "empty";
@@ -89,9 +85,5 @@ public class QuiverHelper {
                 .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(), List.of(model), List.of()))
                 .build()
         );
-    }
-
-    public class Projectile {
-
     }
 }
