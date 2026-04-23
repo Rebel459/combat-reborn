@@ -13,11 +13,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.rebel459.combat_reborn.client.util.ClientHelper;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.config.CRGeneralConfig;
 import net.rebel459.combat_reborn.registry.CRAttributes;
-import net.rebel459.combat_reborn.util.AttributeTooltipInterface;
+import net.rebel459.combat_reborn.client.util.AttributeTooltipHelper;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -49,10 +48,10 @@ public class ItemAttributeModifiersDisplayDefaultMixin {
     @Inject(method = "apply", at = @At(value = "TAIL"))
     private void addCriticalDamageTooltip(Consumer<Component> consumer, @Nullable Player player, Holder<Attribute> attribute, AttributeModifier modifier, CallbackInfo ci) {
         if (CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.NONE) return;
-        ItemAttributeModifiers itemModifiers = AttributeTooltipInterface.get();
-        ItemStack stack = AttributeTooltipInterface.getStack();
+        ItemAttributeModifiers itemModifiers = AttributeTooltipHelper.get();
+        ItemStack stack = AttributeTooltipHelper.getStack();
         if (player == null || itemModifiers == null || !attribute.is(Attributes.ATTACK_DAMAGE)) return;
-        if (!ClientHelper.hasKeyDown() && CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.SHIFT) return;
+        if (!AttributeTooltipHelper.hasKeyDown() && CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.SHIFT) return;
         if (stack != null && (!(stack.has(DataComponents.WEAPON) || stack.has(DataComponents.TOOL)) || stack.has(DataComponents.KINETIC_WEAPON))) return;
 
         List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(itemModifiers.modifiers());

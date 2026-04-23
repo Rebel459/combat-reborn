@@ -16,7 +16,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.tag.CRItemTags;
-import net.rebel459.combat_reborn.util.AttributeTooltipInterface;
+import net.rebel459.combat_reborn.client.util.AttributeTooltipHelper;
 import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.rebel459.combat_reborn.util.ShieldHelper;
 import org.apache.commons.lang3.function.TriConsumer;
@@ -97,24 +97,24 @@ public abstract class ItemStackMixin {
 
     @Inject(method = "addAttributeTooltips", at = @At("HEAD"))
     private void beginAttributeTooltip(Consumer<Component> consumer, TooltipDisplay display, @Nullable Player player, CallbackInfo ci) {
-        AttributeTooltipInterface.setStack(ItemStack.class.cast(this));
+        AttributeTooltipHelper.setStack(ItemStack.class.cast(this));
     }
 
     @Inject(method = "addAttributeTooltips", at = @At("TAIL"))
     private void endAttributeTooltip(Consumer<Component> consumer, TooltipDisplay display, @Nullable Player player, CallbackInfo ci) {
-        AttributeTooltipInterface.clear();
+        AttributeTooltipHelper.clear();
     }
 
     @Inject(method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V", at = @At("HEAD"), cancellable = true)
     private void mergeTooltipAttributeModifiers(EquipmentSlotGroup slot, TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> consumer, CallbackInfo ci) {
-        if (!CRConfig.getGeneral().tooltips.merge_attributes || AttributeTooltipInterface.getStack() == null) return;
+        if (!CRConfig.getGeneral().tooltips.merge_attributes || AttributeTooltipHelper.getStack() == null) return;
 
         ItemStack stack = ItemStack.class.cast(this);
         Map<MergedModifierKey, MergedModifierValue> mergedModifiers = new LinkedHashMap<>();
         List<ModifierEntry> passthroughModifiers = new ArrayList<>();
 
         ItemAttributeModifiers itemModifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
-        AttributeTooltipInterface.set(itemModifiers);
+        AttributeTooltipHelper.set(itemModifiers);
         for (ItemAttributeModifiers.Entry entry : itemModifiers.modifiers()) {
             if (!entry.slot().equals(slot)) continue;
             if (entry.display().type() != ItemAttributeModifiers.Display.attributeModifiers().type()) {

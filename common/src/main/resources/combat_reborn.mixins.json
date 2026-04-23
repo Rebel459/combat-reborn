@@ -8,7 +8,7 @@
   },
   "client": [
     "client.GuiMixin",
-    "client.integration.item_tooltips.ClientAttributeHelperMixin",
+    "client.integration.item_tooltips.AttributeTooltipHelperMixin",
     "client.ItemAttributeModifiersDisplayDefaultMixin",
     "client.ItemAttributeModifiersMixin",
     "client.ItemStackMixin",
