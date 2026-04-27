@@ -1,11 +1,8 @@
 package net.rebel459.combat_reborn;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.rebel459.combat_reborn.config.CRGeneralConfig;
 import net.rebel459.unified.platform.NeoForgeUnifiedRegistries;
 
 @Mod(CombatReborn.MOD_ID)

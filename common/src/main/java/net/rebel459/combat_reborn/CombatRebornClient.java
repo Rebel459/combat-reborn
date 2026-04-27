@@ -5,17 +5,22 @@ import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.GameType;
 import net.rebel459.combat_reborn.client.ClientQuiverTooltip;
 import net.rebel459.combat_reborn.client.QuiverMouseActions;
@@ -24,6 +29,7 @@ import net.rebel459.combat_reborn.config.CRGeneralConfig;
 import net.rebel459.combat_reborn.item.QuiverItem;
 import net.rebel459.combat_reborn.network.SelectQuiverSlotPacket;
 import net.rebel459.combat_reborn.network.ShieldInfo;
+import net.rebel459.combat_reborn.registry.CRAttributes;
 import net.rebel459.combat_reborn.registry.CRDataComponents;
 import net.rebel459.combat_reborn.tag.CRItemTags;
 import net.rebel459.combat_reborn.util.ClientTickInterface;
@@ -35,6 +41,8 @@ import net.rebel459.unified.platform.client.UnifiedClientRegistries;
 import net.rebel459.unified.util.EventType;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public final class CombatRebornClient {
@@ -129,5 +137,43 @@ public final class CombatRebornClient {
                 client.player.playSound(SoundEvents.ARMOR_EQUIP_GENERIC.value(), 0.5F, 1.0F);
             }
         });
+
+        UnifiedClientEvents.ItemTooltips.afterBaseAttributeAdded((builder, stack, itemModifiers, player, attribute, displayValue) -> {
+            if (CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.NONE) return;
+            if (player == null || itemModifiers == null || !attribute.is(Attributes.ATTACK_DAMAGE)) return;
+            if (!hasKeyDown() && CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.SHIFT) return;
+            if (stack != null && (!(stack.has(DataComponents.WEAPON) || stack.has(DataComponents.TOOL)) || stack.has(DataComponents.KINETIC_WEAPON))) return;
+
+            List<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(itemModifiers.modifiers());
+            modifiers.removeIf(entry -> !entry.attribute().is(CRAttributes.CRITICAL_DAMAGE_BOOST));
+
+            double critMultiplier = player.getAttributeBaseValue(CRAttributes.CRITICAL_DAMAGE_BOOST);
+            for (ItemAttributeModifiers.Entry entry : modifiers) {
+                var critModifier = entry.modifier();
+                if (critModifier.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                    critMultiplier += critModifier.amount();
+                }
+                else if (critModifier.operation() == AttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+                    critMultiplier += player.getAttributeBaseValue(CRAttributes.CRITICAL_DAMAGE_BOOST) * critModifier.amount();
+                }
+                else if (critModifier.operation() == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
+                    critMultiplier += critMultiplier * critModifier.amount();
+                }
+            }
+
+            ChatFormatting formatting = ChatFormatting.GOLD;
+            if (CRConfig.getGeneral().tooltips.critical_tooltip == CRGeneralConfig.CriticalTooltip.ALWAYS) formatting = ChatFormatting.DARK_GREEN;
+
+            builder.accept(
+                    Component.literal(" ")
+                            .append(Component.literal(ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(displayValue * critMultiplier) + " "))
+                            .append(Component.translatable("tooltip.combat_reborn.attribute.critical_damage"))
+                            .withStyle(formatting)
+            );
+        });
+    }
+
+    public static boolean hasKeyDown() {
+        return Minecraft.getInstance().hasShiftDown();
     }
 }

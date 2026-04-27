@@ -8,9 +8,7 @@
   },
   "client": [
     "client.GuiMixin",
-    "client.integration.item_tooltips.AttributeTooltipHelperMixin",
-    "client.ItemAttributeModifiersDisplayDefaultMixin",
-    "client.ItemAttributeModifiersMixin",
+    "client.integration.item_tooltips.CombatRebornClientMixin",
     "client.ItemStackMixin",
     "client.LocalPlayerMixin"
   ],

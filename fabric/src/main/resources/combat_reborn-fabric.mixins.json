@@ -4,7 +4,10 @@
   "compatibilityLevel": "JAVA_25",
   "plugin": "net.rebel459.combat_reborn.mixin.CRMixinPlugin",
   "mixins": [],
-  "client": [],
+  "client": [
+    "client.ItemAttributeModifiersDisplayDefaultFabricMixin",
+    "client.ItemStackFabricMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

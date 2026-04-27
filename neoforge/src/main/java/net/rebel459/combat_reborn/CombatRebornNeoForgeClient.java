@@ -6,6 +6,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.util.AttributeUtil;
+import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.config.CRGeneralConfig;
 
 @Mod(value = CombatReborn.MOD_ID, dist = Dist.CLIENT)
@@ -18,5 +21,6 @@ public class CombatRebornNeoForgeClient {
                         AutoConfigClient.getConfigScreen(CRGeneralConfig.class, parent).get()
         );
         CombatRebornClient.initClient();
+        if (CRConfig.getGeneral().tooltips.merge_attributes) NeoForgeMod.enableMergedAttributeTooltips();
     }
 }
