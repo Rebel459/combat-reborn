@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Consumer;
 
-@Mixin(value = ItemStack.class)
+@Mixin(value = ItemStack.class, priority = 500)
 public abstract class ItemStackMixin {
 
     @Shadow public abstract Item getItem();
@@ -29,7 +29,7 @@ public abstract class ItemStackMixin {
     @Unique
     private static final Component PREFIX = Component.literal(" ");
 
-    @Inject(method = "addDetailsToTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;appendHoverText(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/Item$TooltipContext;Lnet/minecraft/world/item/component/TooltipDisplay;Ljava/util/function/Consumer;Lnet/minecraft/world/item/TooltipFlag;)V", shift = At.Shift.AFTER))
+    @Inject(method = "addDetailsToTooltip", at = @At(value = "TAIL"))
     private void shieldTooltip(Item.TooltipContext context, TooltipDisplay display, @Nullable Player player, TooltipFlag tooltipFlag, Consumer<Component> builder, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
         if (!stack.is(CRItemTags.SHIELD) || !CRConfig.getGeneral().shields.shield_overhaul || !CRConfig.getGeneral().shields.show_tooltips) return;
