@@ -11,6 +11,7 @@ import net.rebel459.combat_reborn.config.CRConfig;
 import net.rebel459.combat_reborn.tag.CRItemTags;
 import net.rebel459.combat_reborn.util.QuiverHelper;
 import net.rebel459.combat_reborn.util.ShieldHelper;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,14 +27,14 @@ public abstract class ItemStackMixin {
     @Shadow public abstract Item getItem();
 
     @Unique
-    Component prefix = Component.literal(" ");
+    private static final Component PREFIX = Component.literal(" ");
 
-    @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
-    private void shieldTooltip(Item.TooltipContext context, TooltipDisplay display, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
+    @Inject(method = "addDetailsToTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;appendHoverText(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/Item$TooltipContext;Lnet/minecraft/world/item/component/TooltipDisplay;Ljava/util/function/Consumer;Lnet/minecraft/world/item/TooltipFlag;)V", shift = At.Shift.AFTER))
+    private void shieldTooltip(Item.TooltipContext context, TooltipDisplay display, @Nullable Player player, TooltipFlag tooltipFlag, Consumer<Component> builder, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
         if (!stack.is(CRItemTags.SHIELD) || !CRConfig.getGeneral().shields.shield_overhaul || !CRConfig.getGeneral().shields.show_tooltips) return;
-        consumer.accept(Component.literal(""));
-        consumer.accept(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
+        builder.accept(Component.literal(""));
+        builder.accept(Component.translatable("tooltip.combat_reborn.when_blocking").append(":").withStyle(ChatFormatting.GRAY));
 
         int strength = (int) ShieldHelper.getMaxDamage(stack, false);
         float parryBonus = ShieldHelper.getParryBonus(stack, false);
@@ -59,25 +60,25 @@ public abstract class ItemStackMixin {
             parryBonusColor = ChatFormatting.RED;
         }
 
-        consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.shield.strength").append(": ").withStyle(ChatFormatting.DARK_GREEN).append(Component.literal(String.valueOf(strength)).withStyle(strengthColor))));
-        consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.shield.parry").append(": ").withStyle(ChatFormatting.DARK_GREEN).append(Component.literal("x" + parryBonus).withStyle(parryBonusColor))));
+        builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.shield.strength").append(": ").withStyle(ChatFormatting.DARK_GREEN).append(Component.literal(String.valueOf(strength)).withStyle(strengthColor))));
+        builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.shield.parry").append(": ").withStyle(ChatFormatting.DARK_GREEN).append(Component.literal("x" + parryBonus).withStyle(parryBonusColor))));
     }
 
     @Unique
-    private void addQuiverTooltip(Consumer<Component> consumer, ItemStack stack) {
-        consumer.accept(Component.literal(""));
-        consumer.accept(Component.translatable("tooltip.combat_reborn.when_equipped").append(":").withStyle(ChatFormatting.GRAY));
-        if (QuiverHelper.getStorage(stack) == 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stack")).withStyle(ChatFormatting.DARK_GREEN)));
-        if (QuiverHelper.getStorage(stack) > 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stacks")).withStyle(ChatFormatting.DARK_GREEN)));
-        if (QuiverHelper.getAccuracy(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.accuracy").append(": x" + QuiverHelper.getAccuracy(stack)).withStyle(ChatFormatting.DARK_GREEN)));
-        if (QuiverHelper.getBowSpeed(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.speed").append(": x" + QuiverHelper.getBowSpeed(stack)).withStyle(ChatFormatting.DARK_GREEN)));
-        if (QuiverHelper.getPower(stack) != 1) consumer.accept(prefix.copy().append(Component.translatable("tooltip.combat_reborn.quiver.power").append(": x" + QuiverHelper.getPower(stack)).withStyle(ChatFormatting.DARK_GREEN)));
+    private void addQuiverTooltip(Consumer<Component> builder, ItemStack stack) {
+        builder.accept(Component.literal(""));
+        builder.accept(Component.translatable("tooltip.combat_reborn.when_equipped").append(":").withStyle(ChatFormatting.GRAY));
+        if (QuiverHelper.getStorage(stack) == 1) builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stack")).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getStorage(stack) > 1) builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.quiver.storage").append(": " + QuiverHelper.getStorage(stack) + " ").append(Component.translatable("tooltip.combat_reborn.quiver.stacks")).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getAccuracy(stack) != 1) builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.quiver.accuracy").append(": x" + QuiverHelper.getAccuracy(stack)).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getBowSpeed(stack) != 1) builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.quiver.speed").append(": x" + QuiverHelper.getBowSpeed(stack)).withStyle(ChatFormatting.DARK_GREEN)));
+        if (QuiverHelper.getPower(stack) != 1) builder.accept(PREFIX.copy().append(Component.translatable("tooltip.combat_reborn.quiver.power").append(": x" + QuiverHelper.getPower(stack)).withStyle(ChatFormatting.DARK_GREEN)));
     }
 
     @Inject(method = "addDetailsToTooltip", at = @At("TAIL"))
-    private void quiverTooltip(Item.TooltipContext context, TooltipDisplay display, Player player, TooltipFlag tooltipFlag, Consumer<Component> consumer, CallbackInfo ci) {
+    private void quiverTooltip(Item.TooltipContext context, TooltipDisplay display, Player player, TooltipFlag tooltipFlag, Consumer<Component> builder, CallbackInfo ci) {
         ItemStack stack = ItemStack.class.cast(this);
         if (!stack.is(CRItemTags.QUIVER) || !CRConfig.getGeneral().quivers.show_tooltips) return;
-        addQuiverTooltip(consumer, stack);
+        addQuiverTooltip(builder, stack);
     }
 }
