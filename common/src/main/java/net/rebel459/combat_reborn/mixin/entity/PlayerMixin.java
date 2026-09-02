@@ -1,5 +1,6 @@
 package net.rebel459.combat_reborn.mixin.entity;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -200,8 +201,8 @@ public abstract class PlayerMixin implements QuiverInterface {
         else return (float) Player.class.cast(this).getAttributeValue(CRAttributes.CRITICAL_DAMAGE_BOOST);
     }
 
-    @Inject(method = "createAttributes", at = @At(value = "TAIL"), cancellable = true)
-    private static void addCRAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
-        cir.setReturnValue(cir.getReturnValue().add(CRAttributes.CRITICAL_DAMAGE_BOOST));
+    @ModifyReturnValue(method = "createAttributes", at = @At("RETURN"))
+    private static AttributeSupplier.Builder addCRAttributes(AttributeSupplier.Builder builder) {
+        return builder.add(CRAttributes.CRITICAL_DAMAGE_BOOST);
     }
 }

@@ -1,5 +1,6 @@
 package net.rebel459.combat_reborn.mixin.entity;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.component.DataComponentPatch;
@@ -291,8 +292,8 @@ public abstract class LivingEntityMixin implements ShieldInfo, BlockedSourceInte
         return value;
     }
 
-    @Inject(method = "createLivingAttributes", at = @At(value = "TAIL"), cancellable = true)
-    private static void addCRAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
-        cir.setReturnValue(cir.getReturnValue().add(CRAttributes.CHARGE_ATTACK_BOOST));
+    @ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
+    private static AttributeSupplier.Builder addCRAttributes(AttributeSupplier.Builder builder) {
+        return builder.add(CRAttributes.CHARGE_ATTACK_BOOST);
     }
 }
